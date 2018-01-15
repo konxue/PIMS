@@ -5,7 +5,6 @@
  */
 package pims.ui;
 
-//import pims.other.UserProfile;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -25,20 +24,14 @@ public class Login extends javax.swing.JFrame {
     public Login() {
 
         initComponents();
-        mainMenu = MainMenu.getInstance();
-        
-        // If the data file containing existing user profiles does not exist, create it.
-        File fout = new File("Data" + File.separator + "user.txt");
-        if(!fout.exists()) {
-            try {
-                fout.createNewFile();
-            } catch (IOException ex) {
-                System.err.println("Unable to create file");
-            }
-        }
-    }
-
-
+        if (this.type == 'D' || this.type == 'N')
+        dMain = DScreen.getInstance();
+        else if (this.type == 'V')
+        vMain = VScreen.getInstance();
+        else if (this.type == 'O')
+        oMain = OScreen.getInstance();
+    
+  }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,9 +46,8 @@ public class Login extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        createUserButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        createUserButton1 = new javax.swing.JButton();
+        HelpButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,21 +64,14 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        createUserButton.setText("Help");
-        createUserButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createUserButtonActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("PIMS");
 
-        createUserButton1.setText("Options");
-        createUserButton1.addActionListener(new java.awt.event.ActionListener() {
+        HelpButton.setText("Help");
+        HelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createUserButton1ActionPerformed(evt);
+                HelpButtonActionPerformed(evt);
             }
         });
 
@@ -94,49 +79,45 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 54, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
             .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
+                .addGap(127, 127, 127)
+                .addComponent(userNameLabel)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(passwordLabel)
-                            .addComponent(userNameLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userNameField)
-                            .addComponent(passwordField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(createUserButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(createUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(passwordLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72)
+                                .addComponent(HelpButton)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(185, 185, 185)
+                                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 112, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userNameLabel)
-                    .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel))
-                .addGap(18, 18, 18)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(createUserButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(createUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HelpButton))
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -147,68 +128,34 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.user = userNameField.getText();
         this.pwd = passwordField.getText();
-        MainMenu menu = MainMenu.getInstance();
-        if (pwd.contains("admin16") && user.contains("admin")) {
-            userNameField.setText("");
-            passwordField.setText("");
-            close();
-            menu.setVisible(true);
-        } else {
-            try {
-                FileInputStream read = new FileInputStream("Data" + File.separator + "user.txt");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(read));
-                String line = reader.readLine();
-                boolean log = false;
-                while (line != null && log == false) {
-                    if (line.contains("USER:" + user + "&&&&")) {
-                        if (line.contains("PASS:" + pwd + "&&&&")) {
-                            log = true;
-                            this.name = line.substring(line.indexOf("&&&&NAME:") + 
-                                    9, line.indexOf("&&&&T"));
-                            this.isTeacher = Boolean.valueOf(line.substring(line.indexOf("T:")
-                                    + 2));
-                            this.setVisible(false);
-                            menu.setVisible(true);
-
-                            if (isTeacher) {
-                                JOptionPane.showMessageDialog(null, "Welcome! Teacher   " 
-                                        + name + "!");
-                                assignmentSelector.setAdminStatus(isTeacher);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Welcome! Student   " 
-                                        + name + "!");
-                            }
-                        }
-                    }
-                    line = reader.readLine();
-                }
+        DScreen menu1 = DScreen.getInstance();
+        VScreen menu2 = VScreen.getInstance();
+        OScreen menu3 = OScreen.getInstance();
+        boolean log = false;
+    /////////////////////////////////////////////////////////////////////////////////////////
+    // insert code here to check user entered username/password
+    // if match call set log is true
+    // this.setVisible(false); //refering current instance of login page
+    // menu.setVisible(true);
+    /////////////////////////////////////////////////////////////////////////////////////////
+             
                 if (log == false) {
                     JOptionPane.showMessageDialog(null, "Incorrect username or password!",
                             "Please try again!", JOptionPane.ERROR_MESSAGE);
                     passwordField.setText("");
                     this.setVisible(true);
-                    mainMenu.setVisible(false);
+                    menu1.setVisible(false);
+                    menu2.setVisible(false);
+                    menu3.setVisible(false);
                 }
-                read.close();
-            } catch (IOException e) {
-                System.err.println("Unable to read from file");
-            }
+        
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    private void createUserButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createUserButton1ActionPerformed
+    private void HelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HelpButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_createUserButton1ActionPerformed
-    }
+    }//GEN-LAST:event_HelpButtonActionPerformed
 
-    private void createUserButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
 
-        // Open CreateUser UI
-        CreateUser newUserScreen = new CreateUser();
-        this.setVisible(false);
-        newUserScreen.setVisible(true);
-    }
-    
     private void close() {
         WindowEvent winClosing = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosing);
@@ -219,11 +166,7 @@ public class Login extends javax.swing.JFrame {
      *  and teacher status and returns the new UserProfile instance.
      * @return A UserProfile instance with the data the user entered.
      */
-    public UserProfile getCurrentUser() {
-        UserProfile newUser = new UserProfile(user, pwd, name, isTeacher);
-        return newUser;
-    }
-
+   
     /**
      * Main class that starts off the running of Typing as a Programmer.
      * @param args the command line arguments
@@ -263,8 +206,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton createUserButton;
-    private javax.swing.JButton createUserButton1;
+    private javax.swing.JButton HelpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordField;
@@ -273,10 +215,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
     private String name;
-    private boolean isTeacher;
+    private char type;
     private String pwd;
     private String user;
-    private AssignmentSelector assignmentSelector = AssignmentSelector.getInstance();
-    private MainMenu mainMenu = null;
-    
+    private DScreen dMain = null;
+    private VScreen vMain = null;
+    private OScreen oMain = null; 
 }

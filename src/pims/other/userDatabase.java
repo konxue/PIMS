@@ -9,7 +9,7 @@ package pims.other;
  *
  * @author TEAM-12
  */
-public class PIMS {
+public class userDatabase {
 
     /**
      * @param args the command line arguments
