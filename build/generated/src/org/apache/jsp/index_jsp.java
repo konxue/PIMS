@@ -30,7 +30,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     PageContext _jspx_page_context = null;
 
     try {
-      response.setContentType("text/html;charset=UTF-8");
+      response.setContentType("text/html");
       pageContext = _jspxFactory.getPageContext(this, request, response,
       			null, true, 8192, true);
       _jspx_page_context = pageContext;
@@ -41,19 +41,31 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
-      out.write("<!DOCTYPE html>\n");
-      out.write("<html>\n");
-      out.write("    <head>\n");
-      out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>JSP Page</title>\n");
-      out.write("    </head>\n");
-      out.write("    <body>\n");
-      out.write("        <h1>Hello World!</h1>\n");
-      out.write("    </body>\n");
-      out.write("</html>\n");
+      out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"newcss.css\">\r\n");
+      out.write("\r\n");
+      out.write("<form action=\"action_page.php\">\r\n");
+      out.write("  <div class=\"imgcontainer\">\r\n");
+      out.write("    <img src=\"img_girl.jpg\" alt=\"Girl in a jacket\">\r\n");
+      out.write("  </div>\r\n");
+      out.write("\r\n");
+      out.write("  <div class=\"container\">\r\n");
+      out.write("    <label for=\"uname\"><b>Username</b></label>\r\n");
+      out.write("    <input type=\"text\" placeholder=\"Enter Username\" name=\"uname\" required>\r\n");
+      out.write("\r\n");
+      out.write("    <label for=\"psw\"><b>Password</b></label>\r\n");
+      out.write("    <input type=\"password\" placeholder=\"Enter Password\" name=\"psw\" required>\r\n");
+      out.write("\r\n");
+      out.write("    <button type=\"submit\">Login</button>\r\n");
+      out.write("    <label>\r\n");
+      out.write("      <input type=\"checkbox\" checked=\"checked\" name=\"remember\"> Remember me\r\n");
+      out.write("    </label>\r\n");
+      out.write("  </div>\r\n");
+      out.write("\r\n");
+      out.write("  <div class=\"container\" style=\"background-color:#f1f1f1\">\r\n");
+      out.write("    <button type=\"button\" class=\"cancelbtn\">Cancel</button>\r\n");
+      out.write("    <span class=\"psw\">Forgot <a href=\"#\">password?</a></span>\r\n");
+      out.write("  </div>\r\n");
+      out.write("</form>\r\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;
