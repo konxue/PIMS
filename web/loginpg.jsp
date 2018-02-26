@@ -12,10 +12,6 @@
     <label for="uname"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
     
-    /*Database query */
-    <sql:query var="Username" dataSource="PIMSDB">
-        SELECT Username FROM Users
-    </sql:query>
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
