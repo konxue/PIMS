@@ -1,31 +1,32 @@
-<!--links style sheet-->
-<link rel="stylesheet" type="text/css" href="loginpage.css">
-<!--links javascript-->
-<script src="http://onlinepims.com/"></script>
-<script type="text/javascript" src="js/loginpage.js"></script>
+<!DOCTYPE html >
+<html>
 <head>
 <title>Login - Patient Information Management System</title>
+<link rel="stylesheet" type="text/css" href="loginpage.css"/>
 </head>
-
-<form action="action_page.php">
-  <div class="imgcontainer">
+<div align="center">
     <img src="http://onlinepims.com/images/3.png" alt="PIMS">
     <img src="http://onlinepims.com/images/1.png" alt="PIMS">
     <img src="http://onlinepims.com/images/2.png" alt="PIMS">
-  </div>
-
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-    
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <button type="submit">Login</button>
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">If you have technical difficulties contact 1-800-654-4879</button>
-  </div>
-</form>
+    <form id="login-form" method="post" action="authen_login.php" >
+        <table border="0.5" >
+            <tr>
+                <td><label for="user_id">User Name</label></td>
+                <td><input type="text" name="user_id" id="user_id"></td>
+            </tr>
+            <tr>
+                <td><label for="user_pass">Password</label></td>
+                <td><input type="password" name="user_pass" id="user_pass"></td>
+            </tr>
+			
+            <tr>
+				
+                <td><input type="submit" value="Submit" />
+                <td><input type="reset" value="Reset"/>
+				
+            </tr>
+        </table>
+    </form>
+        <label>If you have technical difficulties contact Admin. </label>
+</div>
+</html>
