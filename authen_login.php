@@ -22,7 +22,7 @@ sleep(3);
 }else{
 echo "<script type='text/javascript'>alert('Username/Password does not match!')</script>";
 sleep(3);
-header('Location: loginpage.html');
+//header('Location: loginpage.html');
 //echo "Invalid Login Credentials";
 }
 }
