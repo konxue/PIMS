@@ -15,15 +15,23 @@ $count = mysqli_num_rows($result);
 
 if ($count == 1){
 
-//echo "Login Credentials verified";
-echo "<script type='text/javascript'>alert('Login Successfully!')</script>";
-sleep(3);
- header('Location: mainpage.html' );
+header("Refresh: 2; url=mainpage.html");
+echo 'Logged in successfully.';
+
 }else{
-echo "<script type='text/javascript'>alert('Username/Password does not match!')</script>";
-sleep(3);
-//header('Location: loginpage.html');
-//echo "Invalid Login Credentials";
+    
+header("Refresh: 2; url=loginpage.html");
+echo 'Username/Password does not match!';
 }
 }
 ?>
+
+<script>
+    function fun1() {
+    alert("Login Successfully");
+    }
+    function fun2()
+    {
+    alert("Username/Password does not match!");
+    }
+</script>
