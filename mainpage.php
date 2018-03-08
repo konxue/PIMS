@@ -9,6 +9,9 @@
 <body>
   
 <?php include 'checkStatus.php';?>
+?>
+    
+
 
 <p>Click on the buttons inside the tabbed menu:</p>
 
@@ -36,7 +39,9 @@
 
 <div id="BillingInfo" class="tabcontent">
   <h3>Billing Information</h3>
-  <p>Joey broke as hell.</p>
+  <p>Cristina is working on this tab</p>
+  
+
 </div>
 
 <script>
