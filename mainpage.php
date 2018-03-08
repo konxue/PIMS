@@ -4,16 +4,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Main Page - Patient Information Management System</title>
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+
 </head>
 <body>
   
-<?php
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    echo "Welcome to the main page, " .$var;
-} else {
-    echo "Please log in first to see this page.";
-}
-?> 
+<?php include 'checkStatus.php';?>
 
 <p>Click on the buttons inside the tabbed menu:</p>
 

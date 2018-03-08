@@ -15,14 +15,12 @@ $count = mysqli_num_rows($result);
 if ($count == 1){
 
 header("Refresh: 2; url=mainpage.php");
-echo 'Logged in successfully.';
 session_start();
-$_SESSION['loggedin'] = true;
-$_SESSION['user'] = $user_id;
-$GLOBALS ['var'] = $_SESSION['user'];
+$_SESSION['username'] = $username;
+echo 'Logged in successfully. '.$_SESSION['username'];
 }else{
     
-header("Refresh: 2; url=loginpage.html");
+header("Refresh: 2; url=index.html");
 echo 'Username/Password does not match!';
 }
 }
