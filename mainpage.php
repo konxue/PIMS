@@ -6,7 +6,10 @@
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
 </head>
 <body>
-  
+<?php  
+    require('db_connect.php');
+?>
+    
 <?php
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     echo "Welcome to the main page, " .$var;
@@ -41,7 +44,9 @@
 
 <div id="BillingInfo" class="tabcontent">
   <h3>Billing Information</h3>
-  <p>Joey broke as hell.</p>
+  <p>Cristina is working on this tab</p>
+  
+
 </div>
 
 <script>
