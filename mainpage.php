@@ -8,11 +8,10 @@
 </head>
 <body>
   
-<?php include 'checkStatus.php';?>
+<?php 
+include 'checkStatus.php';
 ?>
     
-
-
 <p>Click on the buttons inside the tabbed menu:</p>
 
 <div class="tab">
