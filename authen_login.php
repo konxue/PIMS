@@ -14,13 +14,16 @@ $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $count = mysqli_num_rows($result);
 
 if ($count == 1){
+// Start the session for user to log on the different page
 session_start();
+// Getting data from database then store to PHP variable
 $_SESSION['username'] = $username;
-$newquery = "SELECT `Usertype` FROM `Users` WHERE UserID='$username'";
-$result1 = mysqli_query($connection, $newquery) or die(mysqli_error($connection));
+$query = "SELECT `Usertype`,`FirstName`,`LastName`  FROM `Users` WHERE UserID='$username'";
+$result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $row=mysqli_fetch_array($result1);
-$value = $row[0];
-$_SESSION['usertype'] = $value;
+$_SESSION['usertype'] = $row[0];
+$_SESSION['firstname'] = $row[1];
+$_SESSION['lastname'] = $row[2];
 header("Refresh: 1; url=mainpage.php");
 echo 'Logged in successfully.<br/><br/>Redirecting in 1 seconds...';
 }

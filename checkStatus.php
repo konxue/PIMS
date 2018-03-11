@@ -2,9 +2,9 @@
     session_start();
     if (isset($_SESSION['username'])) {
     //.$_SESSION['usertype']."
-    echo "Welcome!<br/>\n".$_SESSION['usertype'].": ".$_SESSION['username'];
+    echo "Welcome!".$_SESSION['usertype'].": ".$_SESSION['firstname'].", ".$_SESSION['lastname'];
 } else {
-    header("Refresh: 2; url=index.html");
+    header("Refresh: 1; url=index.html");
     echo 'Please Log in before you access this page!';
 }
 ?> 

@@ -1,14 +1,29 @@
-<!DOCTYPE html >
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>Login - Patient Information Management System</title>
-<link rel="stylesheet" type="text/css" href="loginpage.css"/>
+	<meta charset="utf-8">
+	<title>Login - Patient Information Management System</title>
+
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Custom Stylesheet -->
+	<link rel="stylesheet" href="css/style.css">
+
 </head>
-<div align="center">
-    <img src="http://onlinepims.com/img/img2.png" alt="PIMS">
-    <img src="http://onlinepims.com/img/img1.png" alt="PIMS">
-    <img src="http://onlinepims.com/img/img3.png" alt="PIMS">
-    <form id="login-form" method="post" action="authen_login.php" >
+
+<body>
+	<div class="container">
+		<div class="top">
+			<h1 id="title" class="hidden"><span id="logo">Patient Information Management System</span></h1>
+		</div>
+		<div class="login-box animated fadeInUp">
+			<div class="box-header">
+				<h2>Log In</h2>
+			</div>
+			<form id="login-form" method="post" action="authen_login.php" >
         <table border="0.5" >
             <tr>
                 <td><label for="user_id">Username</label></td>
@@ -18,13 +33,32 @@
                 <td><label for="user_pass">Password</label></td>
                 <td><input type="password" name="user_pass" id="user_pass"></></td>
             </tr>
-			
-            <tr>
-				
+            <tr>	
                 <td><td><input type="submit" value="Submit" />		
             </tr>
         </table>
     </form>
-        <label>If you have technical difficulties contact admin. </label>
 		</div>
+	</div>
+</body>
+
+<script>
+	$(document).ready(function () {
+    	$('#logo').addClass('animated fadeInDown');
+    	$("input:text:visible:first").focus();
+	});
+	$('#username').focus(function() {
+		$('label[for="username"]').addClass('selected');
+	});
+	$('#username').blur(function() {
+		$('label[for="username"]').removeClass('selected');
+	});
+	$('#password').focus(function() {
+		$('label[for="password"]').addClass('selected');
+	});
+	$('#password').blur(function() {
+		$('label[for="password"]').removeClass('selected');
+	});
+</script>
+
 </html>
