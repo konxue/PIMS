@@ -31,9 +31,72 @@ include 'checkStatus.php';
   <p>Joes has hoofinmouth.</p> 
 </div>
 
+<!--Insurance Tab-->
 <div id="InsuranceInfo" class="tabcontent">
   <h3>Insurance Information</h3>
-  <p>Joey has to pay a lot.</p>
+  <!--<p>Nick has got this.</p>-->
+  <!-- Codes by HTML.am -->
+
+<!-- CSS Code -->
+<style type="text/css" scoped>
+table.GeneratedTable {
+width:50%;
+background-color:#FFFFFF;
+border-collapse:collapse;border-width:1px;
+border-color:#000000;
+border-style:solid;
+color:#FFFFFF;
+}
+input[type=button] {
+    width: 15%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+table.GeneratedTable td, table.GeneratedTable th {
+border-width:1px;
+border-color:#000000;
+border-style:solid;
+padding:3px;
+}
+
+table.GeneratedTable thead {
+background-color:#4CAF50;
+}
+</style>
+
+<!-- HTML Code -->
+<table class="GeneratedTable">
+<thead>
+<tr>
+<th>Insurance Carrier</th>
+<th>Account Number</th>
+<th>Group Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Row 1, Cell 1</td>
+<td>Row 1, Cell 2</td>
+<td>Row 1, Cell 3</td>
+</tr>
+<tr>
+<td>Row 2, Cell 1</td>
+<td>Row 2, Cell 2</td>
+<td>Row 2, Cell 3</td>
+</tr>
+<tr>
+<td>Row 3, Cell 1</td>
+<td>Row 3, Cell 2</td>
+<td>Row 3, Cell 3</td>
+</tr>
+</tbody>
+</table>
+<h2><input name="addCarrier" type="button" value="Add Carrier" /> <input name="addGpNum" type="button" value="Add Account Number" />  <input name="addAccNum" type="button" value="Add Group Number" /></h2>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
