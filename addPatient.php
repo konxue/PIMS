@@ -27,9 +27,11 @@
     //$sql = "INSERT INTO PatientInfo (PatientID, UserID, ....for rest of the columns) VALUES ('$pID', '$pUserID', ....for rest of variables)";
     //$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+        header("Refresh: 1; url=mainpage.php");
+        echo "New Patient record created successfully!<br/> Redirecting to main page in 1 second.";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        header("Refresh: 1; url=mainpage.php");
+        echo "Database Error: " . $sql . "<br>" . $conn->error;
     }
 
 $conn->close();
