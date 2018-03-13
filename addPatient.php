@@ -25,7 +25,7 @@
     $p_ZIP = $_POST['p_ZIP'];
     //insert adding data to database method here, somthing like....
     //$sql = "INSERT INTO PatientInfo (PatientID, UserID, ....for rest of the columns) VALUES ('$pID', '$pUserID', ....for rest of variables)";
-    //$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+   
     if ($conn->query($sql) === TRUE) {
         header("Refresh: 1; url=mainpage.php");
         echo "New Patient record created successfully!<br/> Redirecting to main page in 1 second.";
