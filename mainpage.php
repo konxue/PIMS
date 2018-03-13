@@ -7,12 +7,29 @@
 
 </head>
 <body>
-  
+
 <?php 
 include 'checkStatus.php';
 ?>
-    
-<p>Click on the buttons inside the tabbed menu:</p>
+    <center>
+   <form id="search-form" method="post" action="searchPatient.php" >
+          <table border="0.5" >
+            
+            <tr>
+                <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
+                <td><select name="searchType"><option value="LAST">Last Name</option>
+                <option value="ID">ID</option>
+                <option value="DOB">DOB</option>
+                 </select>
+                </td>
+                <td><input type="p_text" name="p_last" id="p_last"></center></td>
+                <td><input type="submit" value="Submit" />		
+            </tr>
+           </table>
+    </form>
+    </center>
+        <center>
+ 
 
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
@@ -28,7 +45,17 @@ include 'checkStatus.php';
 
 <div id="MedicalInfo" class="tabcontent">
   <h3>Medical Information</h3>
-  <p>Joes has hoofinmouth.</p> 
+  <p>Leon is working on this tab.</p>
+     <form id="search-form" method="post" action="findMedical.php" >
+          <table border="0.5" >
+            <tr>
+                <td><strong><label for="user_id"><center>Medical History Search (by ID): </label></strong></td>
+                <td><input type="p_text" name="p_id" id="p_id"></center></td>
+                <td><input type="submit" value="Submit" />		
+            </tr>
+           </table>
+    </form>
+    </center>
 </div>
 
 <div id="InsuranceInfo" class="tabcontent">
