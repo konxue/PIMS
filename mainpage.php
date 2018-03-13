@@ -44,7 +44,7 @@ background-color:#4CAF50;
 <?php 
 include 'checkStatus.php';
 ?>
-<<<<<<< HEAD
+
     <center>
    <form id="search-form" method="post" action="searchPatient.php" >
           <table border="0.5" >
@@ -64,7 +64,6 @@ include 'checkStatus.php';
     </center>
         <center>
  
-=======
 <table class="GeneratedTable">
 <thead>
 <tr>
@@ -109,7 +108,6 @@ include 'checkStatus.php';
 </tbody>
 </table>
 <p>Click on the buttons inside the tabbed menu:</p>
->>>>>>> 683074dc3055834d4edc42b792d226e393ea052a
 
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
