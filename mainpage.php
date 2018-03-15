@@ -42,25 +42,20 @@ background-color:#4CAF50;
 <body>
 
     
-<?php 
-include 'checkStatus.php';
-?>
+
 
 <?php 
 include 'searchPatient.php';
 ?>
- 
-
-
 </tbody>
 </table>
 <p>Click on the buttons inside the tabbed menu:</p>
-
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
   <button class="tablinks" onclick="openCity(event, 'MedicalInfo')">Medical Information</button>
   <button class="tablinks" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
   <button class="tablinks" onclick="openCity(event, 'BillingInfo')">Billing Information</button>
+  <button class="tablinks" onclick="openCity(event, 'ContactInfo')">Contact Information</button>
 </div>
 
 <div id="PatientInfo" class="tabcontent">
