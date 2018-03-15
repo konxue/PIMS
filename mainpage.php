@@ -64,8 +64,47 @@ include 'searchPatient.php';
 </div>
 
 <div id="PatientInfo" class="tabcontent">
-  <h3>Patient Information</h3>
-  <p>Joey is sick af.</p>
+    <?php
+    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
+    if (!$connection){
+        die("Database Connection Failed" . mysqli_error($connection));
+    }
+    $select_db = mysqli_select_db($connection, 'onlinepims');
+    if (!$select_db){
+        die("Database Selection Failed" . mysqli_error($connection));
+    }
+    $res = mysqli_query($connection, "Select * FROM PatientInfo");
+    echo " 
+        <table>
+            <tr>
+                <th>Patient ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Room Number</th>
+                <th>State</th>
+                <th>Street</th>
+                <th>Zip</th>
+                <th>Visitor Type</th>
+             </tr>";
+    
+    while($row = mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" . $row['PatientID'] . "</td>";
+        echo "<td>" . $row['LastName'] . "</td>";
+        echo "<td>" . $row['FirstName'] . "</td>";
+        echo "<td>" . $row['MiddleName'] . "</td>";
+        echo "<td>" . $row['RoomNum'] . "</td>";
+        echo "<td>" . $row['State'] . "</td>";
+        echo "<td>" . $row['Street'] . "</td>";
+        echo "<td>" . $row['Zip'] . "</td>";
+        echo "<td>" . $row['VisitorType'] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    mysqli_close($connection);
+    ?>
 </div>
 
 <div id="MedicalInfo" class="tabcontent">
