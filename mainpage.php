@@ -41,76 +41,19 @@ background-color:#4CAF50;
 </head>
 <body>
 
-<<<<<<< HEAD
     
-=======
 <?php 
 include 'checkStatus.php';
 ?>
 
-    <center>
-   <form id="search-form" method="post" action="searchPatient.php" >
-          <table border="0.5" >
-            
-            <tr>
-                <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
-                <td><select name="searchType"><option value="LAST">Last Name</option>
-                <option value="ID">ID</option>
-                <option value="DOB">DOB</option>
-                 </select>
-                </td>
-                <td><input type="p_text" name="p_last" id="p_last"></center></td>
-                <td><input type="submit" value="Submit" />		
-            </tr>
-           </table>
-    </form>
-    </center>
-        <center>
+<?php 
+include 'searchPatient.php';
+?>
  
-<table class="GeneratedTable">
-<thead>
-<tr>
-<th>Last Name</th>
-<th>First Name</th>
-<th>Middle Initial</th>
-<th>Facility</th>
-<th>Floor</th>
-<th>Room No.</th>
-<th>Bed No.</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Row 1, Cell 1</td>
-<td>Row 1, Cell 2</td>
-<td>Row 1, Cell 3</td>
-<td>Row 1, Cell 4</td>
-<td>Row 1, Cell 5</td>
-<td>Row 1, Cell 6</td>
-<td>Row 1, Cell 7</td>
-</tr>
-<tr>
-<td>Row 2, Cell 1</td>
-<td>Row 2, Cell 2</td>
-<td>Row 2, Cell 3</td>
-<td>Row 2, Cell 4</td>
-<td>Row 2, Cell 5</td>
-<td>Row 2, Cell 6</td>
-<td>Row 2, Cell 7</td>
-</tr>
-<tr>
-<td>Row 3, Cell 1</td>
-<td>Row 3, Cell 2</td>
-<td>Row 3, Cell 3</td>
-<td>Row 3, Cell 4</td>
-<td>Row 3, Cell 5</td>
-<td>Row 3, Cell 6</td>
-<td>Row 3, Cell 7</td>
-</tr>
+
 
 </tbody>
 </table>
->>>>>>> 50893000ace7fe707030ce0d57c12c7b654346a8
 <p>Click on the buttons inside the tabbed menu:</p>
 
 <div class="tab">
@@ -223,6 +166,11 @@ include 'checkStatus.php';
             <th>Amount Due:</th>
         </tr>
     </table>    
+</div>
+
+<div id="ContactInfo" class="tabcontent">
+  <h3>Contact Information</h3>
+  <p>Michael is working on this!</p>
 </div>
 
 <script>
