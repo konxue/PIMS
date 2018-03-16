@@ -5,91 +5,14 @@ include 'checkStatus.php';
 <html>
 <head>
 <title>Search Result - Patient Information Management System</title>
-<style type="text/css">
-		body {
-			font-size: 15px;
-			color: #343d44;
-			font-family: "segoe-ui", "open-sans", tahoma, arial;
-			padding: 0;
-			margin: 0;
-		}
-		table {
-			margin: auto;
-			font-family: "Lucida Sans Unicode", "Lucida Grande", "Segoe Ui";
-			font-size: 12px;
-		}
-
-		h1 {
-			margin: 25px auto 0;
-			text-align: center;
-			text-transform: uppercase;
-			font-size: 17px;
-		}
-
-		table td {
-			transition: all .5s;
-		}
-		
-		/* Table */
-		.data-table {
-			border-collapse: collapse;
-			font-size: 14px;
-			min-width: 537px;
-		}
-
-		.data-table th, 
-		.data-table td {
-			border: 1px solid #e1edff;
-			padding: 7px 17px;
-		}
-		.data-table caption {
-			margin: 7px;
-		}
-
-		/* Table Header */
-		.data-table thead th {
-			background-color: #508abb;
-			color: #FFFFFF;
-			border-color: #6ea1cc !important;
-			text-transform: uppercase;
-		}
-
-		/* Table Body */
-		.data-table tbody td {
-			color: #353535;
-		}
-		.data-table tbody td:first-child,
-		.data-table tbody td:nth-child(4),
-		.data-table tbody td:last-child {
-			text-align: right;
-		}
-
-		.data-table tbody tr:nth-child(odd) td {
-			background-color: #f4fbff;
-		}
-		.data-table tbody tr:hover td {
-			background-color: #ffffa2;
-			border-color: #ffff0f;
-		}
-
-		/* Table Footer */
-		.data-table tfoot th {
-			background-color: #e5f5ff;
-			text-align: right;
-		}
-		.data-table tfoot th:first-child {
-			text-align: left;
-		}
-		.data-table tbody td:empty
-		{
-			background-color: #ffcccc;
-		}
-</style>
+<link rel="stylesheet" href="css/tablestyle.css">
+<link rel="stylesheet" type="text/css" href="mainpage.css"/>
 </head> 
+<br>
+<br>
 <center>
         <form id="search-form" method="post">
           <table border="0.5" >
-            
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -142,10 +65,10 @@ elseif ($selection == 'FIRST')
 }
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $count = mysqli_num_rows($result);
-}
-?>
+
+echo '
 <table class="data-table">
-<caption class="title">Search Result</caption>
+<caption class="title"><center>Search Result</center></caption>
 <thead>
         <tr>
         <th>#</th>
@@ -156,13 +79,11 @@ $count = mysqli_num_rows($result);
         <th>Date of Birth</th>
         <th></th>
         </tr>
-</thead>
-<tbody>
-<?php
+</thead>';
 
 if ($count==0)
 {
-    echo '<tr>
+    echo '<tbody><tr>
             <td></td>
             <td></td>
             <td></td>
@@ -170,14 +91,15 @@ if ($count==0)
             <td></td>
             <td></td>
             <td></td>
-            </tr>';
+            </tr></tbody></table>'
+         ;
 }
 elseif ($count>0)
 {
     $no = 1;
     while ($row = mysqli_fetch_array($result))
     {
-        echo '<tr>
+        echo '<tbody><tr>
              <td><center>'.$no.'</center></td>
              <td><center>'.$row['PatientID'].'</center></td>
              <td><center>'.$row['LastName'].'</center></td>
@@ -185,13 +107,13 @@ elseif ($count>0)
              <td><center>'.$row['FirstName'].'</center></td> 
              <td><center>'.$row['DOB'].'</center></td> 
              <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>
-                </tr>';
+                </tr></tbody>';
             $no++;   
     }
+    echo '</table>';
+}
 }
 ?>
-</tbody>
-</table>
 </html>
 
 <script type="text/javascript">

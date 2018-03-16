@@ -1,8 +1,8 @@
-
+<title>Logging out... - Patient Information Management System</title>
 <?php
- session_start();
-  echo "Logout Successfully ";
+  session_start();
   session_destroy();   // function that Destroys Session 
-  header("Location: index.html");
+  header("Refresh: 1; url=index.html");
+  echo "Logout Successfully...<br> Redirecting in 1 second!";
 ?>
 
