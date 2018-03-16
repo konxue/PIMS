@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php 
+include 'checkStatus.php';
+?>
 <html>
 <head>
 <title>Search Result - Patient Information Management System</title>
@@ -110,7 +113,14 @@ session_start();
 $selection = $_POST['searchType'];
 if ($selection == 'LAST')
 {
-$input = "%".$_POST['p_last']."%";
+    if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
+    {
+        $input = '';
+    }
+    else
+    {
+    $input = "%".$_POST['p_last']."%";
+    }
 $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE LastName LIKE '$input'";
 }
 elseif ($selection == 'ID')
@@ -120,14 +130,20 @@ elseif ($selection == 'ID')
 }
 elseif ($selection == 'FIRST')
 {
-    $input = "%".$_POST['p_last']."%";
-    $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE PatientID LIKE '$input'";
+        if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
+     {
+         $input = '';
+     }
+     else
+     {
+     $input = "%".$_POST['p_last']."%";
+     }
+    $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE FirstName LIKE '$input'";
 }
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $count = mysqli_num_rows($result);
 }
 ?>
-
 <table class="data-table">
 <caption class="title">Search Result</caption>
 <thead>
@@ -143,8 +159,8 @@ $count = mysqli_num_rows($result);
 </thead>
 <tbody>
 <?php
-$no = 1;
-if ($count==0 && $_SERVER['REQUEST_METHOD'] == 'POST')
+
+if ($count==0)
 {
     echo '<tr>
             <td></td>
@@ -158,16 +174,7 @@ if ($count==0 && $_SERVER['REQUEST_METHOD'] == 'POST')
 }
 elseif ($count>0)
 {
-     function myfunction($var)
-    {
-        $_SESSION['p_selected'] = $var;
-         if ($_SESSION['p_selected'] != null)
-         {
-        echo "Selected Patient Id: ".$_SESSION['p_selected'];
-         }
-        else
-        {echo "Please select a patient before you check the medical information";}
-    }
+    $no = 1;
     while ($row = mysqli_fetch_array($result))
     {
         echo '<tr>
@@ -177,14 +184,19 @@ elseif ($count>0)
              <td><center>'.$row['MiddleName'].'</center></td> 
              <td><center>'.$row['FirstName'].'</center></td> 
              <td><center>'.$row['DOB'].'</center></td> 
-             <td><center><button onclick=\"myfunction('.$row['PatientID'].'); this.disabled=true;\">Select</button></form></fieldset></center></td>
+             <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>
                 </tr>';
-         $no++;   
+            $no++;   
     }
 }
 ?>
 </tbody>
 </table>
-</body>
 </html>
+
+<script type="text/javascript">
+function callFunction(clicked_id){
+  window.location.href = "serverScript.php?pid="+clicked_id;
+}
+</script>
 
