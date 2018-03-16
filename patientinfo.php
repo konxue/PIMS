@@ -20,15 +20,15 @@
         <caption class="title"><center>Patient Report</center></caption>
         <thead>
                 <tr>
-                <th>Patient ID</th>
-                <th>Sex</th>
-                <th>Last Name</th>
-                <th>Middle Name</th>
-                <th>First Name</th>
-                <th>Date of Birth</th>
-                <th>Floor Number</th>
-                <th>Room Number</th>
-                <th>Visitor Type</th>
+                <th><center>Patient ID</center></th>
+                <th><center>Sex</center></th>
+                <th><center>Last Name</center></th>
+                <th><center>Middle Name</center></th>
+                <th><center>First Name</center></th>
+                <th><center>Date of Birth</center></th>
+                <th><center>Floor Number</center></th>
+                <th><center>Room Number</center></th>
+                <th><center>Visitor Type</center></th>
                 </tr>
         </thead>
         ';
@@ -50,15 +50,15 @@
    echo '
         <thead>
                 <tr>
-                <th>Primary Doctor</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip</th>
-                <th>Country</th>
-                <th>Home Phone</th>
-                <th>Mobile Phone</th>
-                <th>Work Phone</th>
+                <th><center>Primary Doctor</center></th>
+                <th><center>Street</center></th>
+                <th><center>City</center></th>
+                <th><center>State</center></th>
+                <th><center>Zip</center></th>
+                <th><center>Country</center></th>
+                <th><center>Home Phone</center></th>
+                <th><center>Mobile Phone</center></th>
+                <th><center>Work Phone</center></th>
                 </tr>
         </thead>';
  $result = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");

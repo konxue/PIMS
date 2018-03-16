@@ -12,7 +12,7 @@ include 'checkStatus.php';
 <br>
 <center>
         <form id="search-form" method="post">
-          <table border="0.5" >
+          <table border="0.5" class="data-table">
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -77,7 +77,7 @@ echo '
         <th>Middle Initial</th>
         <th>First Name</th>
         <th>Date of Birth</th>
-        <th></th>
+        <th>Selection</th>
         </tr>
 </thead>';
 
