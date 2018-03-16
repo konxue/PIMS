@@ -122,50 +122,10 @@ include 'searchPatient.php';
 <div id="BillingInfo" class="tabcontent">
     <h3>Billing Information</h3>
     <!--CSS Code for my tab-->
-    <style>
-        .inlineTable 
-        {
-            display: inline-block;
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }  
-    </style>
-    
-    <!--HTML Code for my tab-->
-    <table border=1 class="inlineTable">
-        <tr>
-            <td>Items</td>
-            <td>Cost</td>        
-        </tr>
-    </table>
-    
-    <table border=1 class="inlineTable">
-        <tr>
-            <th>Total Amount:</th>
-        </tr>
-        <tr>
-            <th>Amount paid by Insurance:</th>
-        </tr>
-        <tr>
-            <th>Amount due after Insurance:</th>
-        </tr>
-        <tr>
-            <th>Amount Paid:</th>
-        </tr>
-        <tr>
-            <th>Amount Due:</th>
-        </tr>
-    </table>    
+   <?php
+    include 'BillingInfo.php';
+   ?>
+       
 </div>
 
 <div id="ContactInfo" class="tabcontent">

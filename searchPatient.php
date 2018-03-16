@@ -150,7 +150,7 @@ if ($count==0 && $_SERVER['REQUEST_METHOD'] == 'POST')
             <td></td>
             <td></td>
             <td></td>
-            <td><center>Record isnot found!</center></td>
+            <td><center>Record is not found!</center></td>
             <td></td>
             <td></td>
             <td></td>
