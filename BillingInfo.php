@@ -61,7 +61,7 @@
 
 <!--HTML Code for my tab-->
 
-<table class="inlineTable">
+<table class="BillingInfo">
 <caption class="title">Itemized List</caption>
 <thead>
         <tr>
@@ -71,7 +71,7 @@
 </thead>
 <tbody>
 
-<table class="inlineTable">
+<table class="BillingInfo">
 <caption class="title">Itemized List</caption>
 <thead>
         <tr>
