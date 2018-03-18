@@ -1,6 +1,7 @@
 
 <link rel="stylesheet" href="css/tablestyle.css">
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+
 <?php
    session_start();
     if ($_SESSION['p_id'] == null)
@@ -21,6 +22,24 @@
     $count = mysqli_num_rows($result);
 
     echo '
+        <center>
+        <form id="search-form" method="post">
+          <table border="0.5" class="data-table">
+            <tr>
+                <td><strong><label for="Carrier"><center>Carrier:</label></strong></td>
+                <td><input type="p_text" name="Carrier" id="Carrier"></center></td>
+                <td><strong><label for="AcctNum"><center>Account #:</label></strong></td>
+                <td><input type="p_text" name="AcctNum" id="AcctNum"></center></td>
+                <td><strong><label for="GrpNum"><center>Group #:</label></strong></td>
+                <td><input type="p_text" name="GrpNum" id="GrpNum"></center></td>
+                <td><input type="submit" value="Update" />		
+            </tr>
+           </table>
+          
+    </form>
+    </center>
+    <br>
+    <br>
         <table class="data-table">
         <thead>
                 <tr>
@@ -34,11 +53,7 @@
 {
     echo '<tbody><tr>
             <td></td>
-            <td></td>
-            <td></td>
-            <td><center>Record is not found!</center></td>
-            <td></td>
-            <td></td>
+            <td><center>Insurance not found!</center></td>
             <td></td>
             </tr></tbody></table>'
          ;
@@ -55,3 +70,4 @@
     mysqli_close($connection);
     }
 ?>
+
