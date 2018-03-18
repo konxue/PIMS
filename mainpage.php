@@ -1,39 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-
-    <!-- CSS Code -->
-<style type="text/css" scoped>
-table.GeneratedTable {
-width:50%;
-background-color:#FFFFFF;
-border-collapse:collapse;border-width:1px;
-border-color:#000000;
-border-style:solid;
-color:#FFFFFF;
-}
-input[type=button] {
-    width: 15%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-table.GeneratedTable td, table.GeneratedTable th {
-border-width:1px;
-border-color:#000000;
-border-style:solid;
-padding:3px;
-}
-
-table.GeneratedTable thead {
-background-color:#4CAF50;
-}
-</style>
-
+<link rel="stylesheet" href="css/tablestyle.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Main Page - Patient Information Management System</title>
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
@@ -41,15 +9,12 @@ background-color:#4CAF50;
 </head>
 <body>
 
-    
-
 
 <?php 
 include 'searchPatient.php';
 ?>
-</tbody>
-</table>
-<p>Click on the buttons inside the tabbed menu:</p>
+<br>
+<br>
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
   <button class="tablinks" onclick="openCity(event, 'MedicalInfo')">Medical Information</button>
@@ -59,41 +24,7 @@ include 'searchPatient.php';
 </div>
 
 <div id="PatientInfo" class="tabcontent">
-    <?php
-    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
-    if (!$connection){
-        die("Database Connection Failed" . mysqli_error($connection));
-    }
-    $select_db = mysqli_select_db($connection, 'onlinepims');
-    if (!$select_db){
-        die("Database Selection Failed" . mysqli_error($connection));
-    }
-    $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$_SESSION[p_id]'");
-    echo " 
-        <table>
-            <tr>
-                <th>Patient ID</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Room Number</th>
-                <th>Visitor Type</th>
-             </tr>";
-    
-    while($row = mysqli_fetch_array($res))
-    {
-        echo "<tr>";
-        echo "<td>" . $row['PatientID'] . "</td>";
-        echo "<td>" . $row['LastName'] . "</td>";
-        echo "<td>" . $row['FirstName'] . "</td>";
-        echo "<td>" . $row['MiddleName'] . "</td>";
-        echo "<td>" . $row['RoomNum'] . "</td>";
-        echo "<td>" . $row['VisitorType'] . "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-    mysqli_close($connection);
-    ?>
+<?php include 'patientinfo.php';?>
 </div>
 
 <div id="MedicalInfo" class="tabcontent">
@@ -150,13 +81,12 @@ include 'searchPatient.php';
 <div id="BillingInfo" class="tabcontent">
     <h3>Billing Information</h3>
     <!--CSS Code for my tab-->
-   <?php
-    include 'BillingInfo.php';
-   ?>
+  
        
 </div>
 
 <div id="ContactInfo" class="tabcontent">
+<<<<<<< HEAD
     <?php
     $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
     if (!$connection){
@@ -195,6 +125,9 @@ include 'searchPatient.php';
     echo "</table>";
     mysqli_close($connection);
     ?>
+=======
+    <h3> Reserved for later use </h>
+>>>>>>> bb99def36343350dac2f936cb926d10274d7560e
 </div>
 
 <script>
