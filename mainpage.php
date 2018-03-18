@@ -46,42 +46,12 @@ include 'searchPatient.php';
 <div id="InsuranceInfo" class="tabcontent">
   <h3>Insurance Information</h3>
   <!--<p>Nick has got this.</p>-->
-  <!-- Codes by HTML.am -->
-
-<!-- HTML Code -->
-<table class="GeneratedTable">
-<thead>
-<tr>
-<th>Insurance Carrier</th>
-<th>Account Number</th>
-<th>Group Number</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Row 1, Cell 1</td>
-<td>Row 1, Cell 2</td>
-<td>Row 1, Cell 3</td>
-</tr>
-<tr>
-<td>Row 2, Cell 1</td>
-<td>Row 2, Cell 2</td>
-<td>Row 2, Cell 3</td>
-</tr>
-<tr>
-<td>Row 3, Cell 1</td>
-<td>Row 3, Cell 2</td>
-<td>Row 3, Cell 3</td>
-</tr>
-</tbody>
-</table>
-<h2><input name="addCarrier" type="button" value="Add Carrier" /> <input name="addGpNum" type="button" value="Add Account Number" />  <input name="addAccNum" type="button" value="Add Group Number" /></h2>
+<?php include 'insuranceinfo.php';?>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
     <h3>Billing Information</h3>
     <!--CSS Code for my tab-->
-  
        
 </div>
 
