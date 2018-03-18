@@ -167,6 +167,7 @@ include 'searchPatient.php';
         die("Database Selection Failed" . mysqli_error($connection));
     }
     $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$_SESSION[p_id]'");
+        
     echo " 
         <table>
             <tr>
