@@ -56,7 +56,48 @@ include 'searchPatient.php';
 </div>
 
 <div id="ContactInfo" class="tabcontent">
+<<<<<<< HEAD
+    <?php
+    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
+    if (!$connection){
+        die("Database Connection Failed" . mysqli_error($connection));
+    }
+    $select_db = mysqli_select_db($connection, 'onlinepims');
+    if (!$select_db){
+        die("Database Selection Failed" . mysqli_error($connection));
+    }
+    $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$_SESSION[p_id]'");
+        
+    echo " 
+        <table>
+            <tr>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Home Phone</th>
+                <th>Mobile Phone</th>
+                <th>Work Phone</th>
+             </tr>";
+    
+    while($row = mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" . $row['Street'] . "</td>";
+        echo "<td>" . $row['City'] . "</td>";
+        echo "<td>" . $row['State'] . "</td>";
+        echo "<td>" . $row['Zip'] . "</td>";
+        echo "<td>" . $row['HomePhone'] . "</td>";
+        echo "<td>" . $row['MobilePhone'] . "</td>";
+        echo "<td>" . $row['WorkPhone'] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    mysqli_close($connection);
+    ?>
+=======
     <h3> Reserved for later use </h>
+>>>>>>> bb99def36343350dac2f936cb926d10274d7560e
 </div>
 
 <script>

@@ -3,81 +3,104 @@
    .inlinetable
    {
        display: inline-block;
-      /* font-family: arial, sans-serif;
-       border-collapse: collapse;
-       width: 100%;*/
    }
-   //when I add this extra css code it does not do the inline-block
-   /*td, th {
-       display: inline-block;
-       border: 1px solid #dddddd;
-       text-align: left;
-       padding: 8px;
-   }*/
+    /* Table */
+    .inlinetable {
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 537px;
+    }
 
-   /*tr:nth-child(even) {
-       background-color: #dddddd;
-   } */ 
+    .inlinetable th, 
+    .inlinetable td {
+            border: 1px solid #e1edff;
+            padding: 7px 17px;
+    }
+    .inlinetable caption {
+            margin: 7px;
+    }
+    /* Table Header */
+    .inlinetable thead th {
+            background-color: #508abb;
+            color: #FFFFFF;
+            border-color: #6ea1cc !important;
+            text-transform: uppercase;
+    }
+
+    /* Table Body */
+    .inlinetable tbody td {
+            color: #353535;
+    }
+    .inlinetable tbody td:first-child,
+    .inlinetable tbody td:nth-child(4),
+    .inlinetable tbody td:last-child {
+            text-align: right;
+    }
+
+    .inlinetable tbody tr:nth-child(odd) td {
+            background-color: #f4fbff;
+    }
+    .inlinetable tbody tr:hover td {
+            background-color: #ffffa2;
+            border-color: #ffff0f;
+    }
+
+    /* Table Footer */
+    .inlinetable tfoot th {
+            background-color: #e5f5ff;
+            text-align: right;
+    }
+    .inlinetable tfoot th:first-child {
+            text-align: left;
+    }
+    .inlinetable tbody td:empty
+    {
+            background-color: #ffcccc;
+    }
 </style>
 
 <!--HTML Code for my tab-->
-<table border=1 class="inlineTable">
-   <tr>
-       <td>Items</td>
-       <td>Cost</td>        
-   </tr>
-</table>
 
-<table border=1 class="inlineTable">
-   <tr>
-       <th>Total Amount:</th>
-   </tr>
-   <tr>
-       <th>Amount paid by Insurance:</th>
-   </tr>
-   <tr>
-       <th>Amount due after Insurance:</th>
-   </tr>
-   <tr>
-       <th>Amount Paid:</th>
-   </tr>
-   <tr>
-       <th>Amount Due:</th>
-   </tr>
-</table>
+<table class="BillingInfo">
+<caption class="title">Itemized List</caption>
+<thead>
+        <tr>
+            <th>Amount Paid by Insurance</th>
+            <th>Amount Paid by Patient</th>        
+        </tr>"
+</thead>
+<tbody>
 
-
+<table class="BillingInfo">
+<caption class="title">Itemized List</caption>
+<thead>
+        <tr>
+            <th>Items</th>
+            <th>Cost</th>        
+        </tr>"
+</thead>
+<tbody>
  <?php
-    $servername = "localhost";
-    $username = "pimsonline";
-    $password = "Rootroot123";
-    $dbname = "onlinepims";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
-    session_start();
-    $pFirst = $_POST['p_firstname'];
-    $pLast = $_POST['p_lastname'];
-    $pUserID = $_SESSION['username'] ;
-    $pID = $_POST['p_id'];
+    require("db_connect.php");
+    $res = mysqli_query($connection, "Select * FROM ItemizedList WHERE PatientID = '$_SESSION[p_id]'"); 
+    while($row = mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" . $row['Item'] . "</td>";
+        echo "<td>" . $row['Cost'] . "</td>";
+        echo "</tr>";
+    }
+       
+    $res = mysqli_query($connection, "Select * FROM InsuranceInfo  WHERE PatientID = '$_SESSION[p_id]'");    
+    while($row = mysqli_fetch_array($res))
+    {
+        echo '<tr>
+            <td>' . $row['AmtPaidByInsurance'] . '</td>
+            <td>' . $row['AmtPaidByPatient'] . '</td>"
+        </tr>';
+    }
     
-    $pMiddle = $_POST['p_middlename'];
-    $pStreet = $_POST['p_street'];
-    $pState = $_POST['p_state'];
-    $p_ZIP = $_POST['p_ZIP'];
-    
-    $p_Item = $_POST['Item'];
-    $p_Cost = $_POST['Cost'];
-    $p_TotalCost = $_POST['TotalCost'];
-    $p_AmtDue = $_POST['AmtDue'];
-    
-    $p_Carrier= $_POST['Carrier'];
-    $p_AmtPaidByInsurance = $_POST['AmtPaidByInsurance'];
-    $p_AmtPaidByPatient = $_POST['AmtPaidByPatient'];
-    
+    mysqli_close($connection);
     
 ?>
 
