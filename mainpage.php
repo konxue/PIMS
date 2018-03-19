@@ -28,14 +28,15 @@ include 'searchPatient.php';
 </div>
 
 <div id="MedicalInfo" class="tabcontent">
-  <h3>Medical Information</h3>
-  <p>Leon is working on this tab.</p>
-     <form id="search-form" method="post" action="findMedical.php" >
-          <table border="0.5" >
+  <?php include 'medicalHistory.php'?>
+    <br>
+    <br>
+     <form id="search-form" method="post" action="medicalInfo.php" >
+          <table border="0.5" class="data-table">
             <tr>
-                <td><strong><label for="user_id"><center>Medical History Search (by ID): </label></strong></td>
-                <td><input type="p_text" name="p_id" id="p_id"></center></td>
-                <td><input type="submit" value="Submit" />		
+                <td><strong><label for="text"><center>Admission Reason: </label></strong></td>
+                <td><input type="p_text" name="p_atime" id="p_atime"></center></td>
+                <td><input type="submit" value="Submit" />
             </tr>
            </table>
     </form>
@@ -44,42 +45,19 @@ include 'searchPatient.php';
 
 <!--Insurance Tab-->
 <div id="InsuranceInfo" class="tabcontent">
-  <h3>Insurance Information</h3>
+ <center>
+ <h3>Insurance Information</h3>
+ </center>
   <!--<p>Nick has got this.</p>-->
-  <!-- Codes by HTML.am -->
-
-<!-- HTML Code -->
-<table class="GeneratedTable">
-<thead>
-<tr>
-<th>Insurance Carrier</th>
-<th>Account Number</th>
-<th>Group Number</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Row 1, Cell 1</td>
-<td>Row 1, Cell 2</td>
-<td>Row 1, Cell 3</td>
-</tr>
-<tr>
-<td>Row 2, Cell 1</td>
-<td>Row 2, Cell 2</td>
-<td>Row 2, Cell 3</td>
-</tr>
-<tr>
-<td>Row 3, Cell 1</td>
-<td>Row 3, Cell 2</td>
-<td>Row 3, Cell 3</td>
-</tr>
-</tbody>
-</table>
-<h2><input name="addCarrier" type="button" value="Add Carrier" /> <input name="addGpNum" type="button" value="Add Account Number" />  <input name="addAccNum" type="button" value="Add Group Number" /></h2>
+<?php include 'insuranceinfo.php';?>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
     <?php include 'BillingInfo.php';?>       
+    <?php include 'BillingInfo.php';?>  
+    <!--CSS Code for my tab-->
+       
+
 </div>
 
 <div id="ContactInfo" class="tabcontent">
