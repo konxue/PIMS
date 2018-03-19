@@ -28,14 +28,15 @@ include 'searchPatient.php';
 </div>
 
 <div id="MedicalInfo" class="tabcontent">
-  <h3>Medical Information</h3>
-  <p>Leon is working on this tab.</p>
-     <form id="search-form" method="post" action="findMedical.php" >
-          <table border="0.5" >
+  <?php include 'medicalHistory.php'?>
+    <br>
+    <br>
+     <form id="search-form" method="post" action="medicalInfo.php" >
+          <table border="0.5" class="data-table">
             <tr>
-                <td><strong><label for="user_id"><center>Medical History Search (by ID): </label></strong></td>
-                <td><input type="p_text" name="p_id" id="p_id"></center></td>
-                <td><input type="submit" value="Submit" />		
+                <td><strong><label for="text"><center>Admission Reason: </label></strong></td>
+                <td><input type="p_text" name="p_atime" id="p_atime"></center></td>
+                <td><input type="submit" value="Submit" />
             </tr>
            </table>
     </form>
