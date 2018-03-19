@@ -53,7 +53,6 @@ include 'searchPatient.php';
 </div>
 
 <div id="BillingInfo" class="tabcontent">
-    <?php include 'BillingInfo.php';?>       
     <?php include 'BillingInfo.php';?>  
     <!--CSS Code for my tab-->
        
