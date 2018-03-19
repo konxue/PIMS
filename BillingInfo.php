@@ -102,20 +102,13 @@ function callFunction(clicked_id){
         </tr>
 </thead>
  <?php
-    $payment=0;
-    $res1 = mysqli_query($connection, "Select * FROM InsuranceInfo  WHERE PatientID = '$_SESSION[p_id]'");
-    
-    $query2 = "Select AmtPaidByInsurace From InsuranceInfo where PatientID = '$_SESSION[p_id]'";
-    $res2 = mysqli_query($connection, $query2) or die(mysqli_error($connection));
-    $row2 = mysqli_fetch_array($res2);
-    $amtmoney = $row2[0];
-    
+    $payment=0;    
     while($row = mysqli_fetch_array($res1))
     {     
         echo "<tr>";
         echo "<td>" . $row['AmtPaidByInsurance'] . "</td>";
         
-        echo "<td>" . $row['AmtDueAfterInsurance'] . "</td>";
+        echo "<td>" . $row['AmtPaidByPatient'] . "</td>";
         echo "</tr>";
         $query = "SELECT `AmtPaid` FROM `InsuranceInfo` WHERE PatientID = '$_SESSION[p_id]'";
         

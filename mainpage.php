@@ -45,15 +45,12 @@ include 'searchPatient.php';
 
 <!--Insurance Tab-->
 <div id="InsuranceInfo" class="tabcontent">
- <center>
- <h3>Insurance Information</h3>
- </center>
   <!--<p>Nick has got this.</p>-->
-<?php include 'insuranceinfo.php';?>
+<?php include 'insuranceinfo.php'?>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
-    <?php include 'BillingInfo.php';?>  
+    <?php include 'BillingInfo.php'?>  
     <!--CSS Code for my tab-->
        
 
