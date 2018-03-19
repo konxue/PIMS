@@ -45,49 +45,62 @@ include 'searchPatient.php';
 
 <!--Insurance Tab-->
 <div id="InsuranceInfo" class="tabcontent">
-  <h3>Insurance Information</h3>
+ <center>
+ <h3>Insurance Information</h3>
+ </center>
   <!--<p>Nick has got this.</p>-->
-  <!-- Codes by HTML.am -->
-
-<!-- HTML Code -->
-<table class="GeneratedTable">
-<thead>
-<tr>
-<th>Insurance Carrier</th>
-<th>Account Number</th>
-<th>Group Number</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Row 1, Cell 1</td>
-<td>Row 1, Cell 2</td>
-<td>Row 1, Cell 3</td>
-</tr>
-<tr>
-<td>Row 2, Cell 1</td>
-<td>Row 2, Cell 2</td>
-<td>Row 2, Cell 3</td>
-</tr>
-<tr>
-<td>Row 3, Cell 1</td>
-<td>Row 3, Cell 2</td>
-<td>Row 3, Cell 3</td>
-</tr>
-</tbody>
-</table>
-<h2><input name="addCarrier" type="button" value="Add Carrier" /> <input name="addGpNum" type="button" value="Add Account Number" />  <input name="addAccNum" type="button" value="Add Group Number" /></h2>
+<?php include 'insuranceinfo.php';?>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
     <h3>Billing Information</h3>
     <!--CSS Code for my tab-->
-  
        
 </div>
 
 <div id="ContactInfo" class="tabcontent">
+<<<<<<< HEAD
+    <?php
+    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
+    if (!$connection){
+        die("Database Connection Failed" . mysqli_error($connection));
+    }
+    $select_db = mysqli_select_db($connection, 'onlinepims');
+    if (!$select_db){
+        die("Database Selection Failed" . mysqli_error($connection));
+    }
+    $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$_SESSION[p_id]'");
+        
+    echo " 
+        <table>
+            <tr>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Home Phone</th>
+                <th>Mobile Phone</th>
+                <th>Work Phone</th>
+             </tr>";
+    
+    while($row = mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" . $row['Street'] . "</td>";
+        echo "<td>" . $row['City'] . "</td>";
+        echo "<td>" . $row['State'] . "</td>";
+        echo "<td>" . $row['Zip'] . "</td>";
+        echo "<td>" . $row['HomePhone'] . "</td>";
+        echo "<td>" . $row['MobilePhone'] . "</td>";
+        echo "<td>" . $row['WorkPhone'] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    mysqli_close($connection);
+    ?>
+=======
     <h3> Reserved for later use </h>
+>>>>>>> bb99def36343350dac2f936cb926d10274d7560e
 </div>
 
 <script>
