@@ -22,14 +22,14 @@ include 'checkStatus.php';
                  </select>
                 </td>
                 <td><input type="p_text" name="p_last" id="p_last"></center></td>
-                <td><input type="submit" value="Submit" />		
+                <td><input type="submit" name='submit_0' value="Submit" />		
             </tr>
            </table>
     </form>
     </center>
 
 <?php
-if($_SERVER['REQUEST_METHOD'] == 'POST')
+if($_POST['submit_0'])
 {
 require("db_connect.php");
 session_start();
