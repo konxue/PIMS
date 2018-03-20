@@ -25,11 +25,8 @@ echo '
 <center>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
-            <tr>
-                <td><input type="p_text" name="payment" id="payment"></center></td>
-                <td><input type="submit" value="Submit Payment" />		
                 <strong><center><label for="paycenter">Patient Payment Center</label></center></strong></td>
-                <td><strong><label for="vname"><center>Visit #</label></strong></td>
+                <tr><td><strong><label for="vname"><center>Visit #</label></strong></td>
                 <td><input type="p_text" name="vnum" id="vnum"></td>
                 <td><strong><label for="pchoice"><center>Pay Type</label></strong></td>
                 <td><select name="paytype">
