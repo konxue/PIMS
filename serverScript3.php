@@ -6,7 +6,7 @@ session_start();
 $input = $_GET["logid"];
 $newdate = date("Y/m/d");
 $newtime = date("h:i:sa");
-$query = "UPDATE MedicalInfo SET DischargeDate = '$newdate', DischargeTime = '$newtime' Where log_id='$input'";
+$query = "UPDATE `MedicalInfo` SET `DischargeDate` = '$newdate' AND `DischargeTime` = '$newtime' Where `log_id`='$input'";
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 header("Refresh: 0; url=mainpage.php");
  }

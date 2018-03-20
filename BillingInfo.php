@@ -1,135 +1,216 @@
 <!--This PHP code is for the billing tab on the main page, it includes the HTML and CSS-->
+<head>
 <!--CSS for my code -->
-
 <link rel="stylesheet" href="css/tablestyle.css">
 <table style="display: inline-block;">
-
-<!--HTML & PHP Code for my tab-->
-
-<!-- Adding payment -->
-
-<title>Amount being paid:</title>
-<link rel="stylesheet" href="css/tablestyle.css">
+<!--bootstrap collapse-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
 </head> 
-<br>
+
+<!--HTML & PHP Code for my tab-->
+<?php
+session_start();
+if ($_SESSION['p_id'] == null)
+    {
+        echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
+    }
+    else {
+require("db_connect.php");
+//Payment submit
+echo '
 <br>
 <center>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
             <tr>
-                <!--<td><strong><label for="user_id"><center>Payment Method</label></strong></td>
-                <td><select name="searchType">
-                <option value="DEBIT">Debit Card</option>
-                <option value="CHECK">Check</option>
-                <option value="CASH">Cash</option>
-                 </select>
-                </td>-->
-                <td><input type="p_text" name="payment" id="payment"></center></td>
-                <td><input type="submit" value="Submit Payment" />		
+                <strong><center><label for="paycenter">Patient Payment Center</label></center></strong></td>
+                <td><strong><label for="vname"><center>Visit #</label></strong></td>
+                <td><input type="p_text" name="vnum" id="vnum"></td>
+                <td><strong><label for="pchoice"><center>Pay Type</label></strong></td>
+                <td><select name="paytype">
+                    <option value="REGULAR">Balance</option>
+                    <option value="COPAY">Insurance Co-Pay</option>
+                    </select></td>
+                <td><strong><label for="pname"><center>Payment Method</label></strong></td>
+                <td><select name="cardType">
+                    <option value="CARD">Debit/Credit Card</option>
+                    <option value="CHECK">Check</option>
+                    <option value="CASH">Cash</option>
+                    </select></td>
+                <td><input type="p_text" name="payment" id="payment"></td>
+                <td><input type="submit" name="submit_1" value="Submit Payment" />		
             </tr>
            </table>
     </form>
-</center>
-<?php
-session_start();
-require("db_connect.php");
-    
-if($_SERVER['REQUEST_METHOD'] == 'POST')
+</center><br>';
+
+if($_POST['submit_1'])
 {
     $amtpaid = $_POST['payment'];
-    $query = "Select AmtPaid From InsuranceInfo where PatientID = '$_SESSION[p_id]'";
+    $vid = $_POST['vnum'];
+    $selection = $_POST['paytype'];
+    $query = "Select `CoPay`,`AmtPaid`,`Balance` From Payment where PatientID = '$_SESSION[p_id]'";
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-    
-    $row = mysqli_fetch_array($result);
-    $money = $row[0];
-    $totalmoney = $money+$amtpaid;
-    $sql = "UPDATE InsuranceInfo SET AmtPaid = $totalmoney WHERE PatientId = '$_SESSION[p_id]'";
-    
-    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-}
-?>
-<script type="text/javascript">
-function callFunction(clicked_id){
-  window.location.href = "serverScript.php?pid="+clicked_id;
-}
-</script>
-   
-
-<table class="data-table" style="display: inline-block; float: left;">
-<caption class="title">Itemized List</caption>
-<thead>
-        <tr>
-            <th>Items</th>
-            <th>Cost</th>        
-        </tr>
-</thead>
-
-
-<?php
-    
-    $no = 1;
-    $total = 0;
-    
-    $res = mysqli_query($connection, "Select * FROM ItemizedList WHERE PatientID = '$_SESSION[p_id]'"); 
-    while($row = mysqli_fetch_array($res))
+    $count = mysqli_num_rows($result);
+    //compare to see if visit id is valid
+    if ($vid > $count || $vid <=0)
     {
-        $amount  = $row['Cost'] == 0 ? '' : number_format($row['Cost']);
-        
-        echo "<tr>";
-        echo "<td>" . $row['Item'] . "</td>";
-        echo "<td>" . $row['Cost'] . "</td>";
-        echo "</tr>";
-        $total += $row['Cost'];
-        $no++;      
+        echo '<script language="javascript">';
+        echo 'alert("Invalid Visit #, please try again")';
+        echo '</script>';
     }
- ?>
-        </tbody>
-        <tfoot>
-            <tr>
-                    <th colspan="1">TOTAL</th>
-                    <th><?=number_format($total)?></th>
-            </tr>
-        </tfoot>
-<tbody>
-
-<table class="data-table" style="display: inline-block;">
-<caption class="title">Payment</caption>
-<thead>
-        <tr>
-            <th>Amount Paid by Insurance:</th>
-            <th>Amount due after Insurance:</th> 
-        </tr>
-</thead>
- <?php
-    $payment=0;    
-    while($row = mysqli_fetch_array($res1))
-    {     
-        echo "<tr>";
-        echo "<td>" . $row['AmtPaidByInsurance'] . "</td>";
+    elseif ($amtpaid == 0)
+    {
+        echo '<script language="javascript">';
+        echo 'alert("Please enter an amount!")';
+        echo '</script>';
+    }
+    else
+    {
+        $query = "Select `CoPay`,`AmtPaid`,`Balance` From Payment where PatientID = '$_SESSION[p_id]' and log_id='$vid'";
+        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        if ($selection == 'COPAY') //paying for copay
+        {
+         // CASE 0: NO Balance
+            if($row[2] == 0)
+            {
+               phpAlert("This patient has no balance on this visit!");
+            }
+            else{
+         // CASE 1: COPAY = 0, copay is accept
+            if ($row[0] == 0)
+            {
+                $balance = $row[2] - $amtpaid;
+                if ($balance<0) //when balance got paid off will ask to give change
+                {
+                    $change = 0 - $balance;
+                    $balance = 0;
+                    $sql = "UPDATE `Payment` SET `CoPay` = '$amtpaid' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
+                    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                    phpAlert("Balance has been paid off! Change: $".$change);
+                }
+                else
+                {
+                $sql = "UPDATE `Payment` SET `CoPay` = '$amtpaid' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
+                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                 phpAlert("Copay is accepted!");
+                }
+            }
+         // CASE 2: COPAY ALREADY EXIST, copay amount becomes amt pay
+            elseif ( $row[0] > 0 )
+            {
+                $balance = $row[2] - $amtpaid;
+                $money = $amtpaid + $row[1]; //current money paid
+                if ($balance<0) //when balance got paid off will ask to give change
+                {
+                    $change = 0 - $balance;
+                    $balance = 0;
+                    $money = $money - $change;
+                    $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
+                    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                    phpAlert("Copay exsited!\\nPayment will deposit to the patient account!\\nBalance has been paid off!\\nChange: $".$change);
+                }
+                else
+                {
+                    $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
+                    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                    phpAlert("Copay exsited!\\nPayment will deposit to the patient account!");
+                }
+            }
+         }
+        }
+        elseif ($selection == 'REGULAR') //PAY FOR REGULAR BALANCE
+        {
+             // CASE 0: NO Balance
+            if($row[2] == 0)
+            {
+               phpAlert("This patient has no balance on this visit! \\nFull refund!");
+            }
+            else{
+            $balance = $row[2] - $amtpaid;
+            $money = $row[1] + $amtpaid;
+            // CASE 1: Pay off balance
+            if ($balance<0) //when balance got paid off will ask to give change
+                {
+                    $change = 0 - $balance;
+                    $balance = 0;
+                    $money = $money - $change;
+                    $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$vid'"; 
+                    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                    phpAlert("Payment accepted!\\nBalance has been paid in full!\\nChange: $".$change);
+                }
+            else
+            {
+                $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
+                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                phpAlert("Payment accepted!");
+            }
+            }
+        }
         
-        echo "<td>" . $row['AmtPaidByPatient'] . "</td>";
-        echo "</tr>";
-        $query = "SELECT `AmtPaid` FROM `InsuranceInfo` WHERE PatientID = '$_SESSION[p_id]'";
-        
-        $payment=$payment + $row['AmtPaidByInsurance'] + $row['AmtPaid'];
-        $amtdue = $total - $payment;
+    }
+}
+    
+    $total = 0;
+    $mysql = "Select `log_id` From `MedicalInfo` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `log_id` DESC";
+    $result = mysqli_query($connection, $mysql) or die(mysqli_error($connection));
+    while($row = mysqli_fetch_array($result))
+    {
+        $no = $row['log_id'];
+        echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$row['log_id'].'</button></center>
+              <div id="demo'.$no.'" class="collapse">
+              <br>
+              <table class="data-table">
+                <thead>
+                <tr>
+                <th><center>Item</center></th>
+                <th><center>Cost</center></th>
+                <th><center>Date of Service</center></th>
+                </tr>
+               </thead>';
+        $sqli = "Select * From `ItemizedList` Where `PatientID` = '$_SESSION[p_id]' and `log_id` = '$no'";
+        $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
+        echo '<tbody>';
+        while ($newrow = mysqli_fetch_array($res))
+        {
+            echo "<tr><td><center>" . $newrow['Item'] . "</center></td>";
+            echo "<td><center>" . $newrow['Cost'] . "</center></td>";
+            echo "<td><center>". $newrow['DateofService']."</center></td><tr>";
+            $total = $total + $newrow['Cost'];  
+        }
+       $newsql = "Select `AmtPaidByInsurance`,`CoPay`,`AmtPaid` From `Payment` Where `PatientID` = '$_SESSION[p_id]' and `log_id` = '$no'";
+       $result1 = mysqli_query($connection, $newsql) or die(mysqli_error($connection));
+       $row1=mysqli_fetch_array($result1);
+        echo '</tbody><tfoot>
+              <tr>
+              <th><left>Total amount due:</left></th> 
+              <th><left>$'.$total.'</left></th>
+              </tr>
+              <tr><th><left>Insurance Paid:</left></th>
+              <th><left>$'.$row1[0].'</left></th></tr>
+              <tr><th><left>Copay:</left></th>
+              <th><left>$'.$row1[1].'</left></th></tr>
+              <tr><th><left>Amount Paid:</left></th>
+              <th><left>$'.$row1[2].'</left></th></tr>
+              <tr><th><left>Balance Due:</left></th>
+              <th><left>'.($total-$row1[0]-$row1[1]-$row1[2]).'</left></th></tr>    
+              </tfoot></table>
+  </div>';
+               $newbalance = $total-$row1[0]-$row1[1]-$row1[2];
+               $sql = "UPDATE `Payment` SET `Balance` = '$newbalance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$no'"; 
+               $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    }
+    mysqli_close($connection); 
     }
     
-    mysqli_close($connection);
+    function phpAlert($msg) {
+    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+}
 ?>
-</tbody>
-    <tfoot>
-    <tr>
-        <th colspan="1">Amount Paid:</th>
-        <th><?php echo $totalmoney?></th>
-    </tr>
-    <tr>
-        <th colspan="1">Amount Due:</th>
-        <th><?php echo $amtdue?></th>
-    </tr>    
-    </tfoot>
-<tbody>
 
 
     
