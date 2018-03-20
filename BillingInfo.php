@@ -18,13 +18,6 @@
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
             <tr>
-                <!--<td><strong><label for="user_id"><center>Payment Method</label></strong></td>
-                <td><select name="searchType">
-                <option value="DEBIT">Debit Card</option>
-                <option value="CHECK">Check</option>
-                <option value="CASH">Cash</option>
-                 </select>
-                </td>-->
                 <td><input type="p_text" name="payment" id="payment"></center></td>
                 <td><input type="submit" value="Submit Payment" />		
             </tr>
@@ -107,7 +100,6 @@ function callFunction(clicked_id){
     {     
         echo "<tr>";
         echo "<td>" . $row['AmtPaidByInsurance'] . "</td>";
-        
         echo "<td>" . $row['AmtPaidByPatient'] . "</td>";
         echo "</tr>";
         $query = "SELECT `AmtPaid` FROM `InsuranceInfo` WHERE PatientID = '$_SESSION[p_id]'";
