@@ -26,10 +26,8 @@ echo '
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
             <tr>
-<<<<<<< HEAD
                 <td><input type="p_text" name="payment" id="payment"></center></td>
                 <td><input type="submit" value="Submit Payment" />		
-=======
                 <strong><center><label for="paycenter">Patient Payment Center</label></center></strong></td>
                 <td><strong><label for="vname"><center>Visit #</label></strong></td>
                 <td><input type="p_text" name="vnum" id="vnum"></td>
@@ -46,7 +44,6 @@ echo '
                     </select></td>
                 <td><input type="p_text" name="payment" id="payment"></td>
                 <td><input type="submit" name="submit_1" value="Submit Payment" />		
->>>>>>> c09f2abbc512536b2ce0654b38ab0cedd224ec3e
             </tr>
            </table>
     </form>
@@ -209,41 +206,12 @@ if($_POST['submit_1'])
                $sql = "UPDATE `Payment` SET `Balance` = '$newbalance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$no'"; 
                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
-<<<<<<< HEAD
- ?>
-        </tbody>
-        <tfoot>
-            <tr>
-                    <th colspan="1">TOTAL</th>
-                    <th><?=number_format($total)?></th>
-            </tr>
-        </tfoot>
-<tbody>
-
-<table class="data-table" style="display: inline-block;">
-<caption class="title">Payment</caption>
-<thead>
-        <tr>
-            <th>Amount Paid by Insurance:</th>
-            <th>Amount due after Insurance:</th> 
-        </tr>
-</thead>
- <?php
-    $payment=0;    
-    while($row = mysqli_fetch_array($res1))
-    {     
-        echo "<tr>";
-        echo "<td>" . $row['AmtPaidByInsurance'] . "</td>";
-        echo "<td>" . $row['AmtPaidByPatient'] . "</td>";
-        echo "</tr>";
-        $query = "SELECT `AmtPaid` FROM `InsuranceInfo` WHERE PatientID = '$_SESSION[p_id]'";
-        
-        $payment=$payment + $row['AmtPaidByInsurance'] + $row['AmtPaid'];
-        $amtdue = $total - $payment;
-=======
     mysqli_close($connection); 
->>>>>>> c09f2abbc512536b2ce0654b38ab0cedd224ec3e
     }
+
+
+       
+    
     
     function phpAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
