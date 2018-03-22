@@ -9,37 +9,6 @@
     }
     else {
     require("db_connect.php");
-      echo '
-        <form id="form" method="post">
-          <table border="0.5" class="data-table">
-          <caption class="title"><center>Patient Check In</center></caption>
-            <tr>
-                <td><strong><label for="text"><center>Admission Reason: </label></strong></td>
-                <td><input type="p_text" name="atext" id="atext"></center></td>
-                <td><input type="submit" name="submit_3" value="Check in" />
-            </tr>
-           </table>
-        </form>
-        <br>';
-   if($_POST["submit_3"]) //when button got clicked
-    {
-        date_default_timezone_set("America/Chicago");
-        $input = $_SESSION['p_id'];
-        $newdate = date("Y/m/d");
-        $newtime = date("h:i:s A");
-        $text = $_POST['atext'];
-        $sql = "Select `log_id` From `MedicalInfo` where `PatientID` = '$input' ORDER BY `log_id` DESC";
-        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        $row = mysqli_fetch_array($result);
-        $logid = $row[0] + 1;
-        //create new visit log_id
-        $sql = "INSERT INTO `MedicalInfo` (`PatientID`, `log_id`, `AdmissionDate`, `AdmissionTime`, `ReasonForAdmission`) VALUES ('$input', '$logid', '$newdate', '$newtime', '$text')";
-        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        //create bill info for new visit log_id
-        $sql = "INSERT INTO `Payment` (`PatientID`, `log_id`, `AmtPaidByInsurance`, `CoPay`, `AmtPaid`, `Balance`) VALUES ('$input','$logid','0','0','0','0')";
-        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        php1Alert("Patient has checked in on ".$newdate." ".$newtime);
-    }
     $input = $_SESSION['p_id'];
     $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
@@ -56,7 +25,6 @@
                 <th><center>Discharge Date</center></th>
                 <th><center>Discharge Time</center></th>
                 <th><center>Selection</center></th>
-                <th><center>Discharge</center></th>
                 <th><center>Delete</center></th>
                 </tr>
         </thead>';
@@ -68,7 +36,6 @@
         echo "<td></td>";
         echo "<td></td>";
         echo "<td>No visiting history found!</td>";
-        echo "<td></td>";
         echo "<td></td>";
         echo "<td></td>";
         echo "<td></td>";
@@ -85,14 +52,12 @@
         echo "<td><center>" . $row['ReasonForAdmission'] . "</center></td>";
         echo "<td><center>" . $row['DischargeDate'] . "</center></td>";
         echo "<td><center>" . $row['DischargeTime'] . "</center></td>";
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) >Select</button></center></td>';
-        if ($row['DischargeDate'] !=null)
+        if ($_SESSION["p_logid"] == $row['log_id'])
         {
-        echo '<td><center>-</center></td>';
+            echo '<td><center>X</center></td>';
         }
-        else
-        {
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) >Discharge</button></center></td>';
+        else{
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) >Select</button></center></td>';
         }
         echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) >Delete</button></center></td>';
         echo "</tr>";

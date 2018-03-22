@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<?php 
-include 'checkStatus.php';
-?>
-<html>
-<head>
-<title>Search Result - Patient Information Management System</title>
+
 <link rel="stylesheet" href="css/tablestyle.css">
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
-</head> 
-<br>
-<br>
+<body>
 <center>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
@@ -27,7 +19,7 @@ include 'checkStatus.php';
            </table>
     </form>
     </center>
-
+</body>
 <?php
 if($_POST['submit_0'])
 {
@@ -80,7 +72,7 @@ echo '
         <th>Selection</th>
         </tr>
 </thead>';
-
+        
 if ($count==0)
 {
     echo '<tbody><tr>
@@ -113,6 +105,13 @@ elseif ($count>0)
     echo '</table>';
 }
 }
+if($_SESSION["p_id"] != null)
+        {
+            echo '<br><table border="0.5" class="data-table">
+            <caption class="title"><center>Patient currently selected:</center></caption>';
+            echo '<thead><tr><th><center>Name: '.$_SESSION["p_fn"].' '.$_SESSION["p_ln"].'<br>Gender: '.$_SESSION["p_sex"].'<br>Date of Birth: '.$_SESSION["p_dob"].'</center></th></tr>';
+            echo '</thead></table>';
+        }
 ?>
 </html>
 
