@@ -8,7 +8,10 @@
 <?php 
 include 'checkStatus.php'
 ?>
-
+<footer>
+    <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
+</footer>
 <br>
 <right>
 <a href="mainpage.php" class="btn btn-info btn-lg">
@@ -33,8 +36,60 @@ include 'checkStatus.php'
         echo "Error! No visit id has been selected! Try again.";
     }
  else {//when logid has passed from pervious page
-     
-        }
+    require("db_connect.php");
+    $input = $_SESSION['p_id'];
+    $logid = $_SESSION['p_logid'];
+    $sql = "Select * FROM `DoctorsNote` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `note_id` DESC";
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    $count = mysqli_num_rows($result);
+            echo '<br><br><table class="data-table">
+        <thead>
+                <tr>
+                <th><center>Note #</center></th>
+                <th><center>Visit #</center></th>
+                <th><center>Doctor Name</center></th>
+                <th><center>Note</center></th>
+                <th><center>Note Date</center></th>
+                <th><center>Note Time</center></th>
+                <th><center>Delete</center></th>
+                </tr>
+        </thead>';
+            if ($count == 0) // when empty record in the database
+            {
+                  echo "<tr>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td>Not notes exist!</td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "</tr>";
+            }
+ else {
+     while($row = mysqli_fetch_array($result))
+    {
+        echo "<tr>";
+        echo "<td><center>" . $row['note_id'] . "</center></td>";
+        echo "<td><center>" . $row['log_id'] . "</center></td>";
+        $n1 = $row['UserID'];
+        $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
+        $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+        $newrow=mysqli_fetch_array($result1);
+        $doctorLN = $newrow[0];
+        $doctorFN = $newrow[1];
+        echo "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        echo "<td><center>" . $row['Note'] . "</center></td>";
+        echo "<td><center>" . $row['Date'] . "</center></td>";
+        echo "<td><center>" . $row['Time'] . "</center></td>";
+        echo '<td><center><button id='.$row['note_id'].' onClick=callFunction4(this.id)>Delete</button></center></td>';
+        echo "</tr>";
+    }
+    }
+    echo "</table>";
+    mysqli_close($connection);
+ }
+        
 ?>
 </div>
 
@@ -57,6 +112,10 @@ function openItem(evt, item) {
     }
     document.getElementById(item).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+function callFunction4(clicked_id){
+  window.location.href = "serverScript5.php?noteid="+clicked_id;
 }
 </script>
      

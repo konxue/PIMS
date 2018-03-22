@@ -76,6 +76,6 @@ function callFunction2(clicked_id){
   window.location.href = "serverScript3.php?logid="+clicked_id;
 }
 function callFunction3(clicked_id){
-  window.location.href = "serverScript4.php?logid="+clicked_id;
+  window.location.href = "serverScript6.php?logid="+clicked_id;
 }
 </script>
