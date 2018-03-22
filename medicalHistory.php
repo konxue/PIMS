@@ -32,11 +32,25 @@
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         $row = mysqli_fetch_array($result);
         $logid = $row[0] + 1;
-        //create new visit log_id
-        $sql = "INSERT INTO `MedicalInfo` (`PatientID`, `log_id`, `AdmissionDate`, `AdmissionTime`, `ReasonForAdmission`) VALUES ('$input', '$logid', '$newdate', '$newtime', '$text')";
+        
+        //getting the primary key for the table.. duplicate error on nonunique pk
+        $sql = "Select `pk` From `MedicalInfo` ORDER BY `pk` DESC";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        $pk = $row[0] + 1;
+        
+        //create new visit log_id
+        $sql = "INSERT INTO `MedicalInfo` (`PatientID`, `log_id`, `AdmissionDate`, `AdmissionTime`, `ReasonForAdmission`, `pk`) VALUES ('$input', '$logid', '$newdate', '$newtime', '$text', '$pk')";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        
+        //getting the primary key for the table.. duplicate error on nonunique pk
+        $sql = "Select `pk` From `Payment` ORDER BY `pk` DESC";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        $pk = $row[0] + 1;
+        
         //create bill info for new visit log_id
-        $sql = "INSERT INTO `Payment` (`PatientID`, `log_id`, `AmtPaidByInsurance`, `CoPay`, `AmtPaid`, `Balance`) VALUES ('$input','$logid','0','0','0','0')";
+        $sql = "INSERT INTO `Payment` (`PatientID`, `log_id`, `AmtPaidByInsurance`, `CoPay`, `AmtPaid`, `Balance`, `pk`) VALUES ('$input','$logid','0','0','0','0','$pk')";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         php1Alert("Patient has checked in on ".$newdate." ".$newtime);
     }
