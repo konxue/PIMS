@@ -9,6 +9,10 @@
 include 'checkStatus.php'
 ?>
 </head>
+<footer>
+    <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
+</footer>
 <body>
 <br><br><br>
 <?php 
@@ -41,7 +45,10 @@ include 'searchPatient.php'
 <div id="BillingInfo" class="tabcontent">
     <?php include 'BillingInfo.php'?>  
 </div>
+</body>
 
+
+</html> 
 
 <script>
 function openCity(evt, cityName) {
@@ -58,10 +65,3 @@ function openCity(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 </script>
-</body>
-    
-<footer>
-    <link rel="stylesheet" type="text/css" href="mainpage.css"/>
-    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
-</footer>
-</html> 

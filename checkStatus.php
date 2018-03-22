@@ -28,6 +28,6 @@
     echo "<br><br>";
 } else {
     header("Refresh: 1; url=index.html");
-    echo 'Please Log in before you access this page!';
+    echo '<div class="heading"><strong><center>Please Log in before you access this page!</center></strong></div>';
 }
 ?> 
