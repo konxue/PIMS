@@ -45,8 +45,22 @@ input[type=submit] {
 /* Style the tab */
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    border: 2px solid #ccc;
+    background-color: #d6d6ea;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("/images/photo_bg.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Style the buttons inside the tab */
@@ -63,12 +77,12 @@ input[type=submit] {
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-    background-color: #ddd;
+    background-color: #bbbbbb;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-    background-color: #ccc;
+    background-color: #cfebf7;
 }
 
 /* Style the tab content */

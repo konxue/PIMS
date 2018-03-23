@@ -4,23 +4,24 @@
 <link rel="stylesheet" href="css/tablestyle.css">
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <title>Main Page - Patient Information Management System</title>
 <?php 
 include 'checkStatus.php'
 ?>
+<center><img src="images/hospital.png" height="200" width="200"/></center>
 </head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
     <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
 </footer>
 <body>
-<br><br><br>
+
+<br>
 <?php 
 include 'searchPatient.php'
 ?>
 
-<br>
-<br>
 <br>
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
@@ -46,7 +47,6 @@ include 'searchPatient.php'
     <?php include 'BillingInfo.php'?>  
 </div>
 </body>
-
 
 </html> 
 

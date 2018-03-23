@@ -5,6 +5,7 @@
 <center>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
+              <caption class="title"><center>Patient Search</center></caption>
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -107,11 +108,11 @@ elseif ($count>0)
 }
 if($_SESSION["p_id"] != null)
         {
-            echo '<br><table border="0.5" class="data-table">
-            <caption class="title"><center>Patient currently selected:</center></caption>';
-            echo '<tr><th><center>Name: '.$_SESSION["p_fn"].' '.$_SESSION["p_mn"].' '.$_SESSION["p_ln"].'</center></th></tr>';
-            echo '<tr><tbody><td><center>Gender: '.$_SESSION["p_sex"].'</center></td></tr>';
-            echo '<tr><th><center>Date of Birth: '.$_SESSION["p_dob"].'</center></th></tr>';
+            echo '<table border="0.5" class="data-table">
+            <caption class="title"><center>Patient Selection:</center></caption>';
+            echo '<tbody><td><center>Name:</td><th>'.$_SESSION["p_fn"].' '.$_SESSION["p_mn"].' '.$_SESSION["p_ln"].'</th></center></th>';
+            echo '<td><center>Gender:</td><th>'.$_SESSION["p_sex"].'</center></th>';
+            echo '<td><center>Date of Birth:</td><th>'.$_SESSION["p_dob"].'</center></th>';
             echo '</tbody></table>';
         }
 ?>

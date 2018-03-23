@@ -2,29 +2,37 @@
 <html>
 <head>
 <link rel="stylesheet" href="css/tablestyle.css">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Medical Information System - Patient Information Management System</title>
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <?php 
 include 'checkStatus.php'
 ?>
+<left>
+<a href="mainpage.php" class="btn btn-info btn-lg">
+          <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
+        </a>
+</left>
+<center><img src="images/doctor.png" height="250" width="250"/></center>
+</head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
     <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
 </footer>
 <br>
-<right>
-<a href="mainpage.php" class="btn btn-info btn-lg">
-          <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
-        </a>
-</right>
-</head>
+
 <body>
+    
     <?php include 'medicalRecord.php'?>
 <br>
 <div class="tab">
   <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Doctor's Notes</button>
   <button class="tablinks" onclick="openItem(event, 'NurseNotes')">Nurse's Notes</button>
+  <button class="tablinks" onclick="openItem(event, 'Procedures')">Procedures</button>
   <button class="tablinks" onclick="openItem(event, 'Prescriptions')">Prescriptions</button>
 </div>
 
@@ -37,12 +45,44 @@ include 'checkStatus.php'
     }
  else {//when logid has passed from pervious page
     require("db_connect.php");
+    
+    echo '
+        <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Add Notes</button></center>
+        <div id="tab" class="collapse">
+        <form id="form" method="post">
+          <table border="0.5" class="data-table" width="800" height="200">
+            <tr>
+                <td><strong><label for="text"><center>Note:</label></strong></td>
+                <td><center><textarea name="notetext" id="notetext" rows="8" cols="50"></textarea></center></td>
+                <td><input type="submit" name="submit_8" value="Add" />
+            </tr>
+           </table>
+        </form>
+        </div>
+        <br>';
+    
     $input = $_SESSION['p_id'];
     $logid = $_SESSION['p_logid'];
+    if ($_POST["submit_8"])
+    {
+        date_default_timezone_set("America/Chicago");//time zone
+        $newdate = date("Y/m/d");
+        $newtime = date("h:i:s A");
+        $note = $_POST['notetext'];
+        $sql = "Select `note_id` From `DoctorsNote` ORDER BY `note_id` DESC"; //primary key
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        $noteid = $row[0] + 1; //new primary key for note id
+        $drid = $_SESSION['username'];
+        $sql = "INSERT INTO `DoctorsNote` (`PatientID`, `log_id`, `note_id`, `Date`, `Time`, `Note`, `UserID`) VALUES ('$input', '$logid', '$noteid', '$newdate', '$newtime', '$note', '$drid')";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        pAlert("New note has been added into the system!");
+    }
     $sql = "Select * FROM `DoctorsNote` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `note_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
-            echo '<br><br><table class="data-table">
+            echo '<br><table class="data-table">
+                 <caption class="title"><center>Notes Displayer</center></caption>
         <thead>
                 <tr>
                 <th><center>Note #</center></th>
@@ -86,15 +126,20 @@ include 'checkStatus.php'
         echo "</tr>";
     }
     }
-    echo "</table>";
+    echo "</table><br><br><br>";
     mysqli_close($connection);
  }
-        
+         function pAlert($msg) {
+         echo '<script type="text/javascript">alert("' . $msg . '")</script>';}
 ?>
 </div>
 
 <div id="NurseNotes" class="tabcontent">
 </div>
+
+<div id="Procedures" class="tabcontent">
+</div>
+
 
 <div id="Prescriptions" class="tabcontent">
 </div>

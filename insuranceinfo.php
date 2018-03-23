@@ -81,6 +81,7 @@ else{
         echo "</table>";
     
     }
+    echo '<br><br>';
     mysqli_close($connection);
 }
     ?>

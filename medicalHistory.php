@@ -112,7 +112,7 @@
         echo "</tr>";
     }
     }
-    echo "</table>";
+    echo "</table><br><br>";
     mysqli_close($connection);
     }
 ?>

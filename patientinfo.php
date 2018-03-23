@@ -83,7 +83,7 @@
         echo "<td><center>" . $row1['WorkPhone'] . "</center></td>";
         echo "</tr>";
     }
-    echo "</table>";
+    echo "</table><br><br>";
     mysqli_close($connection);
     }
 ?>
