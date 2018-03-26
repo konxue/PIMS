@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<?php 
-include 'checkStatus.php';
-?>
-<html>
-<head>
-<title>Search Result - Patient Information Management System</title>
+
 <link rel="stylesheet" href="css/tablestyle.css">
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
-</head> 
-<br>
-<br>
+<body>
 <center>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
+              <caption class="title"><center>Patient Search</center></caption>
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -27,7 +20,7 @@ include 'checkStatus.php';
            </table>
     </form>
     </center>
-
+</body>
 <?php
 if($_POST['submit_0'])
 {
@@ -80,7 +73,7 @@ echo '
         <th>Selection</th>
         </tr>
 </thead>';
-
+        
 if ($count==0)
 {
     echo '<tbody><tr>
@@ -113,6 +106,15 @@ elseif ($count>0)
     echo '</table>';
 }
 }
+if($_SESSION["p_id"] != null)
+        {
+            echo '<table border="0.5" class="data-table">
+            <caption class="title"><center>Patient Selection:</center></caption>';
+            echo '<tbody><td><center>Name:</td><th>'.$_SESSION["p_fn"].' '.$_SESSION["p_mn"].' '.$_SESSION["p_ln"].'</th></center></th>';
+            echo '<td><center>Gender:</td><th>'.$_SESSION["p_sex"].'</center></th>';
+            echo '<td><center>Date of Birth:</td><th>'.$_SESSION["p_dob"].'</center></th>';
+            echo '</tbody></table>';
+        }
 ?>
 </html>
 

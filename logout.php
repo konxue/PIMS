@@ -1,4 +1,5 @@
 <title>Logging out... - Patient Information Management System</title>
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <?php
   session_start();
   session_destroy();   // function that Destroys Session 

@@ -3,6 +3,9 @@
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
 
 <?php
+    function pAlert($msg) {
+    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+    }
    session_start();
     if ($_SESSION['p_id'] == null)
     {
@@ -19,7 +22,7 @@
     }
     $input = $_SESSION['p_id'];
     $res = mysqli_query($connection, "Select * FROM InsuranceInfo WHERE PatientID = '$input'");
-    $count = mysqli_num_rows($result);
+    $count = mysqli_num_rows($res);
 
     echo '
         <center>
@@ -32,7 +35,7 @@
                 <td><input type="p_text" name="AcctNum" id="AcctNum"></center></td>
                 <td><strong><label for="GrpNum"><center>Group #:</label></strong></td>
                 <td><input type="p_text" name="GrpNum" id="GrpNum"></center></td>
-                <td><input type="submit" value="Update" />		
+                <td><input type="submit" name = "submit_5" value="Update" />		
             </tr>
            </table>
           
@@ -49,6 +52,14 @@
                 </tr>
         </thead>
         ';
+    /*if($_POST['submit_5']) //get button click event
+    {...
+        //$ acctnum = $_POST['AcctNum']; // for all variable
+    ... maybe do a if $acctnum == null to detect emty user input
+     then call sql ="method"
+     * result excute
+     * pAlert('message'); // this function will pop a window tell user msg..
+    }*/
     if ($count==0)
 {
     echo '<tbody><tr>
@@ -58,16 +69,20 @@
             </tr></tbody></table>'
          ;
 }
+else{
     while($row = mysqli_fetch_array($res))
     {
-        echo "<tr>";
+        echo "<tbody><tr>";
         echo "<td><center>" . $row['Carrier'] . "</center></td>";
         echo "<td><center>" . $row['AccntNum'] . "</center></td>";
         echo "<td><center>" . $row['GrpNum'] . "</center></td>";
-        echo "</tr>";
+        echo "</tr></tbody>";
     }
         echo "</table>";
-    mysqli_close($connection);
+    
     }
-?>
+    echo '<br><br>';
+    mysqli_close($connection);
+}
+    ?>
 

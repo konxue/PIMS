@@ -19,7 +19,7 @@ $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $query = "DELETE FROM `onlinepims`.`DoctorsNote` WHERE `DoctorsNote`.`log_id` = '$input' AND `DoctorsNote`.`PatientID` = '$me'";
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 php3Alert("You have deleted the Admission ID: ".$input);
-header("Refresh: 0; url=mainpage.php");
+header("Refresh: 0; url=medicalInfo.php");
  }
  else
  {

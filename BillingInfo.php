@@ -155,12 +155,14 @@ if($_POST['submit_1'])
 }
     
     $total = 0;
-    $mysql = "Select `log_id` From `MedicalInfo` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `log_id` DESC";
-    $result = mysqli_query($connection, $mysql) or die(mysqli_error($connection));
-    while($row = mysqli_fetch_array($result))
+    $input = $_SESSION['p_id'];
+    $mysql = "Select `log_id` From `MedicalInfo` Where `PatientID` = '$input' ORDER BY `log_id` DESC";
+    $results = mysqli_query($connection, $mysql) or die(mysqli_error($connection));
+    while($thisrow = mysqli_fetch_array($results))
     {
-        $no = $row['log_id'];
-        echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$row['log_id'].'</button></center>
+        $no = $thisrow['log_id'];
+        echo '<br>'.mysqli_fetch_array($result);
+        echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$thisrow['log_id'].'</button></center>
               <div id="demo'.$no.'" class="collapse">
               <br>
               <table class="data-table">
@@ -195,15 +197,30 @@ if($_POST['submit_1'])
               <th><left>$'.$row1[1].'</left></th></tr>
               <tr><th><left>Amount Paid:</left></th>
               <th><left>$'.$row1[2].'</left></th></tr>
-              <tr><th><left>Balance Due:</left></th>
-              <th><left>'.($total-$row1[0]-$row1[1]-$row1[2]).'</left></th></tr>    
+              <tr><th><left>Balance Due:</left></th>';
+        $newbalance = $total-$row1[0]-$row1[1]-$row1[2];
+        if($newbalance < 0)
+        {
+            $newbalance = 0;
+        }
+        echo '
+              <th><left>'.$newbalance.'</left></th></tr>    
               </tfoot></table>
   </div>';
-               $newbalance = $total-$row1[0]-$row1[1]-$row1[2];
+               
                $sql = "UPDATE `Payment` SET `Balance` = '$newbalance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$no'"; 
                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
+<<<<<<< HEAD
    
+=======
+    if ($no == null)
+    {
+        echo '<center><strong>This patient has no any billing statements!</strong></center>';
+    }
+    echo '<br><br>';
+    mysqli_close($connection); 
+>>>>>>> d4c032d1481f4436d30fc1124ce68bddfeeaee44
     }
 
 

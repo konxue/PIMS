@@ -2,63 +2,53 @@
 <html>
 <head>
 <link rel="stylesheet" href="css/tablestyle.css">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Main Page - Patient Information Management System</title>
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+<title>Main Page - Patient Information Management System</title>
+<?php 
+include 'checkStatus.php'
+?>
+<center><img src="images/hospital.png" height="200" width="200"/></center>
 </head>
+<footer>
+    <link rel="stylesheet" type="text/css" href="mainpage.css"/>
+    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
+</footer>
 <body>
 
-
-<?php 
-include 'searchPatient.php';
-?>
 <br>
+<?php 
+include 'searchPatient.php'
+?>
+
 <br>
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
   <button class="tablinks" onclick="openCity(event, 'MedicalInfo')">Medical Information</button>
   <button class="tablinks" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
   <button class="tablinks" onclick="openCity(event, 'BillingInfo')">Billing Information</button>
-  <button class="tablinks" onclick="openCity(event, 'ContactInfo')">Contact Information</button>
 </div>
 
 <div id="PatientInfo" class="tabcontent">
-<?php include 'patientinfo.php';?>
+<?php include 'patientinfo.php'?>
 </div>
 
 <div id="MedicalInfo" class="tabcontent">
-  <?php include 'medicalHistory.php'?>
-    <br>
-    <br>
-     <form id="search-form" method="post" action="medicalInfo.php" >
-          <table border="0.5" class="data-table">
-            <tr>
-                <td><strong><label for="text"><center>Admission Reason: </label></strong></td>
-                <td><input type="p_text" name="p_atime" id="p_atime"></center></td>
-                <td><input type="submit" value="Submit" />
-            </tr>
-           </table>
-    </form>
-    </center>
+  <?php include 'medicalHistory.php' ?>
 </div>
 
 <!--Insurance Tab-->
 <div id="InsuranceInfo" class="tabcontent">
-  <!--<p>Nick has got this.</p>-->
 <?php include 'insuranceinfo.php'?>
 </div>
 
 <div id="BillingInfo" class="tabcontent">
     <?php include 'BillingInfo.php'?>  
-    <!--CSS Code for my tab-->
-       
-
 </div>
+</body>
 
-<div id="ContactInfo" class="tabcontent">
-
-</div>
+</html> 
 
 <script>
 function openCity(evt, cityName) {
@@ -75,6 +65,3 @@ function openCity(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 </script>
-     
-</body>
-</html> 
