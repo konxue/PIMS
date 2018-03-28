@@ -13,6 +13,8 @@
     if (!$select_db){
         die("Database Selection Failed" . mysqli_error($connection));
     }
+    
+    
     $input = $_SESSION['p_id'];
     $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
     echo '
@@ -84,6 +86,36 @@
         echo "</tr>";
     }
     echo "</table><br><br>";
+ $patientID = $_SESSION['p_id'];   
+ $ecRes = mysqli_query($connection, "Select * FROM EmergencyContacts WHERE PatientID = '$patientID'");
+ echo '
+        <table class="data-table">
+        <caption class="title"><center>Emergency Contacts</center></caption>
+        <thead>
+                <tr>
+                <th><center>LAST NAME</center></th>
+                <th><center>FIRST NAME</center></th>
+                <th><center>MOBILE NUMBER</center></th>
+                <th><center>HOME NUMBER</center></th>
+                </tr>
+        </thead>
+        ';
+ while ($ecRow = mysqli_fetch_array($ecRes))
+ {
+        echo "<tr>";
+        echo "<td><center>" . $ecRow['E1_LastName'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E1_FirstName'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E1_MobileNum'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E1_HomeNum'] . "</center></td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td><center>" . $ecRow['E2_LastName'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E2_FirstName'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E2_MobileNum'] . "</center></td>";
+        echo "<td><center>" . $ecRow['E2_HomeNum'] . "</center></td>";
+        echo "</tr>";
+ }
+ echo "</table><br><br>";
     mysqli_close($connection);
     }
 ?>
