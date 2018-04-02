@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 1, 2018, 10:04:31 PM
+    Author     : Michael
+*/
+
+.inputField {
+    margin-right: 10px;
+}
+
+.lastPhoneField {
+    margin-right: 10px;
+}
+
+.radioType {
+    margin-left: 20px;
+}
+
+.sectionDesc {
+    margin-bottom: 20px;
+    margin-top: 40px;
+}

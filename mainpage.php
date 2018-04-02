@@ -23,6 +23,9 @@ include 'searchPatient.php'
 ?>
 
 <br>
+<br>
+<input type="button" onclick="location.href='addPatient.php';" value ="Add New Patient" />
+<br>
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
   <button class="tablinks" onclick="openCity(event, 'MedicalInfo')">Medical Information</button>
