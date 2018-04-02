@@ -211,21 +211,14 @@ if($_POST['submit_1'])
                $sql = "UPDATE `Payment` SET `Balance` = '$newbalance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$no'"; 
                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
-<<<<<<< HEAD
-   
-=======
+
     if ($no == null)
     {
         echo '<center><strong>This patient has no any billing statements!</strong></center>';
     }
     echo '<br><br>';
     mysqli_close($connection); 
->>>>>>> d4c032d1481f4436d30fc1124ce68bddfeeaee44
     }
-
-
-       mysqli_close($connection);  
-    
     
     function phpAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';

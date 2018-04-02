@@ -30,8 +30,7 @@ include 'checkStatus.php'
     <?php include 'medicalRecord.php'?>
 <br>
 <div class="tab">
-  <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Doctor's Notes</button>
-  <button class="tablinks" onclick="openItem(event, 'NurseNotes')">Nurse's Notes</button>
+  <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Treatment Notes</button>
   <button class="tablinks" onclick="openItem(event, 'Procedures')">Procedures</button>
   <button class="tablinks" onclick="openItem(event, 'Prescriptions')">Prescriptions</button>
 </div>
@@ -68,13 +67,15 @@ include 'checkStatus.php'
         date_default_timezone_set("America/Chicago");//time zone
         $newdate = date("Y/m/d");
         $newtime = date("h:i:s A");
-        $note = $_POST['notetext'];
+        $note = (string) addslashes($_POST['notetext']);
+        $input = $_SESSION['p_id'];
+        $logid = $_SESSION['p_logid'];
         $sql = "Select `note_id` From `DoctorsNote` ORDER BY `note_id` DESC"; //primary key
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         $row = mysqli_fetch_array($result);
         $noteid = $row[0] + 1; //new primary key for note id
         $drid = $_SESSION['username'];
-        $sql = "INSERT INTO `DoctorsNote` (`PatientID`, `log_id`, `note_id`, `Date`, `Time`, `Note`, `UserID`) VALUES ('$input', '$logid', '$noteid', '$newdate', '$newtime', '$note', '$drid')";
+        $sql = "INSERT INTO `onlinepims`.`DoctorsNote` (`PatientID`, `log_id`, `note_id`, `Date`, `Time`, `Note`, `UserID`) VALUES ('$input', '$logid', '$noteid', '$newdate', '$newtime', '$note','$drid')";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         pAlert("New note has been added into the system!");
     }
@@ -87,7 +88,7 @@ include 'checkStatus.php'
                 <tr>
                 <th><center>Note #</center></th>
                 <th><center>Visit #</center></th>
-                <th><center>Doctor Name</center></th>
+                <th><center>Doctor/Nurse Name</center></th>
                 <th><center>Note</center></th>
                 <th><center>Note Date</center></th>
                 <th><center>Note Time</center></th>
@@ -113,16 +114,31 @@ include 'checkStatus.php'
         echo "<td><center>" . $row['note_id'] . "</center></td>";
         echo "<td><center>" . $row['log_id'] . "</center></td>";
         $n1 = $row['UserID'];
-        $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
+        $query = "SELECT `LastName`,`FirstName`,`UserType` FROM `Users` WHERE UserID='$n1'";
         $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
         $newrow=mysqli_fetch_array($result1);
         $doctorLN = $newrow[0];
         $doctorFN = $newrow[1];
+        $uType = $newrow[2];
+        if ($uType == "Doctor")
+        {
         echo "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        }
+        else
+        {
+        echo "<td><center>Nurse ".$doctorFN." " .$doctorLN."</center></td>";    
+        }
         echo "<td><center>" . $row['Note'] . "</center></td>";
         echo "<td><center>" . $row['Date'] . "</center></td>";
         echo "<td><center>" . $row['Time'] . "</center></td>";
+        if ($_SESSION['usertype'] == $uType || $_SESSION['usertype'] == 'Doctor')
+        {
         echo '<td><center><button id='.$row['note_id'].' onClick=callFunction4(this.id)>Delete</button></center></td>';
+        }
+        else
+        {
+            echo "<td><center></center></td>";
+        }
         echo "</tr>";
     }
     }
@@ -134,8 +150,6 @@ include 'checkStatus.php'
 ?>
 </div>
 
-<div id="NurseNotes" class="tabcontent">
-</div>
 
 <div id="Procedures" class="tabcontent">
 </div>
