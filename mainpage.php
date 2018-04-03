@@ -18,10 +18,16 @@ include 'checkStatus.php'
 <body>
 
 <br>
+
+
+
 <?php 
-include 'searchPatient.php'
+    include 'searchPatient.php'
 ?>
 
+<?php
+    include 'patientTable.php'
+?>
 <br>
 <br>
 <input type="button" onclick="location.href='addPatient.php';" value ="Add New Patient" />
