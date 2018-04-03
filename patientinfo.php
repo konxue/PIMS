@@ -78,7 +78,7 @@
         echo "<td><center>" . $row1['WorkPhone'] . "</center></td>";
         echo "</tr>";
     }
-    echo "</table><br><br>";
+    echo "</table>";
  $patientID = $_SESSION['p_id'];   
  $ecRes = mysqli_query($connection, "Select * FROM EmergencyContacts WHERE PatientID = '$patientID'");
  $count = mysqli_num_rows($ecRes);
@@ -122,9 +122,15 @@
                 <th><center>No Records</center></th>
                 </tr>
         </thead>';
-       
  }
- echo "</table><br><br><br>";
+ echo "</table><br>";
+    include("visitorType.php");
+
+echo "<br><br>";
     mysqli_close($connection);
     }
+       function php2Alert($msg) 
+  {
+    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+ }
 ?>
