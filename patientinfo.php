@@ -123,14 +123,9 @@
                 </tr>
         </thead>';
  }
- echo "</table><br>";
-    include("visitorType.php");
+ echo "</table><br><br>";
 
-echo "<br><br>";
     mysqli_close($connection);
     }
-       function php2Alert($msg) 
-  {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
- }
+       
 ?>
