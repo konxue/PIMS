@@ -80,8 +80,14 @@
             echo '<th><center>'.$newrow[3].'</center></th>';
             echo '<th><center>'.$newrow[2].'</center></th>';
             echo '<th><center>'.$newrow[1].'</center></th>';
-            echo '<th><center>'.$newrow[0].'</center></th></tr>';
+            echo '<td><center><button id='.$newrow[3].' onClick=callFunction7(this.id) >Delete</button></center></td>';
         }
         echo '</tbody></table>';
     }
     ?>
+
+<script type="text/javascript">
+function callFunction8(clicked_id){
+  window.location.href = "serverScript7.php?logid="+clicked_id;
+}
+</script>
