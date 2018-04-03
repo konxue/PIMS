@@ -55,14 +55,14 @@
           $sql = "INSERT INTO `Inpatient` (`PatientID`, `FloorNum`, `RoomNum`, `BedNum`) VALUES ('$input', '$floornum', '$roomnum', '$bednum')";
           $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
           php1Alert("Patient has been added to the selected room!");
-          header("Refresh: 0; url=mainpage.php");
+          echo("<meta http-equiv='refresh' content='0'>"); 
      }
        elseif ($_SESSION['inPatient_status'] == 888)
       {
            $query = "UPDATE `Inpatient` SET `RoomNum` = '$roomnum' , `FloorNum` = '$floornum', `BedNum` = '$bednum' Where `PatientID`='$input'";
            $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
            php1Alert("Patient has been updated to the selected room!");
-           header("Refresh: 0; url=mainpage.php");
+           echo("<meta http-equiv='refresh' content='0'>"); 
       }
    }
    if($_POST["submit_3"]) //when button got clicked, patient check in 
