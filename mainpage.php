@@ -27,18 +27,18 @@ include 'searchPatient.php'
 <input type="button" onclick="location.href='addPatient.php';" value ="Add New Patient" />
 <br>
 <div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Admission')">Admission</button>
   <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
-  <button class="tablinks" onclick="openCity(event, 'MedicalInfo')">Medical Information</button>
   <button class="tablinks" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
   <button class="tablinks" onclick="openCity(event, 'BillingInfo')">Billing Information</button>
 </div>
 
-<div id="PatientInfo" class="tabcontent">
-<?php include 'patientinfo.php'?>
+<div id="Admission" class="tabcontent">
+  <?php include 'medicalHistory.php' ?>
 </div>
 
-<div id="MedicalInfo" class="tabcontent">
-  <?php include 'medicalHistory.php' ?>
+<div id="PatientInfo" class="tabcontent">
+<?php include 'patientinfo.php'?>
 </div>
 
 <!--Insurance Tab-->
