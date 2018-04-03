@@ -161,7 +161,6 @@ if($_POST['submit_1'])
     while($thisrow = mysqli_fetch_array($results))
     {
         $no = $thisrow['log_id'];
-        echo '<br>'.mysqli_fetch_array($result);
         echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$thisrow['log_id'].'</button></center>
               <div id="demo'.$no.'" class="collapse">
               <br>

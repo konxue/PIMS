@@ -114,6 +114,7 @@ if($_SESSION["p_id"] != null)
             echo '<td><center>Gender:</td><th>'.$_SESSION["p_sex"].'</center></th>';
             echo '<td><center>Date of Birth:</td><th>'.$_SESSION["p_dob"].'</center></th>';
             echo '</tbody></table>';
+            include('inpatientrecord.php');
         }
 ?>
 </html>

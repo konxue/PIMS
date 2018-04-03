@@ -10,7 +10,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <?php 
-include 'checkStatus.php'
+include 'checkStatus.php';
+if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer' ||  $_SESSION['usertype'] == null)
+{
+    pAlert("Unauthorized access! Return to mainpage!");
+    header("Refresh: 1; url=mainpage.php");
+}
 ?>
 <left>
 <a href="mainpage.php" class="btn btn-info btn-lg">
