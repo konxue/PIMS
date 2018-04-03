@@ -1,5 +1,11 @@
 <?php
     session_start();
+    
+    if ($_SESSION['p_id'] == null)
+    {
+        echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
+    }
+    else{
     require("db_connect.php");
     $input = $_SESSION['p_id'];
     $query = "Select `VisitorType` FROM `PatientInfo` WHERE `PatientID` = '$input'";
@@ -22,22 +28,22 @@
         echo"        
                 <th><input type='submit' name='submit_99' value='Update' /></th>
                 </tr>
-       </table></form><br></center>
-        ";
-    if ($_POST[submit_99])
+       </table></form><br></center>";
+    if ($_POST[`submit_99`])
     {
         if($row[0] == 'N')
         {
             $query = "Update `PatientInfo` SET `VisitorType` = 'Y' WHERE `PatientID` = '$input'";
-            $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+            $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
         }
         elseif ($row[0] == 'Y')
         {
             $query = "Update `PatientInfo` SET `VisitorType` = 'N' WHERE `PatientID` = '$input'";
-            $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+            $result2 = mysqli_query($connection, $query) or die(mysqli_error($connection));
         }
-        php2Alert("Updated patient's visitor type setting!");
-        header("Refresh:1");
+        php88Alert("Updated patient's visitor type setting!");
+        echo("<meta http-equiv='refresh' content='0'>");  
+      //  header("Refresh: 1; url=mainpage.php");
     }
     if ($row[0] == 'Y')
     {
@@ -46,23 +52,24 @@
         <form id="search-form" method="post">
         <table border="0.5" class="data-table">
          <caption class="title"><center>Add Visitors</center></caption>
+                <thead>
                 <tr>
                 <td><strong><label for="text"><center>First Name:</label></strong></td>
                 <td><input type="p_text" name="ftext" id="ftext"></center></td>
                 <td><strong><label for="text"><center>Last Name</label></strong></td>
                 <td><input type="p_text" name="ltext" id="ltext"></center></td>
-                <th><input type="submit" name="submit_77" value="Add" /></th>
+                <td><input type="submit" name="submit_77" value="Add" /></td>
                 </tr>
-        </table>
-        <table border="0.5" class="data-table">
-        <thead>
+                </thead>
+                <thead>
                 <tr>
                 <th><center>#</center></th>
                 <th><center>FIRST NAME</center></th>
                 <th><center>LAST NAME</center></th>
                 <th><center>Delete</center></th>
                 </tr>
-        </thead></center>
+                </thead>
+        </center>
         ';
         $sqli = "Select * From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num`";
         $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
@@ -78,16 +85,39 @@
         while ($newrow = mysqli_fetch_array($res))
         {
             echo '<th><center>'.$newrow[3].'</center></th>';
-            echo '<th><center>'.$newrow[2].'</center></th>';
             echo '<th><center>'.$newrow[1].'</center></th>';
-            echo '<td><center><button id='.$newrow[3].' onClick=callFunction7(this.id) >Delete</button></center></td>';
+            echo '<th><center>'.$newrow[2].'</center></th>';
+            $vnum = $newrow[3];
+            echo '<th><center><button id='.$vnum.' onClick=callFunction7(this.id)>Delete</button></center></th></tr>';
         }
         echo '</tbody></table>';
+        if ($_POST['submit_77'])//when button was clicked for add visitor to the list to the database
+        {
+        $sqli = "Select `num` From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num` DESC";
+        $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($res);
+        $newnum = $row[0] + 1;
+        $fn = $_POST['ftext'];
+        $ln = $_POST['ltext'];
+        $input = $_SESSION['p_id'];
+        $mysql = "Insert INTO `ApprovedVisitor` (`PatientID`,`num`,`FirstName`,`LastName`) VALUES ('$input', '$newnum','$fn','$ln')";
+        $result = mysqli_query($connection, $mysql) or die(mysqli_error($connection));
+        //header("Refresh: 1; url=mainpage.php");     
+        php88Alert("Approved visitor has been added to the list!");
+        echo("<meta http-equiv='refresh' content='0'>");  
+        }
     }
+     echo "<br><br>";
+    }
+function php88Alert($msg) 
+  {
+    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+ }
+    
     ?>
 
 <script type="text/javascript">
-function callFunction8(clicked_id){
-  window.location.href = "serverScript7.php?logid="+clicked_id;
+function callFunction7(clicked_id){
+  window.location.href = "serverScript8.php?vnum="+clicked_id;
 }
 </script>

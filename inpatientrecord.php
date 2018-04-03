@@ -61,6 +61,6 @@
 
 <script type="text/javascript">
 function callFunction6(clicked_id){
-  window.location.href = "serverScript7.php?pid="+clicked_id;
+  window.location.href = "serverScript7.php?p_id="+clicked_id;
 }
 </script>
