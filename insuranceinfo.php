@@ -52,14 +52,30 @@
                 </tr>
         </thead>
         ';
-    /*if($_POST['submit_5']) //get button click event
-    {...
-        //$ acctnum = $_POST['AcctNum']; // for all variable
-    ... maybe do a if $acctnum == null to detect emty user input
-     then call sql ="method"
-     * result excute
-     * pAlert('message'); // this function will pop a window tell user msg..
-    }*/
+    if($_POST['submit_5']) //get button click event
+    {
+        $carrier = $_POST['Carrier']; // for all variable
+        $acctnum = $_POST['AcctNum'];
+        $grpnum = $_POST['GrpNum'];
+        if ($carrier == null || $acctnum == null || $grpnum == null)
+        {
+            echo '<script language="javascript">';
+            echo 'alert("Please fill all boxes.")';
+            echo '</script>';
+       
+        }elseif(is_numeric ($grpnum) && is_numeric ($acctnum)) {
+            $query = "Select `Carrier`,`AccntNum`,`GrpNum` From InsuranceInfo where PatientID = '$_SESSION[p_id]'";
+            $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+            $sql = "UPDATE `InsuranceInfo` SET `Carrier` = '$carrier' , `AccntNum` = '$acctnum' , `GrpNum` = '$grpnum' WHERE `PatientId` = '$_SESSION[p_id]'"; 
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
+            phpAlert("Insurance has been updated!");
+        }else{
+            echo '<script language="javascript">';
+            echo 'alert("Invalid group or account numbers.")';
+            echo '</script>';
+        }
+
+    }
     if ($count==0)
 {
     echo '<tbody><tr>
