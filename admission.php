@@ -46,10 +46,12 @@
    if($_POST["submit_22"])
    {
        $input = $_SESSION['p_id'];
-       $floornum = (int) $_POST['faci'];
+       $floornum = $_POST['faci'];
         
-       $roomnum = (int)$_POST['rtext'];
-       $bednum = (int)$_POST['btext'];
+       $roomnum = $_POST['rtext'];
+       $bednum = $_POST['btext'];
+       if (is_numeric($roomnum) && is_numeric($bednum))
+       {
      if ( $_SESSION['inPatient_status'] == 999)
      {
           $sql = "INSERT INTO `Inpatient` (`PatientID`, `FloorNum`, `RoomNum`, `BedNum`) VALUES ('$input', '$floornum', '$roomnum', '$bednum')";
@@ -64,6 +66,11 @@
            php1Alert("Patient has been updated to the selected room!");
            echo("<meta http-equiv='refresh' content='0'>"); 
       }
+       }
+       else
+       {
+           php1Alert("Room # or Bed # must be a number!");
+       }
    }
    if($_POST["submit_3"]) //when button got clicked, patient check in 
     {

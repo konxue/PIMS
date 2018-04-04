@@ -4,12 +4,16 @@
 <link rel="stylesheet" href="css/tablestyle.css">
 <link rel="stylesheet" type="text/css" href="mainpage.css"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <title>Main Page - Patient Information Management System</title>
 <?php 
 include 'checkStatus.php'
 ?>
-<center><img src="images/hospital.png" height="150" width="150"/></center>
+<center><img src="images/hospital.png" height="200" width="200"/></center>
 </head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
@@ -23,6 +27,7 @@ include 'checkStatus.php'
 <?php
     include 'patientTable.php'
 ?>
+
 <?php
     include 'searchPatient.php'
 ?>
@@ -40,7 +45,7 @@ include 'checkStatus.php'
 </div>
 
 <div id="Admission" class="tabcontent">
-  <?php include 'medicalHistory.php' ?>
+  <?php include 'admission.php' ?>
 </div>
 
 <div id="PatientInfo" class="tabcontent">

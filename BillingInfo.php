@@ -1,16 +1,5 @@
 <!--This PHP code is for the billing tab on the main page, it includes the HTML and CSS-->
-<head>
-<!--CSS for my code -->
-<link rel="stylesheet" href="css/tablestyle.css">
-<table style="display: inline-block;">
-<!--bootstrap collapse-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="mainpage.css"/>
-</head> 
 
-<!--HTML & PHP Code for my tab-->
 <?php
 session_start();
 if ($_SESSION['p_id'] == null)
@@ -205,7 +194,7 @@ if($_POST['submit_1'])
         echo '
               <th><left>'.$newbalance.'</left></th></tr>    
               </tfoot></table>
-  </div>';
+  </div><br>';
                
                $sql = "UPDATE `Payment` SET `Balance` = '$newbalance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$no'"; 
                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
