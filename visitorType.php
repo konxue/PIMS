@@ -112,6 +112,6 @@
     ?>
 <script type="text/javascript">
 function callFunction7(clicked_id){
-  window.location.href = "serverScript8.php?vnum=3"+clicked_id;
+  window.location.href = "serverScript8.php?vnum="+clicked_id;
 }
 </script>
