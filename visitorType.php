@@ -86,7 +86,7 @@
             echo '<th><center>'.$newrow[3].'</center></th>';
             echo '<th><center>'.$newrow[1].'</center></th>';
             echo '<th><center>'.$newrow[2].'</center></th>';
-            echo '<th><center><button id='.$newrow[3].' onClick=serverFunction7(this.id) >Remove</button></center></th></tr>';
+            echo '<th><center><button id='.$newrow['num'].' onClick=callFunction7(this.id)>Delete</button></center></th></tr>';
         }
         echo '</tbody></table>';
         if ($_POST['submit_77'])//when button was clicked for add visitor to the list to the database
@@ -109,11 +109,9 @@
  function newphpAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 }
-    
     ?>
-
 <script type="text/javascript">
-function serverFunction7(clicked_id){
-  window.location.href = "serverScript8.php?v_num="+clicked_id;
+function callFunction7(clicked_id){
+  window.location.href = "serverScript8.php?vnum=3"+clicked_id;
 }
 </script>
