@@ -1,11 +1,9 @@
-
-<link rel="stylesheet" href="css/tablestyle.css">
-<link rel="stylesheet" type="text/css" href="mainpage.css"/>
 <body>
-<center>
+    <br>
+    <center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Patient Search</button>
+        <div id="tab" class="collapse">
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
-              <caption class="title"><center>Patient Search</center></caption>
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -19,6 +17,7 @@
             </tr>
            </table>
     </form>
+    
     </center>
 </body>
 <?php
@@ -117,7 +116,7 @@ if($_SESSION["p_id"] != null)
             include('inpatientrecord.php');
         }
 ?>
-</html>
+</div>
 
 <script type="text/javascript">
 function callFunction(clicked_id){
