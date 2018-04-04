@@ -9,7 +9,7 @@
 <?php 
 include 'checkStatus.php'
 ?>
-<center><img src="images/hospital.png" height="200" width="200"/></center>
+<center><img src="images/hospital.png" height="150" width="150"/></center>
 </head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
