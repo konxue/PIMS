@@ -156,7 +156,7 @@
         echo "<td><center>" . $row['DischargeTime'] . "</center></td>";
         if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
         {
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) >Select</button></center></td>';
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) name=grr>Select</button></center></td>';
         }
         if ($row['DischargeDate'] !=null)
         {
@@ -164,9 +164,9 @@
         }
         else
         {
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) >Discharge</button></center></td>';
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) name=grr>Discharge</button></center></td>';
         }
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) >Delete</button></center></td>';
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) name=grr>Delete</button></center></td>';
         echo "</tr>";
     }
     }

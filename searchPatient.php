@@ -39,6 +39,7 @@ if ($selection == 'LAST')
     if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
     {
         $input = '';
+        echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
     }
     else
     {
@@ -56,6 +57,7 @@ elseif ($selection == 'FIRST')
         if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
      {
          $input = '';
+         echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
      }
      else
      {
@@ -104,7 +106,7 @@ elseif ($count>0)
        {
             echo' <td><center>'.$row['DOB'].'</center></td> ';
        }
-            echo'<td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>';
+            echo'<td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) name=grr>Select</button></center></td>';
             echo'</tr></tbody>';
             $no++;
     }

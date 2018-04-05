@@ -179,14 +179,14 @@ if($_POST['submit_1'])
         echo '</tbody><tfoot>
               <tr>
               <th></th><th><left>Total amount due:</left></th> 
-              <th></th><th><left>$'.$total.'</left></th>
+              <th><left>$'.$total.'</left></th>
               </tr>
               <tr><th></th><th><left>Insurance Paid:</left></th>
-              <th></th><th><left>$'.$row1[0].'</left></th></tr>
+              <th><left>$'.$row1[0].'</left></th></tr>
               <tr><th></th><th><left>Copay:</left></th>
-              <th></th><th><left>$'.$row1[1].'</left></th></tr>
+              <th><left>$'.$row1[1].'</left></th></tr>
               <tr><th></th><th><left>Amount Paid:</left></th>
-              <th></th><th><left>$'.$row1[2].'</left></th></tr>
+              <th><left>$'.$row1[2].'</left></th></tr>
               <tr><th></th><th><left>Balance Due:</left></th>';
         $newbalance = $total-$row1[0]-$row1[1]-$row1[2];
         if($newbalance < 0)
@@ -194,7 +194,7 @@ if($_POST['submit_1'])
             $newbalance = 0;
         }
         echo '
-              <th></th><th><left>'.$newbalance.'</left></th></tr>    
+              <th><left>'.$newbalance.'</left></th></tr>    
               </tfoot></table>
   </div><br>';
                

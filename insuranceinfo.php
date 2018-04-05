@@ -1,7 +1,3 @@
-
-<link rel="stylesheet" href="css/tablestyle.css">
-<link rel="stylesheet" type="text/css" href="mainpage.css"/>
-
 <?php
     function pAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
@@ -44,14 +40,6 @@
     </center>
     <br>
     <br>
-        <table class="data-table">
-        <thead>
-                <tr>
-                <th><center>Insurance Carrier</center></th>
-                <th><center>Account Number</center></th>
-                <th><center>Group Number</center></th>
-                </tr>
-        </thead>
         ';
     if($_POST['submit_5']) //get button click event
     {
@@ -74,24 +62,27 @@
     }
     if ($count==0)
 {
-    echo '<tbody><tr>
-            <td></td>
-            <td><center>Insurance not found!</center></td>
-            <td></td>
-            </tr></tbody></table>'
-         ;
+    echo '<table class="data-table">
+        <thead><thead><tr>
+            <th><center>No insurance record!</center></th>
+            </tr></tbody></table>' ;
 }
 else{
-    while($row = mysqli_fetch_array($res))
-    {
+    $row = mysqli_fetch_array($res);
+        echo'<table class="data-table">
+        <thead>
+                <tr>
+                <th><center>Insurance Carrier</center></th>
+                <th><center>Account Number</center></th>
+                <th><center>Group Number</center></th>
+                </tr>
+        </thead>';
         echo "<tbody><tr>";
         echo "<td><center>" . $row['Carrier'] . "</center></td>";
         echo "<td><center>" . $row['AccntNum'] . "</center></td>";
         echo "<td><center>" . $row['GrpNum'] . "</center></td>";
         echo "</tr></tbody>";
-    }
         echo "</table>";
-    
     }
     echo '<br><br>';
     mysqli_close($connection);

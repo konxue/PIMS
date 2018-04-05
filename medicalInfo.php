@@ -45,6 +45,9 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
   <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Treatment Notes</button>
   <button class="tablinks" onclick="openItem(event, 'Procedures')">Procedures</button>
   <button class="tablinks" onclick="openItem(event, 'Prescriptions')">Prescriptions</button>
+  <button class="tablinks">|</button>
+  <button class="tablinks" onclick="openItem(event, 'PatientInfo')">Patient Information</button>
+  <button class="tablinks" onclick="openItem(event, 'InsuranceInfo')">Insurance Information</button>
 </div>
 
 <div id="DoctorNotes" class="tabcontent">
@@ -60,6 +63,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     echo '
         <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Add Notes</button></center>
         <div id="tab" class="collapse">
+        <br>
         <form id="form" method="post">
           <table border="0.5" class="data-table" width="800" height="200">
             <tr>
@@ -145,7 +149,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         echo "<td><center>" . $row['Time'] . "</center></td>";
         if ($_SESSION['usertype'] == $uType || $_SESSION['usertype'] == 'Doctor')
         {
-        echo '<td><center><button id='.$row['note_id'].' onClick=callFunction4(this.id)>Delete</button></center></td>';
+        echo '<td><center><button id='.$row['note_id'].' onClick=callFunction4(this.id) name=grr>Delete</button></center></td>';
         }
         else
         {
@@ -233,6 +237,54 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         echo "</tbody></table>";
         }
     }   
+?>
+</div>
+<div id="PatientInfo" class="tabcontent">
+<?php include 'patientinfo.php'?>
+</div>
+<div id="InsuranceInfo" class="tabcontent">
+<?php 
+    session_start();
+    if($_SESSION['p_logid'] == null)
+    {
+        echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
+    }
+    else
+    {
+    require("db_connect.php");
+    $input = $_SESSION['p_id'];
+    $sql = "Select * FROM InsuranceInfo WHERE PatientID = '$input'";
+    $res = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    $count = mysqli_num_rows($res);
+    $row= mysqli_fetch_array($res);
+    echo '<br>';
+    if ($count==0)
+{
+    echo '<table class="data-table">
+        <caption class="title"><center>Insurance Record</caption>
+        <thead><thead><tr>
+            <th><center>No insurance record!</center></th>
+            </tr></tbody></table>';
+}
+else{
+        echo '<table class="data-table">
+            <caption class="title"><center>Insurance Record</caption>
+        <thead>
+                <tr>
+                <th><center>Insurance Carrier</center></th>
+                <th><center>Account Number</center></th>
+                <th><center>Group Number</center></th>
+                </tr>
+        </thead>';
+        echo "<tbody><tr>";
+        echo "<td><center>" . $row['Carrier'] . "</center></td>";
+        echo "<td><center>" . $row['AccntNum'] . "</center></td>";
+        echo "<td><center>" . $row['GrpNum'] . "</center></td>";
+        echo "</tr></tbody>";
+        echo "</table>";
+    }
+    echo '<br><br>';
+    }
 ?>
 </div>
 

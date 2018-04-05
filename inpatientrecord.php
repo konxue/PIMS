@@ -47,7 +47,7 @@
              <td><center>'.$row[2].'</center></td>';
              if ($_SESSION["usertype"] != 'Volunteer')
        {
-           echo'<td><center><button id='.$_SESSION['p_id'].' onClick=callFunction6(this.id) >Remove</button></center></td>';
+           echo'<td><center><button id='.$_SESSION['p_id'].' onClick=callFunction6(this.id) name=grr>Remove</button></center></td>';
        }
            echo'</tr></tbody></table>';
        }
