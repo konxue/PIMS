@@ -56,7 +56,7 @@ include 'checkStatus.php'
 </div>
 
 <div id="Visitor" class="tabcontent">
-<?php include 'visitorType.php'?>
+<?php include 'visitorType.php' ?>
 </div>
 
 <!--Insurance Tab-->
