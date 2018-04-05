@@ -21,9 +21,10 @@
             </tr>
         </thead><tbody>';
 
-        $no = 1;
+        $no = 0;
         while ($row = mysqli_fetch_array($info))
         {
+            $no++;
             echo '<tr>
                  <td><center>'.$no.'</center></td>
                  <td><center>'.$row['PatientID'].'</center></td>
@@ -32,8 +33,11 @@
                  <td><center>'.$row['FirstName'].'</center></td> 
                  <td><center>'.$row['DOB'].'</center></td> 
                  <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) name=grr>Select</button></center></td>
-                    </tr>';
-                $no++;   
+                    </tr>';        
+        }
+        if ($no == 0)
+        {
+            echo '<tr><td colspan="7"><center>No current patient has found!</center></td></tr>';
         }
         echo '</tbody></table></div>';  
 ?>

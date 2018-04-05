@@ -217,7 +217,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             $input = $_SESSION['p_id'];
             $logid = $_SESSION['p_logid'];
             $user = $_SESSION['username'];
-            $sql = "SELECT * FROM Prescription Where PatientID = '$input' and log_id = '$logid' order by `pk` DESC";
+            $sql = "SELECT * FROM Prescription order by `pk` DESC";
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
             $rowforpk = mysqli_fetch_array($result);
             $newpk = $rowforpk['pk'] + 1;
@@ -304,9 +304,9 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 <div id="InsuranceInfo" class="tabcontent">
 <?php 
     session_start();
-    if($_SESSION['p_logid'] == null)
+    if($_SESSION['p_id'] == null)
     {
-        echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
+        echo "<strong><center>Please select a patient from the search result!</center></strong>";
     }
     else
     {
@@ -346,7 +346,6 @@ else{
     }
 ?>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br>
 <script>
 function openItem(evt, item) {
     var i, tabcontent, tablinks;
@@ -366,6 +365,6 @@ function callFunction4(clicked_id){
   window.location.href = "serverScript5.php?noteid="+clicked_id;
 }
 </script>
-     
+<br><br><br><br><br>
 </body>
 </html> 

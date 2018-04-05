@@ -61,6 +61,7 @@ include 'checkStatus.php'
 <div id="BillingInfo" class="tabcontent">
 <?php include 'BillingInfo.php'?>  
 </div>
+<br><br><br><br><br>
 </body>
 
 </html> 
