@@ -23,7 +23,7 @@
       echo '
         <form id="form" method="post">
           <table border="0.5" class="data-table">
-          <caption class="title"><center>Hospitalization Info</center></caption>
+          <caption class="title"><center>Hospitalization Setting</center></caption>
             <tr>
                 <td><strong><label for="vType"><center>Facility (Floor #)</label></strong></td>
                 <td><select name="faci">
@@ -123,14 +123,13 @@
 
     else
     {
-    while($row = mysqli_fetch_array($result))
-    {
-            echo '
+        //output table header
+    echo '
         <table class="data-table">
         <caption class="title"><center>Admission Report</center></caption>
         <thead>
                 <tr>
-                <th><center>Visit ID</center></th>
+                <th><center>Admission #</center></th>
                 <th><center>Admission Date</center></th>
                 <th><center>Admission Time</center></th>
                 <th><center>Admission Reason</center></th>
@@ -144,7 +143,10 @@
                 <th><center>Discharge</center></th>
                 <th><center>Delete</center></th>
                 </tr>
-        </thead>';
+        </thead>';     
+    while($row = mysqli_fetch_array($result))
+    {
+
         echo "<tr>";
         echo "<td><center>" . $row['log_id'] . "</center></td>";
         echo "<td><center>" . $row['AdmissionDate'] . "</center></td>";

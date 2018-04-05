@@ -187,7 +187,51 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     }
     else
     {
-        
+        require("db_connect.php");
+        $input = $_SESSION['p_id'];
+        $logid = $_SESSION['p_logid'];
+        $sql = "SELECT * FROM Prescription Where PatientID = '$input' and log_id = '$logid' order by `pk`";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        $count = mysqli_num_rows($result);
+        if($count == 0)
+        {
+            echo '<br><table class="data-table">
+            <thead>';
+        echo "<tr>";
+        echo "<th><center>No prescription is found!</center></td>";
+        echo "</tr></thead></table>";
+        }
+        else
+        {
+            echo '<br><table class="data-table">
+                <center><caption class="title"><center>Prescription Record</caption></center>
+        <thead>';
+        echo "<tr>";
+        echo "<th><center>Prescription #</center></td>";
+        //echo "<th><center>Doctor</center></td>";
+        echo "<th><center>Medicine / Drug Name Name</center></th>";
+        echo "<th><center>Dosage</center></th>";
+        echo "<th><center>Quantity</center></th>";
+        echo "<th><center>Direction</center></th>";
+        echo "</tr></thead><tbody>";
+        while($row=mysqli_fetch_array($result))
+        {
+            echo"<tr><td><center>".$row['pk']."</center></td>";
+            //where this fetch doctor name based on userid
+            $n1 = $row['UserID'];
+            $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
+            $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+            $newrow=mysqli_fetch_array($result1);
+            $doctorLN = $newrow[0];
+            $doctorFN = $newrow[1];
+            //echo"<td><center>Dr. ".$doctorFN." ".$doctorLN."</center></td>";
+            echo"<td><center>".$row['PrescripName']."</center></td>";
+            echo"<td><center>".$row['Dosage']."</center></td>";
+            echo"<td><center>".$row['Quantity']."</center></td>";
+            echo"<td><center>".$row['Directions']."</center></td></tr>";
+        }
+        echo "</tbody></table>";
+        }
     }   
 ?>
 </div>
