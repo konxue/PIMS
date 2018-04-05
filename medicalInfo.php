@@ -192,6 +192,51 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     else
     {
         require("db_connect.php");
+         echo '
+        <center><br>
+        <form id="search-form" method="post">
+        <table border="0.5" class="data-table">
+        <caption class="title"><center>Add Prescription</center></caption>
+                <thead>
+                <tr>
+                <td><strong><label for="text"><center>Medicine Name</label></strong></td>
+                <td><input type="p_text" name="mtext" id="mtext"></center></td>
+                <td><strong><label for="text"><center>Dosage</label></strong></td>
+                <td><input type="p_text" name="dtext" id="dtext"></center></td>
+                <td><strong><label for="text"><center>Quantity</label></strong></td>
+                <td><input type="p_text" name="qtext" id="qtext"></center></td>
+                <td><strong><label for="text"><center>Direction</label></strong></td>
+                <td><textarea name="diretext" id="diretext" rows="2" cols="35"></textarea></td>
+                <td><input type="submit" name="submit_23" value="Add" /></td>
+                </tr>
+                </thead>
+                </table>
+        </center>';
+        if ($_POST['submit_23'])
+        {
+            $input = $_SESSION['p_id'];
+            $logid = $_SESSION['p_logid'];
+            $user = $_SESSION['username'];
+            $sql = "SELECT * FROM Prescription Where PatientID = '$input' and log_id = '$logid' order by `pk` DESC";
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+            $rowforpk = mysqli_fetch_array($result);
+            $newpk = $rowforpk['pk'] + 1;
+            $mname = (string) addslashes($_POST['mtext']);
+            $dos = (string) addslashes($_POST['dtext']);
+            $quantity = $_POST['qtext'];
+            $direction = (string) addslashes($_POST['diretext']);
+            if( (!is_numeric($quantity)) || !isset($mname) || !isset($dos) || !isset($direction))
+            {
+                
+                pAlert("Detect incorrect input, please try again!");
+            }
+            else
+            {
+                $sql = "INSERT INTO `onlinepims`.`Prescription` (`PatientID`, `UserID`, `log_id`, `pk`, `PrescripName`, `Dosage`, `Quantity`, `Directions`) VALUES ('$input', '$user','$logid', '$newpk', '$mname', '$dos', '$quantity','$direction')";
+                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                pAlert("New prescription has been added into the system!");
+            }
+        }
         $input = $_SESSION['p_id'];
         $logid = $_SESSION['p_logid'];
         $sql = "SELECT * FROM Prescription Where PatientID = '$input' and log_id = '$logid' order by `pk`";
@@ -203,7 +248,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             <thead>';
         echo "<tr>";
         echo "<th><center>No prescription is found!</center></td>";
-        echo "</tr></thead></table>";
+        echo "</tr></thead></table><br><br>";
         }
         else
         {
@@ -213,10 +258,11 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         echo "<tr>";
         echo "<th><center>Prescription #</center></td>";
         //echo "<th><center>Doctor</center></td>";
-        echo "<th><center>Medicine / Drug Name Name</center></th>";
+        echo "<th><center>Medicine Name</center></th>";
         echo "<th><center>Dosage</center></th>";
         echo "<th><center>Quantity</center></th>";
         echo "<th><center>Direction</center></th>";
+        echo "<th><center>Delete</center></th>";
         echo "</tr></thead><tbody>";
         while($row=mysqli_fetch_array($result))
         {
@@ -232,10 +278,23 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             echo"<td><center>".$row['PrescripName']."</center></td>";
             echo"<td><center>".$row['Dosage']."</center></td>";
             echo"<td><center>".$row['Quantity']."</center></td>";
-            echo"<td><center>".$row['Directions']."</center></td></tr>";
+            echo"<td><center>".$row['Directions']."</center></td>";
+            echo '<form id="search-form" method="post">';
+            echo '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
+                <input type="submit" name="submit_delete" value="Delete" /></center></td>		
+                </form></tr>';
         }
-        echo "</tbody></table>";
+        echo "</tbody></table><br><br>";
         }
+        if(isset($_POST["submit_delete"])) // when delete button is click
+{
+    require("db_connect.php");
+    $pknum = $_POST["pk_id"];
+    $query = "DELETE FROM `Prescription` WHERE `pk` = '$pknum'";
+    $rest = mysqli_query($connection, $query) or die(mysqli_error($connection));
+    pAlert("Selected prescription has been removed!");
+    echo "<meta http-equiv='refresh' content='0'>"; 
+ }
     }   
 ?>
 </div>
@@ -287,7 +346,7 @@ else{
     }
 ?>
 </div>
-
+<br><br><br><br><br><br><br><br><br><br><br><br>
 <script>
 function openItem(evt, item) {
     var i, tabcontent, tablinks;

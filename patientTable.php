@@ -31,7 +31,7 @@
                  <td><center>'.$row['MiddleName'].'</center></td> 
                  <td><center>'.$row['FirstName'].'</center></td> 
                  <td><center>'.$row['DOB'].'</center></td> 
-                 <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>
+                 <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) name=grr>Select</button></center></td>
                     </tr>';
                 $no++;   
         }

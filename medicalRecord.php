@@ -48,12 +48,12 @@
         echo "<td><center>" . $row['DischargeTime'] . "</center></td>";
         if ($_SESSION["p_logid"] == $row['log_id'])
         {
-            echo '<td><center>X</center></td>';
+            echo '<td><center>O</center></td>';
         }
         else{
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) >Select</button></center></td>';
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) name=grr>Select</button></center></td>';
         }
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) >Delete</button></center></td>';
+        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) name=grr>Delete</button></center></td>';
         echo "</tr>";
     }
     }
