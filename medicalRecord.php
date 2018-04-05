@@ -13,9 +13,18 @@
     $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
-    echo '
-        <table class="data-table">
-        <caption class="title"><center>Admission Report</center></caption>
+    if ($count == 0)
+    {
+        echo '<br><table class="data-table">
+        <thead>';
+        echo "<tr>";
+        echo "<th><center>No admission history has found!</center></td>";
+        echo "</tr></thead>";
+    }
+    else
+    {
+        echo '
+        <br><table class="data-table">
         <thead>
                 <tr>
                 <th><center>Visit ID</center></th>
@@ -28,21 +37,6 @@
                 <th><center>Delete</center></th>
                 </tr>
         </thead>';
-    if ($count == 0)
-    {
-        echo "<tr>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td>No visiting history found!</td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "</tr>";
-    }
-    else
-    {
     while($row = mysqli_fetch_array($result))
     {
         echo "<tr>";

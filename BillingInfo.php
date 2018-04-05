@@ -204,7 +204,8 @@ if($_POST['submit_1'])
 
     if ($no == null)
     {
-        echo '<center><strong>This patient has no any billing statements!</strong></center>';
+        echo '<table class="data-table">
+                <thead><th><center>No billing records!</center></th></thead></table>';
     }
     echo '<br><br>';
     mysqli_close($connection); 

@@ -65,15 +65,6 @@
                 </tr>
                 </thead>
                 </table>
-                <table border="0.5" class="data-table">
-                <caption class="title"><center>Approved Visitors List</center></caption>
-                <thead><tr>
-                <th><center>#</center></th>
-                <th><center>FIRST NAME</center></th>
-                <th><center>LAST NAME</center></th>
-                <th><center>Delete</center></th>
-                </tr>
-                </thead>
         </center>';
          if ($_POST['submit_77'])//when button was clicked for add visitor to the list to the database
         {
@@ -91,15 +82,22 @@
         }
         $sqli = "Select * From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num`";
         $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
-        $count = mysqli_num_rows($res);
-        echo '<tbody>';
+        $count = mysqli_num_rows($res);;
         if($count == 0)
         {
-            echo '<th><center></th></center>';
-            echo '<th><center>No records</th></center>';
-            echo '<th><center></th></center>';
-            echo '<th><center></th></center></tr>';
+            echo '<table border="0.5" class="data-table">';
+            echo '<thead><th><center>No approved visitor in the list!</center></th></thead></table>';
         }
+        else{
+            echo'<table border="0.5" class="data-table">
+                <caption class="title"><center>Approved Visitors List</center></caption>
+                <thead><tr>
+                <th><center>#</center></th>
+                <th><center>FIRST NAME</center></th>
+                <th><center>LAST NAME</center></th>
+                <th><center>Delete</center></th>
+                </tr>
+                </thead><tbody>';
         while ($newrow = mysqli_fetch_array($res))
         {
             echo '<td><center>'.$newrow[3].'</center></td>';
@@ -110,6 +108,7 @@
                 <input type="submit" name="submit_d" value="Delete" /></center></td>		
                 </form>';
             echo '</tr>';
+        }
         }
         echo '</tbody></table>';
         

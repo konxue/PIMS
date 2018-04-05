@@ -6,8 +6,8 @@
     $info = mysqli_query($connection, $query) or die(mysqli_error($connection));
     
     echo '
-    <center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab1">Current Patients</button></center>
-        <div id="tab1" class="collapse">
+    <center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab1">My Patients</button></center>
+        <div id="tab1" class="collapse"><br>
         <table border="0.5" class="data-table">
         <thead>
             <tr>
@@ -41,6 +41,6 @@
 
 <script type="text/javascript">
 function callFunction(clicked_id){
-  window.location.href = "serverScript.php?pid="+clicked_id;
+  window.location.href = "serverScript1.php?pid="+clicked_id;
 }
 </script>

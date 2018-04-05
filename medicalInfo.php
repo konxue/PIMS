@@ -17,12 +17,11 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     header("Refresh: 1; url=mainpage.php");
 }
 ?>
-<left>
-<a href="mainpage.php" class="btn btn-info btn-lg">
+<br><br>
+<a href="mainpage.php" class="btn btn-info btn-small">
           <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
         </a>
-</left>
-<center><img src="images/doctor.png" height="250" width="250"/></center>
+<center><img src="images/doctor.png" height="200" width="200"/></center>
 </head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
@@ -32,7 +31,15 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 
 <body>
     <?php include 'patientTable.php'?>
+    <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#searchtab">Find Patient</button></center>
+        <div id="searchtab" class="collapse">
+            <?php include 'FindPatient.php' ?>
+        </div></center>
+    <?php include 'currentSelection.php'?>;
+    <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ad1">Show Admission Record</button></center>
+    <div id="ad1" class="collapse">
     <?php include 'medicalRecord.php'?>
+    </div></center>
 <br>
 <div class="tab">
   <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Treatment Notes</button>
@@ -45,7 +52,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     session_start();
     if($_SESSION['p_logid'] == null)
     {
-        echo "Error! No visit id has been selected! Try again.";
+        echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
     }
  else {//when logid has passed from pervious page
     require("db_connect.php");
@@ -157,10 +164,32 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 
 
 <div id="Procedures" class="tabcontent">
+     <?php
+    session_start();
+    if($_SESSION['p_logid'] == null)
+    {
+        echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
+    }
+    else
+    {
+        
+    }   
+    ?>
 </div>
 
 
 <div id="Prescriptions" class="tabcontent">
+ <?php
+    session_start();
+    if($_SESSION['p_logid'] == null)
+    {
+        echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
+    }
+    else
+    {
+        
+    }   
+?>
 </div>
 
 <script>

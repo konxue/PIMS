@@ -13,28 +13,22 @@
 <?php 
 include 'checkStatus.php'
 ?>
-<center><img src="images/hospital.png" height="200" width="200"/></center>
+<center><br><br><img src="images/hospital.png" height="200" width="200"/></center>
 </head>
 <footer>
     <link rel="stylesheet" type="text/css" href="mainpage.css"/>
-    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
+    <div class="footer"><center>© All rights reserved 2018. Patient Information Management System beta 1.0</center></div>
 </footer>
 <body>
 
-<br>
-
 <?php
-    include 'searchPatient.php'
+    include 'searchPatient.php';
+    include 'currentSelection.php';
 ?>
-
 <br>
 <?php
  if ($_SESSION["usertype"] != 'Volunteer')
        {
-            echo'
-            <br>
-            <input type="button" onclick="location.href="addPatient.php";" value ="Add New Patient" />
-            <br>';
        echo"
            <div class='tab'>
           <button class='tablinks' onclick='openCity(event, `Admission`)'>Admission</button>

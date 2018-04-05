@@ -115,7 +115,7 @@ elseif ($count>0)
 
 <script type="text/javascript">
 function callFunction(clicked_id){
-  window.location.href = "serverScript.php?pid="+clicked_id;
+  window.location.href = "serverScript1.php?pid="+clicked_id;
 }
 </script>
 

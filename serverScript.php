@@ -9,6 +9,7 @@ $query = "SELECT `FirstName`,`DOB`,`LastName`,`SEX`,`UserID`,`MiddleName` FROM `
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $newrow = mysqli_fetch_array($result);
 //passing data to session variable (global)
+$_SESSION["p_logid"] = null;
 $_SESSION["p_fn"] = $newrow[0];
 $_SESSION["p_dob"] = $newrow[1];
 $_SESSION["p_ln"] = $newrow[2];

@@ -110,7 +110,22 @@
     $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
-    echo '
+    if ($count == 0)
+    {
+         echo '
+        <table class="data-table">
+        <caption class="title"><center>Admission Report</center></caption>
+        <thead>';
+        echo "<tr>";
+        echo "<th><center>No admission history has found!</center></td>";
+        echo "</tr></thead>";
+    }
+
+    else
+    {
+    while($row = mysqli_fetch_array($result))
+    {
+            echo '
         <table class="data-table">
         <caption class="title"><center>Admission Report</center></caption>
         <thead>
@@ -125,32 +140,11 @@
         {
             echo '<th><center>Selection</center></th>';
         }
-    echo '
+        echo '
                 <th><center>Discharge</center></th>
                 <th><center>Delete</center></th>
                 </tr>
         </thead>';
-    if ($count == 0)
-    {
-        echo "<tr>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td>No visiting history found!</td>";
-        echo "<td></td>";
-        if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
-        {
-        echo "<td></td>";
-        }
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "</tr>";
-    }
-    else
-    {
-    while($row = mysqli_fetch_array($result))
-    {
         echo "<tr>";
         echo "<td><center>" . $row['log_id'] . "</center></td>";
         echo "<td><center>" . $row['AdmissionDate'] . "</center></td>";

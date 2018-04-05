@@ -97,8 +97,8 @@ footer{
 		background: skyblue;
 		color: rgba(255, 255, 255, 0.75);
 		cursor: default;
-		height: 2.5em;
-		line-height: 2.25em;
+		height: 2em;
+		line-height: 2em;
                 position: fixed;
                 background-attachment: scroll;
 		bottom: 0px;
