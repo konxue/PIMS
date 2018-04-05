@@ -16,8 +16,11 @@
                     <th><center>Floor #</center></th>
                     <th><center>Room #</center></th>
                     <th><center>Bed #</center></th>';
+             if ($_SESSION["usertype"] != 'Volunteer')
+       {
            echo'<th><center>Remove</center></th>';
-                    echo'</tr></thead><tbody><tr>';
+       }
+           echo'</tr></thead><tbody><tr>';
            $row = mysqli_fetch_array($result1);
            if ($row[0] == 2)
            {
@@ -42,7 +45,10 @@
            echo'<td><center>'.$row[0].'</center></td>
              <td><center>'.$row[1].'</center></td>
              <td><center>'.$row[2].'</center></td>';
+             if ($_SESSION["usertype"] != 'Volunteer')
+       {
            echo'<td><center><button id='.$_SESSION['p_id'].' onClick=callFunction6(this.id) >Remove</button></center></td>';
+       }
            echo'</tr></tbody></table>';
        }
        elseif ($count == 0)

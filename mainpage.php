@@ -23,26 +23,28 @@ include 'checkStatus.php'
 
 <br>
 
-
-<?php
-    include 'patientTable.php'
-?>
-
 <?php
     include 'searchPatient.php'
 ?>
 
 <br>
-<br>
-<input type="button" onclick="location.href='addPatient.php';" value ="Add New Patient" />
-<br>
-<div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Admission')">Admission</button>
-  <button class="tablinks" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
-  <button class="tablinks" onclick="openCity(event, 'Visitor')">Visitors Setting</button>
-  <button class="tablinks" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
-  <button class="tablinks" onclick="openCity(event, 'BillingInfo')">Billing Information</button>
-</div>
+<?php
+ if ($_SESSION["usertype"] != 'Volunteer')
+       {
+            echo'
+            <br>
+            <input type="button" onclick="location.href="addPatient.php";" value ="Add New Patient" />
+            <br>';
+       echo'
+        <div class="tab">
+          <button class="tablinks" onclick="openCity(event, "Admission")">Admission</button>
+          <button class="tablinks" onclick="openCity(event, "PatientInfo")">Patient Information</button>
+          <button class="tablinks" onclick="openCity(event, "Visitor")">Visitors Setting</button>
+          <button class="tablinks" onclick="openCity(event, "InsuranceInfo")">Insurance Information</button>
+          <button class="tablinks" onclick="openCity(event, "BillingInfo")">Billing Information</button>
+        </div>';
+       }
+?>
 
 <div id="Admission" class="tabcontent">
   <?php include 'admission.php' ?>

@@ -31,7 +31,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 <br>
 
 <body>
-    
+    <?php include 'patientTable.php'?>
     <?php include 'medicalRecord.php'?>
 <br>
 <div class="tab">

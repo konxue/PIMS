@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-if ($_SESSION['p_id'] == null)
+if ($_SESSION['p_id'] == null && ($_SESSION["usertype"] != 'Volunteer'))
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }

@@ -1,9 +1,8 @@
 <body>
     <br>
-    <center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Patient Search</button>
-        <div id="tab" class="collapse">
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
+           <center>  <caption class="title"><center>Patient Search</caption> </center>
             <tr>
                 <td><strong><label for="user_id"><center>Patient Search (by):</label></strong></td>
                 <td><select name="searchType">
@@ -67,9 +66,14 @@ echo '
         <th>Patient ID</th>
         <th>Last Name</th>
         <th>Middle Initial</th>
-        <th>First Name</th>
-        <th>Date of Birth</th>
-        <th>Selection</th>
+        <th>First Name</th>';
+       if ($_SESSION["usertype"] != 'Volunteer')
+       {
+        echo '<th>Date of Birth</th>';
+       }
+        echo '<th>Selection</th>';
+       
+        echo'
         </tr>
 </thead>';
         
@@ -79,9 +83,13 @@ if ($count==0)
             <td></td>
             <td></td>
             <td></td>
-            <td><center>Record is not found!</center></td>
-            <td></td>
-            <td></td>
+            <td><center>Record is not found!</center></td>';
+    
+            if ($_SESSION["usertype"] != 'Volunteer')
+       {
+            echo'<td></td>';
+       }
+           echo' <td></td>
             <td></td>
             </tr></tbody></table>'
          ;
@@ -96,27 +104,32 @@ elseif ($count>0)
              <td><center>'.$row['PatientID'].'</center></td>
              <td><center>'.$row['LastName'].'</center></td>
              <td><center>'.$row['MiddleName'].'</center></td> 
-             <td><center>'.$row['FirstName'].'</center></td> 
-             <td><center>'.$row['DOB'].'</center></td> 
-             <td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>
-                </tr></tbody>';
-            $no++;   
+             <td><center>'.$row['FirstName'].'</center></td> ';
+        if ($_SESSION["usertype"] != 'Volunteer')
+       {
+            echo' <td><center>'.$row['DOB'].'</center></td> ';
+       }
+            echo'<td><center><button id='.$row['PatientID'].' onClick=callFunction(this.id) >Select</button></center></td>';
+            echo'</tr></tbody>';
+            $no++;
     }
     echo '</table>';
 }
 }
-if($_SESSION["p_id"] != null)
+if( ($_SESSION["p_id"]) != null)
         {
             echo '<table border="0.5" class="data-table">
             <caption class="title"><center>Patient Selection:</center></caption>';
             echo '<tbody><td><center>Name:</td><th>'.$_SESSION["p_fn"].' '.$_SESSION["p_mn"].' '.$_SESSION["p_ln"].'</th></center></th>';
+             if ($_SESSION["usertype"] != 'Volunteer')
+       {
             echo '<td><center>Gender:</td><th>'.$_SESSION["p_sex"].'</center></th>';
             echo '<td><center>Date of Birth:</td><th>'.$_SESSION["p_dob"].'</center></th>';
+       }
             echo '</tbody></table>';
             include('inpatientrecord.php');
         }
 ?>
-</div>
 
 <script type="text/javascript">
 function callFunction(clicked_id){
