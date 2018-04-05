@@ -35,14 +35,15 @@ include 'checkStatus.php'
             <br>
             <input type="button" onclick="location.href="addPatient.php";" value ="Add New Patient" />
             <br>';
-       echo'
-        <div class="tab">
-          <button class="tablinks" onclick="openCity(event, "Admission")">Admission</button>
-          <button class="tablinks" onclick="openCity(event, "PatientInfo")">Patient Information</button>
-          <button class="tablinks" onclick="openCity(event, "Visitor")">Visitors Setting</button>
-          <button class="tablinks" onclick="openCity(event, "InsuranceInfo")">Insurance Information</button>
-          <button class="tablinks" onclick="openCity(event, "BillingInfo")">Billing Information</button>
-        </div>';
+       echo"
+           <div class='tab'>
+          <button class='tablinks' onclick='openCity(event, `Admission`)'>Admission</button>
+          <button class='tablinks' onclick='openCity(event, `PatientInfo`)'>Patient Information</button>
+          <button class='tablinks' onclick='openCity(event, `Visitor`)'>Visitors Setting</button>
+          <button class='tablinks' onclick='openCity(event, `InsuranceInfo`)'>Insurance Information</button>
+          <button class='tablinks' onclick='openCity(event, `BillingInfo`)'>Billing Information</button>
+        </div>
+           ";
        }
 ?>
 
@@ -64,7 +65,7 @@ include 'checkStatus.php'
 </div>
 
 <div id="BillingInfo" class="tabcontent">
-    <?php include 'BillingInfo.php'?>  
+<?php include 'BillingInfo.php'?>  
 </div>
 </body>
 
