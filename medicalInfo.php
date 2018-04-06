@@ -39,7 +39,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ad1">Show Admission Record</button></center>
     <div id="ad1" class="collapse">
     <?php include 'medicalRecord.php'?>
-    </div></center>
+    </div>
 <br>
 <div class="tab">
   <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Treatment Notes</button>

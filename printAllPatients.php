@@ -4,12 +4,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
  
 <?php
-    require('dp_connect.php'); 
-    session_start();
-    
+    require('db_connect.php'); 
+    session_start(); 
     //print buttons
     echo '
-        <body>
             <form id="search-form" method="post">
                 <table border="0.5" class="data-table">
                     <center>  <caption class="title"><center>Print Options</caption> </center>
@@ -18,22 +16,19 @@
                             <td><input type="submit" name="export2" value="Print Patient Summary"/></td>             
                         </tr>
                     </table>
-                </form>
-            </center>
-        </body>';
-    
+                </form>';
     //print all patients assigned to User    
     $output = '';
     if(isset($_POST["export"]))
     {
         $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE UserID = '$_SESSION[username]'";
-        $result = mysqli_query($connect, $query);
+        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));  
         if(mysqli_num_rows($result) > 0)
         {
             $output .= '
                 <table class="table" bordered="1">  
                     <tr>  
-                         <th>Patient ID</th>
+                        <th>Patient ID</th>
                         <th>Last Name</th>
                         <th>Middle Initial</th>
                         <th>First Name</th>
@@ -62,16 +57,15 @@
     //print current patients summary
     $p_id = $_SESSION['p_id'];
     
-    require('dp_connect.php'); 
     $output2 = '';
     if(isset($_POST["export2"]))
     {
-        $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB`, `Street`, `City`, `State`, `ZIP`, `HomePhone`, `MobilePhone`, `SEX` FROM `PatientInfo` WHERE PatientID = '$p_id'";
+        $query = "SELECT * FROM `PatientInfo` WHERE `PatientID` = '$p_id'";
         $query1 = "SELECT `Name`, `Date`, `Time` FROM Procedures WHERE PatientID = '$p_id'";
         $query2 = "SELECT `PrescripName`, `Dosage`, `Quantity`, `Directions` FROM Prescription WHERE `PatientID` = '$p_id'";
         $query3 = "SELECT `AdmissionDate`, `AdmissionTime`, `ReasonForAdmission`, `DischargeTime` FROM MedicalInfo WHERE `PatientID` = '$p_id'";
         $query4 = "SELECT `Note` FROM DoctorsNote WHERE `PatientID` = '$p_id'";
-        $result = mysqli_query($connect, $query);
+        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));  
         if(mysqli_num_rows($result) > 0)
         {
             $output2 .= '
@@ -122,7 +116,7 @@
             }
             $output2 .= '</table>';
             header('Content-Type: application/xls');
-            header('Content-Disposition: attachment; filename=download.xls');
+            header('Content-Disposition: attachment; filename=download1.xls');
             echo $output2;
         }
     }
