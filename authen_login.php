@@ -29,7 +29,7 @@ header("Refresh: 1; url=mainpage.php");
 echo 'Logged in successfully.<br/><br/>Redirecting in 1 seconds...';
 }
 elseif ($count == 0){
-header("1Refresh: 2; url=index.html");
+header("Refresh: 2; url=index.html");
 echo 'Username/Password does not match!<br/><br/>Redirecting in 2 seconds...';
 }
 }

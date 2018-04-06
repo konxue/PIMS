@@ -1,14 +1,9 @@
-<link rel="stylesheet" href="css/tablestyle.css">
-<link rel="stylesheet" type="text/css" href="mainpage.css"/>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
- 
-<?php
-    require('db_connect.php'); 
-    session_start(); 
-    //print buttons
-    echo '
-            <form id="search-form" method="post">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+
+
+<form id="search-form" method="post">
                 <table border="0.5" class="data-table">
                     <center>  <caption class="title"><center>Print Options</caption> </center>
                         <tr>
@@ -16,7 +11,12 @@
                             <td><input type="submit" name="export2" value="Print Patient Summary"/></td>             
                         </tr>
                     </table>
-                </form>';
+                </form>
+
+<?php
+    require('db_connect.php'); 
+    session_start(); 
+    //print buttons
     //print all patients assigned to User    
     $output = '';
     if(isset($_POST["export"]))
@@ -48,9 +48,8 @@
             ';
             }
             $output .= '</table>';
-            header('Content-Type: application/xls');
-            header('Content-Disposition: attachment; filename=download.xls');
-            echo $output;
+            $_SESSION['printOut'] = $output;
+            header("Refresh: 0; url=printreport.php");
         }
     }
     
@@ -122,7 +121,14 @@
     }
     
     
-    
+?>
+
+<script type="text/javascript">
+function printfunction(output){
+    alert(1);
+  //window.location.href = "printreport.php?output="+output;
+}
+</script>
   
     
 
