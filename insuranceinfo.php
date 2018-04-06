@@ -24,7 +24,7 @@
         <center><br>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
-          <caption class="title"><center>Update Insurance Information</center></caption>
+          <caption class="title"><center>Add / Update Insurance Information</center></caption>
             <tr>
                 <td><strong><label for="Carrier"><center>Carrier:</label></strong></td>
                 <td><input type="p_text" name="Carrier" id="Carrier"></center></td>
@@ -51,8 +51,19 @@
             pAlert("Please fill all boxes!");
        
         }elseif(is_numeric ($grpnum) && is_numeric ($acctnum)) {
+            $sql = "Select * From `InsuranceInfo` where `PatientId` = '$_SESSION[p_id]'";
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
+            $c = mysqli_num_rows($result);
+            if($c>0)
+            {
             $sql = "UPDATE `InsuranceInfo` SET `Carrier` = '$carrier' , `AccntNum` = '$acctnum' , `GrpNum` = '$grpnum' WHERE `PatientId` = '$_SESSION[p_id]'"; 
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
+            }
+            else
+            {
+            $sql = "INSERT INTO `InsuranceInfo` (`PatientID`,`Carrier`,`AccntNum`,`GrpNum`) VALUES ('$_SESSION[p_id]','$carrier','$acctnum','$grpnum')"; 
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));    
+            }
             pAlert("Insurance has been updated!");
             echo("<meta http-equiv='refresh' content='0'>"); 
         }else{

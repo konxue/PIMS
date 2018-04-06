@@ -7,7 +7,7 @@ if(isset($_SESSION["printOut"]))
             header('Content-Disposition: attachment; filename=report.xls');
             echo $_SESSION['printOut'];
             $_SESSION['printOut'] = null;
-            header("Refresh: 1; url=".$_SERVER['HTTP_REFERER']);;
+           // header("Refresh: 1; url=".$_SERVER['HTTP_REFERER']);;
 }
 else
 {

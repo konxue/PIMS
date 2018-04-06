@@ -17,7 +17,8 @@
     
     $input = $_SESSION['p_id'];
     $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
-    echo '
+    $output = '';
+    $output .= '
         <table class="data-table">
         <caption class="title"><center>Patient Report</center></caption>
         <thead>
@@ -35,13 +36,13 @@
     
     while($row = mysqli_fetch_array($res))
     {
-        echo "<tr>";
-        echo "<td><center>" . $row['PatientID'] . "</center></td>";
-        echo "<td><center>" . $row['SEX'] . "</center></td>";
-        echo "<td><center>" . $row['LastName'] . "</center></td>";
-        echo "<td><center>" . $row['MiddleName'] . "</center></td>";
-        echo "<td><center>" . $row['FirstName'] . "</center></td>";
-        echo "<td><center>" . $row['DOB'] . "</center></td>";
+        $output .= "<tr>";
+        $output .= "<td><center>" . $row['PatientID'] . "</center></td>";
+        $output .= "<td><center>" . $row['SEX'] . "</center></td>";
+        $output .= "<td><center>" . $row['LastName'] . "</center></td>";
+        $output .= "<td><center>" . $row['MiddleName'] . "</center></td>";
+        $output .= "<td><center>" . $row['FirstName'] . "</center></td>";
+        $output .= "<td><center>" . $row['DOB'] . "</center></td>";
          /*Following code for getting name for the doctor by searching the userID*/
        $n1 = $row['UserID'];
        $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
@@ -49,10 +50,10 @@
        $newrow=mysqli_fetch_array($result1);
        $doctorLN = $newrow[0];
        $doctorFN = $newrow[1];
-        echo "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
-        echo "</tr>";
+        $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        $output .= "</tr>";
     }
-   echo '
+   $output .= '
         <thead>
                 <tr>
                 
@@ -68,23 +69,23 @@
  $result = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
    while($row1 = mysqli_fetch_array($result))
     {
-        echo "<tr>";
-        echo "<td><center>" . $row1['Street'] . "</center></td>";
-        echo "<td><center>" . $row1['City'] . "</center></td>";
-        echo "<td><center>" . $row1['State'] . "</center></td>";
-        echo "<td><center>" . $row1['Zip'] . "</center></td>";
-        echo "<td><center>" . $row1['HomePhone'] . "</center></td>";
-        echo "<td><center>" . $row1['MobilePhone'] . "</center></td>";
-        echo "<td><center>" . $row1['WorkPhone'] . "</center></td>";
-        echo "</tr>";
+        $output .= "<tr>";
+        $output .= "<td><center>" . $row1['Street'] . "</center></td>";
+        $output .= "<td><center>" . $row1['City'] . "</center></td>";
+        $output .= "<td><center>" . $row1['State'] . "</center></td>";
+        $output .= "<td><center>" . $row1['Zip'] . "</center></td>";
+        $output .= "<td><center>" . $row1['HomePhone'] . "</center></td>";
+        $output .= "<td><center>" . $row1['MobilePhone'] . "</center></td>";
+        $output .= "<td><center>" . $row1['WorkPhone'] . "</center></td>";
+        $output .= "</tr>";
     }
-    echo "</table>";
+    $output .= "</table>";
  $patientID = $_SESSION['p_id'];   
  $ecRes = mysqli_query($connection, "Select * FROM EmergencyContacts WHERE PatientID = '$patientID'");
  $count = mysqli_num_rows($ecRes);
   if($count>0)
  {
- echo '
+ $output .= '
         <table class="data-table">
         <caption class="title"><center>Emergency Contacts</center></caption>
         <thead>
@@ -97,25 +98,25 @@
         </thead><tbody>
         ';
 
- while ($ecRow = mysqli_fetch_array($ecRes))
- {
-        echo "<tr>";
-        echo "<td><center>" . $ecRow['E1_LastName'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E1_FirstName'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E1_MobileNum'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E1_HomeNum'] . "</center></td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<td><center>" . $ecRow['E2_LastName'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E2_FirstName'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E2_MobileNum'] . "</center></td>";
-        echo "<td><center>" . $ecRow['E2_HomeNum'] . "</center></td>";
-        echo "</tr></tbody>";
- }
+        $ecRow = mysqli_fetch_array($ecRes);
+
+        $output .= "<tr>";
+        $output .= "<td><center>" . $ecRow['E1_LastName'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E1_FirstName'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E1_MobileNum'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E1_HomeNum'] . "</center></td>";
+        $output .= "</tr>";
+        $output .= "<tr>";
+        $output .= "<td><center>" . $ecRow['E2_LastName'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E2_FirstName'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E2_MobileNum'] . "</center></td>";
+        $output .= "<td><center>" . $ecRow['E2_HomeNum'] . "</center></td>";
+        $output .= "</tr></tbody>";
+
  }
  else
  {
-     echo '<table class="data-table">
+     $output .= '<table class="data-table">
         <caption class="title"><center>Emergency Contacts</center></caption>
         <thead>
                 <tr>
@@ -123,9 +124,19 @@
                 </tr>
         </thead>';
  }
- echo "</table><br><br>";
+ $output .= "</table>";
+echo $output;
+         echo '<br><table class="data-table">';
+            echo '<form id="search-form" method="post">';
+            echo '<td><center>
+                <input type="submit" name="submit_print" value="Print" /></center></td>		
+                </form></tr></table>';
 
+        if($_POST["submit_print"])
+        {
+            $_SESSION['printOut'] = $output;
+            echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+        }
     mysqli_close($connection);
     }
-       
 ?>

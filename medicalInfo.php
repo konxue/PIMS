@@ -48,6 +48,8 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
   <button class="tablinks">|</button>
   <button class="tablinks" onclick="openItem(event, 'PatientInfo')">Patient Information</button>
   <button class="tablinks" onclick="openItem(event, 'InsuranceInfo')">Insurance Information</button>
+  <button class="tablinks">|</button>
+  <button class="tablinks" onclick="openItem(event, 'Print')">Print Report</button>
 </div>
 
 <div id="DoctorNotes" class="tabcontent">
@@ -252,21 +254,21 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         }
         else
         {
-            echo '<br><table class="data-table">
+            $output = '';
+        $output .= '<br><table class="data-table">
                 <center><caption class="title"><center>Prescription Record</caption></center>
         <thead>';
-        echo "<tr>";
-        echo "<th><center>Prescription #</center></td>";
+        $output .=  "<tr><th><center>Prescription #</center></td>";
         //echo "<th><center>Doctor</center></td>";
-        echo "<th><center>Medicine Name</center></th>";
-        echo "<th><center>Dosage</center></th>";
-        echo "<th><center>Quantity</center></th>";
-        echo "<th><center>Direction</center></th>";
-        echo "<th><center>Delete</center></th>";
-        echo "</tr></thead><tbody>";
+        $output .=  "<th><center>Medicine Name</center></th>";
+        $output .=  "<th><center>Dosage</center></th>";
+        $output .=  "<th><center>Quantity</center></th>";
+        $output .=  "<th><center>Direction</center></th>";
+        $output .=  "<th><center>Delete</center></th>";
+        $output .=  "</tr></thead><tbody>";
         while($row=mysqli_fetch_array($result))
         {
-            echo"<tr><td><center>".$row['pk']."</center></td>";
+            $output .= "<tr><td><center>".$row['pk']."</center></td>";
             //where this fetch doctor name based on userid
             $n1 = $row['UserID'];
             $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
@@ -275,16 +277,27 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             $doctorLN = $newrow[0];
             $doctorFN = $newrow[1];
             //echo"<td><center>Dr. ".$doctorFN." ".$doctorLN."</center></td>";
-            echo"<td><center>".$row['PrescripName']."</center></td>";
-            echo"<td><center>".$row['Dosage']."</center></td>";
-            echo"<td><center>".$row['Quantity']."</center></td>";
-            echo"<td><center>".$row['Directions']."</center></td>";
-            echo '<form id="search-form" method="post">';
-            echo '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
+            $output .= "<td><center>".$row['PrescripName']."</center></td>";
+            $output .= "<td><center>".$row['Dosage']."</center></td>";
+            $output .= "<td><center>".$row['Quantity']."</center></td>";
+            $output .= "<td><center>".$row['Directions']."</center></td>";
+            $output .=  '<form id="search-form" method="post">';
+            $output .=  '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
                 <input type="submit" name="submit_delete" value="Delete" /></center></td>		
                 </form></tr>';
         }
-        echo "</tbody></table><br><br>";
+        $output .=  "</tbody></table><br><br>";
+        echo $output;
+         echo '<br><table class="data-table">';
+            echo '<form id="search-form" method="post">';
+            echo '<td><center>
+                <input type="submit" name="submit_print" value="Print" /></center></td>		
+                </form></tr></table>';
+        }
+        if($_POST["submit_print"])
+        {
+            $_SESSION['printOut'] = $output;
+            echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
         }
         if(isset($_POST["submit_delete"])) // when delete button is click
 {
@@ -345,6 +358,9 @@ else{
     echo '<br><br>';
     }
 ?>
+</div>
+<div id="Print" class="tabcontent">
+<?php include'printAllPatients.php'?>
 </div>
 <script>
 function openItem(evt, item) {
