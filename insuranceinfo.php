@@ -1,13 +1,9 @@
-
-<link rel="stylesheet" href="css/tablestyle.css">
-<link rel="stylesheet" type="text/css" href="mainpage.css"/>
-
 <?php
     function pAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
     }
    session_start();
-    if ($_SESSION['p_id'] == null)
+    if ($_SESSION['p_id'] == null && ($_SESSION["usertype"] != 'Volunteer'))
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
@@ -25,9 +21,10 @@
     $count = mysqli_num_rows($res);
 
     echo '
-        <center>
+        <center><br>
         <form id="search-form" method="post">
           <table border="0.5" class="data-table">
+          <caption class="title"><center>Add / Update Insurance Information</center></caption>
             <tr>
                 <td><strong><label for="Carrier"><center>Carrier:</label></strong></td>
                 <td><input type="p_text" name="Carrier" id="Carrier"></center></td>
@@ -43,43 +40,60 @@
     </center>
     <br>
     <br>
-        <table class="data-table">
+        ';
+    if($_POST['submit_5']) //get button click event
+    {
+        $carrier = $_POST['Carrier']; // for all variable
+        $acctnum = $_POST['AcctNum'];
+        $grpnum = $_POST['GrpNum'];
+        if ($carrier == null || $acctnum == null || $grpnum == null)
+        {
+            pAlert("Please fill all boxes!");
+       
+        }elseif(is_numeric ($grpnum) && is_numeric ($acctnum)) {
+            $sql = "Select * From `InsuranceInfo` where `PatientId` = '$_SESSION[p_id]'";
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
+            $c = mysqli_num_rows($result);
+            if($c>0)
+            {
+            $sql = "UPDATE `InsuranceInfo` SET `Carrier` = '$carrier' , `AccntNum` = '$acctnum' , `GrpNum` = '$grpnum' WHERE `PatientId` = '$_SESSION[p_id]'"; 
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
+            }
+            else
+            {
+            $sql = "INSERT INTO `InsuranceInfo` (`PatientID`,`Carrier`,`AccntNum`,`GrpNum`) VALUES ('$_SESSION[p_id]','$carrier','$acctnum','$grpnum')"; 
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));    
+            }
+            pAlert("Insurance has been updated!");
+            echo("<meta http-equiv='refresh' content='0'>"); 
+        }else{
+            pAlert("Invalid Group or Account Numbers!");
+        }
+
+    }
+    if ($count==0)
+{
+    echo '<table class="data-table">
+        <thead><thead><tr>
+            <th><center>No insurance record!</center></th>
+            </tr></tbody></table>' ;
+}
+else{
+    $row = mysqli_fetch_array($res);
+        echo'<table class="data-table">
         <thead>
                 <tr>
                 <th><center>Insurance Carrier</center></th>
                 <th><center>Account Number</center></th>
                 <th><center>Group Number</center></th>
                 </tr>
-        </thead>
-        ';
-    /*if($_POST['submit_5']) //get button click event
-    {...
-        //$ acctnum = $_POST['AcctNum']; // for all variable
-    ... maybe do a if $acctnum == null to detect emty user input
-     then call sql ="method"
-     * result excute
-     * pAlert('message'); // this function will pop a window tell user msg..
-    }*/
-    if ($count==0)
-{
-    echo '<tbody><tr>
-            <td></td>
-            <td><center>Insurance not found!</center></td>
-            <td></td>
-            </tr></tbody></table>'
-         ;
-}
-else{
-    while($row = mysqli_fetch_array($res))
-    {
+        </thead>';
         echo "<tbody><tr>";
         echo "<td><center>" . $row['Carrier'] . "</center></td>";
         echo "<td><center>" . $row['AccntNum'] . "</center></td>";
         echo "<td><center>" . $row['GrpNum'] . "</center></td>";
         echo "</tr></tbody>";
-    }
         echo "</table>";
-    
     }
     echo '<br><br>';
     mysqli_close($connection);

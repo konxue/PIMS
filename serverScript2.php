@@ -4,7 +4,7 @@ if (isset($_GET["logid"])) {
 require("db_connect.php");
 session_start();
 $_SESSION["p_logid"] = $_GET["logid"];
-phpAlert("You have selected the Admission Log ID: ". $_SESSION['p_logid']);
+phpAlert("You have selected the Admission ID#: ". $_SESSION['p_logid']);
 header("Refresh: 0; url=medicalInfo.php");
  }
  else

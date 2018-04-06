@@ -2,8 +2,7 @@
 <title>Logging... - Patient Information Management System</title>
 <?php  
 require("db_connect.php");
-
-if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
+if (isset($_POST['user_id']) && isset($_POST['user_pass'])){
 // Assigning POST values to variables.
 $username = $_POST['user_id'];
 $password = $_POST['user_pass'];
@@ -29,7 +28,7 @@ $_SESSION['lastname'] = $row[2];
 header("Refresh: 1; url=mainpage.php");
 echo 'Logged in successfully.<br/><br/>Redirecting in 1 seconds...';
 }
-else{
+elseif ($count == 0){
 header("Refresh: 2; url=index.html");
 echo 'Username/Password does not match!<br/><br/>Redirecting in 2 seconds...';
 }

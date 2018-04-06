@@ -1,5 +1,5 @@
 <?php
-/*Use for alerting user on selecting the patient in the search tab*/
+/*Use for alerting user on selecting the patient in the search tab in doctor/nurse panel*/
 if (isset($_GET["pid"])) {
 require("db_connect.php");
 session_start();
@@ -16,8 +16,8 @@ $_SESSION["p_ln"] = $newrow[2];
 $_SESSION["p_sex"] = $newrow[3];
 $_SESSION["p_pd"] = $newrow[4]; //getting family doctor for current patient
 $_SESSION["p_mn"]=$newrow[5];
-phpAlert("Selected:\\n ID:".$_SESSION['p_id']."\\nName: ".$_SESSION["p_fn"]." ".$_SESSION["p_ln"]);
-header("Refresh: 0; url=mainpage.php");
+phpAlert("Selected:\\nID:".$_SESSION['p_id']."\\nName: ".$_SESSION["p_fn"]." ".$_SESSION["p_ln"]);
+header("Refresh: 0; url=medicalInfo.php");
  }
  else
  {

@@ -39,7 +39,7 @@ if ($selection == 'LAST')
     if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
     {
         $input = '';
-        echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
+         echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
     }
     else
     {
@@ -57,7 +57,7 @@ elseif ($selection == 'FIRST')
         if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
      {
          $input = '';
-         echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
+          echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
      }
      else
      {
@@ -117,7 +117,7 @@ elseif ($count>0)
 
 <script type="text/javascript">
 function callFunction(clicked_id){
-  window.location.href = "serverScript.php?pid="+clicked_id;
+  window.location.href = "serverScript1.php?pid="+clicked_id;
 }
 </script>
 
