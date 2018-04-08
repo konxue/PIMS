@@ -42,25 +42,25 @@
                         <td><center>'.$row['FirstName'].'</center></td>
                         <td><center>'.$row['SEX'].'</center></td>
                         <td><center>'.$row['DOB'].'</center></td>';
-                       $n1 = $row['UserID'];
-                $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
-                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
-                $newrow=mysqli_fetch_array($result1);
-                $doctorLN = $newrow[0];
-                $doctorFN = $newrow[1];
-                $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
-                $input = $row['PatientID'];
-                $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
-                $resulty = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                if(mysqli_num_rows($resulty) > 0)
-                {
-                $newrow = mysqli_fetch_array($resulty);
-                $output .= '<td><center>'.$newrow['AdmissionDate'].'</center></td>';
-                }
-                else
-                {
-                $output .= '<td><center>Never</center></td>';    
-                }
+                        $n1 = $row['UserID'];
+                        $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
+                        $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                        $newrow=mysqli_fetch_array($result1);
+                        $doctorLN = $newrow[0];
+                        $doctorFN = $newrow[1];
+                        $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+                        $input = $row['PatientID'];
+                        $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
+                        $resulty = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                        if(mysqli_num_rows($resulty) > 0)
+                        {
+                            $newrow = mysqli_fetch_array($resulty);
+                            $output .= '<td><center>'.$newrow['AdmissionDate'].'</center></td>';
+                        }
+                        else
+                        {
+                            $output .= '<td><center>Never</center></td>';    
+                        }
                 
                 }
             $output .= '</tr></table>';
@@ -75,12 +75,17 @@
     $output2 = '';
     if(isset($_POST["export2"]))
     {
+        $sql = "SELECT * FROM `PatientInfo` INNER JOIN Procedures INNER JOIN Prescriptions INNER JOIN MedicalInfo INNER JOIN DoctorsNote ON brand.brand_id = product.brand_id"; 
         $query = "SELECT * FROM `PatientInfo` WHERE `PatientID` = '$p_id'";
         $query1 = "SELECT `Name`, `Date`, `Time` FROM Procedures WHERE PatientID = '$p_id'";
         $query2 = "SELECT `PrescripName`, `Dosage`, `Quantity`, `Directions` FROM Prescription WHERE `PatientID` = '$p_id'";
         $query3 = "SELECT `AdmissionDate`, `AdmissionTime`, `ReasonForAdmission`, `DischargeTime` FROM MedicalInfo WHERE `PatientID` = '$p_id'";
         $query4 = "SELECT `Note` FROM DoctorsNote WHERE `PatientID` = '$p_id'";
-        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));  
+        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+        $result1 = mysqli_query($connection, $query1) or die(mysqli_error($connection));
+        $result2 = mysqli_query($connection, $query2) or die(mysqli_error($connection));
+        $result3 = mysqli_query($connection, $query3) or die(mysqli_error($connection));
+        $result4 = mysqli_query($connection, $query4) or die(mysqli_error($connection));
         if(mysqli_num_rows($result) > 0)
         {
             $output2 .= '
@@ -97,7 +102,7 @@
                         <th>ZIP</th>
                         <th>Home Phone</th>
                         <th>Mobile Phone</th>
-                        <th>Sex</th>   
+                        <th>Sex</th>                    
                         <th>AdmissionDate</th>
                         <th>AdmissionTime</th>
                         <th>Reason for Admission</th>
@@ -120,14 +125,13 @@
                         <td><center>'.$row['ZIP'].'</center></td>
                         <td><center>'.$row['HomePhone'].'</center></td>
                         <td><center>'.$row['MobilePhone'].'</center></td>
-                        <td><center>'.$row['Sex'].'</center></td>   
+                        <td><center>'.$row['Sex'].'</center></td>
                         <td><center>'.$row['AdmissionDate'].'</center></td>
                         <td><center>'.$row['AdmissionTime'].'</center></td>
                         <td><center>'.$row['ReasonforAdmission'].'</center></td>
-                        <td><center>'.$row['DischargeTime'].'</center></td>
+                        <td><center>'.$row['DischargeTime'].'</center></td>                        
                         <td><center>'.$row['Notes'].'</center></td>
-                    </tr>
-            ';
+                    </tr>';
             }
             $output2 .= '</table>';
             $_SESSION['printOut'] = $output2;
