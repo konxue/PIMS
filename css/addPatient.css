@@ -1,4 +1,4 @@
-/*
+/*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_radio
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
@@ -23,4 +23,115 @@ and open the template in the editor.
 .sectionDesc {
     margin-bottom: 20px;
     margin-top: 40px;
+}
+.submitbutton{
+    width: 100%;
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 14px 20px;
+                        margin: auto;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+}
+
+.fieldName{
+    font-weight: 700;
+	font-size: 1em;
+	color: #888;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	line-height: 2em;
+        margin-left: 10px;
+}
+.inputField{
+        font-weight: 700;
+	font-size: 1em;
+	color: #888;
+	letter-spacing: 1px;
+	line-height: 1em;
+        margin-left: 10px;
+}
+
+.phoneField
+{
+        font-weight: 700;
+	font-size: 1em;
+	color: #888;
+	letter-spacing: 1px;
+	line-height: 1em;
+        margin-left: 10px;
+}
+
+.lastPhoneField
+{
+        font-weight: 700;
+	font-size: 1em;
+	color: #888;
+	letter-spacing: 1px;
+	line-height: 1em;
+        margin-left: 10px;
+}
+
+.radioType {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radioType input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.RadioBtn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioType:hover input ~ .RadioBtn {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioType input:checked ~ .RadioBtn {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.RadioBtn:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioType input:checked ~ .RadioBtn:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioType .RadioBtn:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
 }

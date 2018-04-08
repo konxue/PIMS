@@ -5,7 +5,9 @@ $errors[0] = 0;
 $isProcessed = 0;
 
 session_start();
-$fNameError = $mNameError = $lNameError = $homeNumError = $cellNumError = $workNumError ="";
+$fNameError = $mNameError = $lNameError = $homeNumError = $cellNumError = $workNumError = "";
+
+$$doctorError = "";
 
 $dobError = $sexError = $visitorError = $streetError = $EC2PhoneError = $EC2HomeError = "";
 
@@ -73,6 +75,19 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
             $errors[0] = 1;
         }
     }
+    if(empty($_POST["p_dName"])){
+        $lNameError = 'Please enter a name.';
+        $errors[0] = 1;
+    }
+    else {
+        $p_doctorName = testInput($_POST["p_dName"]);
+    // check if name only contains letters and whitespace
+        if (!preg_match("/^[0-9a-zA-Z\- ]*$/",$p_doctorName)) {
+            $doctorError = "Unrecognized Characters";
+            $errors[0] = 1;
+        }
+    } 
+    
     
     if(empty($_POST["homePhone1"]) || empty($_POST["homePhone2"]) || empty($_POST["homePhone3"])){
         $homeNumError = 'Please enter a number.';
@@ -148,10 +163,6 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     else {
         $p_DOB = testInput($_POST["p_DOB"]);
     // check if name only contains letters and whitespace
-        if (!preg_match("/^[0-9]*$/",$p_DOB)) {
-            $dobError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
     }
     
     if (empty($_POST["p_Sex"])) {
@@ -410,10 +421,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }    
 }
 ?>
-<link rel="stylesheet" href="css/addPatient.css">
 <html>
     <head>
         <title>Add New Patient</title>
+        <link rel="stylesheet" href="css/addPatient.css">
         <style type ="text/css">
             .error{color:red;}
             .success{color:green;}
@@ -450,21 +461,38 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <input type="text" name ="workPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $workPhone3; ?>">
                 <span class="error"><?php echo $workNumError; ?></span>
                 <br><br>
-                <label for ="p_DOB" class="fieldName">Date of Birth(MMDDYYYY)</label>
-                <input type="text" name ="p_DOB" class="inputField" size="10" maxlength="8" value="<?php echo $p_DOB; ?>">
+                <label for ="p_DOB" class="fieldName">Date of Birth(MM/DD/YYYY)</label>
+                <input type="text" name ="p_DOB" class="inputField" size="12" maxlength="10" value="<?php echo $p_DOB; ?>">
                 <span class="error"><?php echo $dobError; ?></span>
-                <label for="p_Sex" class="radioType"> Sex: </label>
-                <input type="radio" name ="p_Sex" class="radioBtn" <?php if (isset($p_Sex) && $p_Sex=="M") echo "checked";?>
-                       value="M">Male
-                <input type="radio" name ="p_Sex" class="RadioBtn" <?php if (isset($p_Sex) && $p_Sex=="F") echo "checked";?>
-                       value="F">Female
+                <label for ="p_Sex" class="fieldName">Gender:</label>
+                <label for="p_Sex" class="radioType"> Male:
+                <input type="radio" name ="p_Sex" <?php if (isset($p_Sex) && $p_Sex=="M") echo "checked";?>
+                       value="M">
+                <span class="RadioBtn"></span>
+                </label>
+                <label for="p_Sex" class="radioType"> Female:
+                <input type="radio" name ="p_Sex" <?php if (isset($p_Sex) && $p_Sex=="F") echo "checked";?>
+                       value="F">
+                <span class="RadioBtn"></span>
+                </label>
                 <span class="error"><?php echo $sexError; ?></span>
-                <label for="p_VisitorType" class="radioType"> Visitor Status: </label>
-                <input type="radio" name ="p_VisitorType" class="radioBtn" <?php if (isset($p_VisitorType) && $p_VisitorType=="R") echo "checked";?>
-                       value="R">Restricted
-                <input type="radio" name ="p_VisitorType" class="RadioBtn" <?php if (isset($p_VisitorType) && $p_VisitorType=="U") echo "checked";?>
-                       value="U">Unrestricted
+                <label for ="p_VisitorType" class="fieldName">Visitor Status:</label>
+                <label for="p_VisitorType" class="radioType"> Restricted
+                <input type="radio" name ="p_VisitorType" checked="checked" <?php if (isset($p_VisitorType) && $p_VisitorType=="Y") echo "checked";?>
+                       value="Y">
+                <span class="RadioBtn"></span>
+                </label>
+                <label for="p_VisitorType" class="radioType"> Unrestricted
+                <input type="radio" name ="p_VisitorType" checked="checked" <?php if (isset($p_VisitorType) && $p_VisitorType=="N") echo "checked";?>
+                       value="N">
+                <span class="RadioBtn"></span>
+                </label>
                 <span class="error"><?php echo $visitorError; ?></span>
+                <br><br>
+                <label for="p_FirstName" class="fieldName">Family Doctor: (username):</label>
+                <input type="text" name ="p_dName" class="inputField" size="10" value="<?php echo $p_doctorName; ?>">
+                <span class="error"><?php echo $doctorError; ?></span>
+                
                 <h3 class="sectionDesc">Address Information.</h3>
                 <label for="p_Street" class="fieldName">Street:</label>
                 <input type="text" name ="p_Street" class="inputField" size="113" value="<?php echo $p_Street; ?>">
@@ -525,7 +553,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <input type="text" name ="EC2_cellPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC2_cellPhone3; ?>">
                 <span class="error"><?php echo $EC2CellError; ?></span>
             </div>
-            <input type ="submit" vale="Send">
+            <br>
+            <input type ="submit" class="submitbutton" vale="Send">
         </form>
     </body>
 </html>
@@ -544,23 +573,23 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
 
     
     if (($errors[0] == 0) && ($isProcessed ==1)) {
-        $HomePhoneNumber = "(" . $homePhone1 . ")" . $homePhone2 .  "-" . $homePhone3;
-        $CellPhoneNumber = "(" . $cellPhone1 . ")" . $cellPhone2 .  "-" . $cellPhone3;
-        $WorkPhoneNumber = "(" . $workPhone1 . ")" . $workPhone2 .  "-" . $workPhone3;
-        $EC1HomePhone = "(" . $EC1_homePhone1 . ")" . $EC1_homePhone2 . "-" . $EC1_homePhone3;
-        $EC2HomePhone = "(" . $EC2_homePhone1 . ")" . $EC2_homePhone2 . "-" . $EC2_homePhone3;
-        $EC1CellPhone = "(" . $EC1_cellPhone1 . ")" . $EC1_cellPhone2 . "-" . $EC1_cellPhone3;
-        $EC2CellPhone = "(" . $EC2_cellPhone1 . ")" . $EC2_cellPhone2 . "-" . $EC2_cellPhone3;
+        $HomePhoneNumber = "(" . $homePhone1 . ") " . $homePhone2 .  "-" . $homePhone3;
+        $CellPhoneNumber = "(" . $cellPhone1 . ") " . $cellPhone2 .  "-" . $cellPhone3;
+        $WorkPhoneNumber = "(" . $workPhone1 . ") " . $workPhone2 .  "-" . $workPhone3;
+        $EC1HomePhone = "(" . $EC1_homePhone1 . ") " . $EC1_homePhone2 . "-" . $EC1_homePhone3;
+        $EC2HomePhone = "(" . $EC2_homePhone1 . ") " . $EC2_homePhone2 . "-" . $EC2_homePhone3;
+        $EC1CellPhone = "(" . $EC1_cellPhone1 . ") " . $EC1_cellPhone2 . "-" . $EC1_cellPhone3;
+        $EC2CellPhone = "(" . $EC2_cellPhone1 . ") " . $EC2_cellPhone2 . "-" . $EC2_cellPhone3;
         
-        $sqlQuery = "INSERT INTO PatientInfo (City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip)
-                    VALUES ('$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip')";
+        $sqlQuery = "INSERT INTO PatientInfo (UserID, City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip)
+                    VALUES ('$p_doctorName','$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip')";
         
         
         
         
         if( mysqli_query($addConn, $sqlQuery)){
-            echo "Information added successfully, page closing in 3 seconds";
-            echo '<script> window.setTimeout("window.close()",1000);</script>';
+            echo "Information added successfully, page closing in 2 seconds";
+            echo '<script> window.setTimeout("window.close()",2000);</script>';
         } 
         else{
             echo "ERROR: Could not execute $sqlQuery. " . mysqli_error($addConn);

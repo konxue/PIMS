@@ -29,6 +29,10 @@ session_start();
         // Getting data from database then store to PHP variable
             header("Refresh: 0; url=index.html");
         }
+        else
+        {
+            header("Refresh: 0; url=mainpage.php");
+        }
     }
     else
     {
