@@ -81,7 +81,7 @@
     }
     $output .= "</table>";
  $patientID = $_SESSION['p_id'];   
- $ecRes = mysqli_query($connection, "Select * FROM EmergencyContacts WHERE PatientID = '$patientID'");
+ $ecRes = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$patientID'");
  $count = mysqli_num_rows($ecRes);
   if($count>0)
  {
