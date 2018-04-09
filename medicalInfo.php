@@ -27,11 +27,13 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 <br>
 
 <body>
-    <?php include 'patientTable.php'?>
-    <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#searchtab">Find Patient</button></center>
-        <div id="searchtab" class="collapse">
-            <?php include 'FindPatient.php' ?>
-        </div></center>
+    <?php
+    if($_SESSION['usertype'] == 'Doctor')
+    {
+        include 'patientTable.php';
+    }
+    ?>
+    <?php include 'FindPatient.php' ?>
     <?php include 'currentSelection.php'?>;
     <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ad1">Show Admission Record</button></center>
     <div id="ad1" class="collapse">
@@ -380,21 +382,21 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         }
         else
         {
-            $output = '';
-        $output .= '<br><table class="data-table">
+            $output33 = '';
+        $output33 .= '<br><table class="data-table">
                 <center><caption class="title"><center>Prescription Record</caption></center>
         <thead>';
-        $output .=  "<tr><th><center>Prescription #</center></td>";
+        $output33 .=  "<tr><th><center>Prescription #</center></td>";
         //echo "<th><center>Doctor</center></td>";
-        $output .=  "<th><center>Medicine Name</center></th>";
-        $output .=  "<th><center>Dosage</center></th>";
-        $output .=  "<th><center>Quantity</center></th>";
-        $output .=  "<th><center>Direction</center></th>";
-        $output .=  "<th><center>Delete</center></th>";
-        $output .=  "</tr></thead><tbody>";
+        $output33 .=  "<th><center>Medicine Name</center></th>";
+        $output33 .=  "<th><center>Dosage</center></th>";
+        $output33 .=  "<th><center>Quantity</center></th>";
+        $output33 .=  "<th><center>Direction</center></th>";
+        $output33 .=  "<th><center>Delete</center></th>";
+        $output33 .=  "</tr></thead><tbody>";
         while($row=mysqli_fetch_array($result))
         {
-            $output .= "<tr><td><center>".$row['pk']."</center></td>";
+            $output33 .= "<tr><td><center>".$row['pk']."</center></td>";
             //where this fetch doctor name based on userid
             $n1 = $row['UserID'];
             $query = "SELECT `LastName`,`FirstName` FROM `Users` WHERE UserID='$n1'";
@@ -403,26 +405,25 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             $doctorLN = $newrow[0];
             $doctorFN = $newrow[1];
             //echo"<td><center>Dr. ".$doctorFN." ".$doctorLN."</center></td>";
-            $output .= "<td><center>".$row['PrescripName']."</center></td>";
-            $output .= "<td><center>".$row['Dosage']."</center></td>";
-            $output .= "<td><center>".$row['Quantity']."</center></td>";
-            $output .= "<td><center>".$row['Directions']."</center></td>";
-            $output .=  '<form id="search-form" method="post">';
-            $output .=  '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
+            $output33 .= "<td><center>".$row['PrescripName']."</center></td>";
+            $output33 .= "<td><center>".$row['Dosage']."</center></td>";
+            $output33 .= "<td><center>".$row['Quantity']."</center></td>";
+            $output33 .= "<td><center>".$row['Directions']."</center></td>";
+            $output33 .=  '<form id="search-form" method="post">';
+            $output33 .=  '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
                 <input type="submit" name="submit_delete" value="Delete" /></center></td>		
                 </form></tr>';
         }
-        $output .=  "</tbody></table><br><br>";
-        echo $output;
+        $output33 .=  "</tbody></table><br><br>";
+        echo $output33;
          echo '<br><table class="data-table">';
             echo '<form id="search-form" method="post">';
-            echo '<td><center>
-                <input type="submit" name="submit_print" value="Print" /></center></td>		
+            echo '<td><center><input type="submit" name="submit_print22" value="Print" /></center></td>		
                 </form></tr></table>';
         }
-        if($_POST["submit_print"])
+        if($_POST["submit_print22"])
         {
-            $_SESSION['printOut'] = $output;
+            $_SESSION['printOut'] = $output33;
             echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
         }
         if(isset($_POST["submit_delete"])) // when delete button is click

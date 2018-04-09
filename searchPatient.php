@@ -15,7 +15,7 @@ echo '
                 </td>
                 <td><input type="p_text" name="p_last" id="p_last"></center></td>
                 <td><input type="submit" name="submit_0" value="Submit" /></td>';
-                if ($_SESSION['usertype'] != 'Volunteer')
+                if ($_SESSION['usertype'] == 'OfficeStaff')
                 {
                     echo '<td><center><input type="submit" name="addPclick" value="Add New Patient" /></center></td>';
                 }
