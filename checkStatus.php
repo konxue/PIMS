@@ -24,9 +24,7 @@
     session_start();
     if (isset($_SESSION['username'])) {
     $_SESSION['p_selected']= null;
-    $_SESSION['ipcheck'] = 2;
-    require('ipcheck.php');
-    echo "<div class='heading'><strong><center>".$_SESSION['usertype'].": ".$_SESSION['firstname'].", ".$_SESSION['lastname']." Welcome to Patient Information Management System!</center></strong></div>";
+    echo "<div class='heading'><strong><center>".$_SESSION['usertype'].": ".$_SESSION['lastname'].", ".$_SESSION['firstname']." Welcome to Patient Information Management System!</center></strong></div>";
     echo'<a href="logout.php" class="sslogout btn btn-info btn-small"> <span class="glyphicon glyphicon-log-out"> Logout</span>  
         </a>';
 } else {

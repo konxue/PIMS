@@ -124,7 +124,8 @@
     else
     {
         //output table header
-    echo '
+    $output5 = '';
+    $output5.= '
         <table class="data-table">
         <caption class="title"><center>Admission Report</center></caption>
         <thead>
@@ -137,9 +138,9 @@
                 <th><center>Discharge Time</center></th>';
         if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
         {
-            echo '<th><center>Selection</center></th>';
+            $output5 .= '<th><center>Selection</center></th>';
         }
-        echo '
+        $output5 .= '
                 <th><center>Discharge</center></th>
                 <th><center>Delete</center></th>
                 </tr>
@@ -147,30 +148,41 @@
     while($row = mysqli_fetch_array($result))
     {
 
-        echo "<tr>";
-        echo "<td><center>" . $row['log_id'] . "</center></td>";
-        echo "<td><center>" . $row['AdmissionDate'] . "</center></td>";
-        echo "<td><center>" . $row['AdmissionTime'] . "</center></td>";
-        echo "<td><center>" . $row['ReasonForAdmission'] . "</center></td>";
-        echo "<td><center>" . $row['DischargeDate'] . "</center></td>";
-        echo "<td><center>" . $row['DischargeTime'] . "</center></td>";
+        $output5 .= "<tr>";
+        $output5 .= "<td><center>" . $row['log_id'] . "</center></td>";
+        $output5 .= "<td><center>" . $row['AdmissionDate'] . "</center></td>";
+        $output5 .= "<td><center>" . $row['AdmissionTime'] . "</center></td>";
+        $output5 .= "<td><center>" . $row['ReasonForAdmission'] . "</center></td>";
+        $output5 .= "<td><center>" . $row['DischargeDate'] . "</center></td>";
+        $output5 .= "<td><center>" . $row['DischargeTime'] . "</center></td>";
         if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
         {
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) name=grr>Select</button></center></td>';
+        $output5 .= '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) name=grr>Select</button></center></td>';
         }
         if ($row['DischargeDate'] !=null)
         {
-        echo '<td><center>-</center></td>';
+        $output5 .= '<td><center>-</center></td>';
         }
         else
         {
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) name=grr>Discharge</button></center></td>';
+        $output5 .= '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) name=grr>Discharge</button></center></td>';
         }
-        echo '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) name=grr>Delete</button></center></td>';
-        echo "</tr>";
+        $output5 .= '<td><center><button id='.$row['log_id'].' onClick=callFunction3(this.id) name=grr>Delete</button></center></td>';
+        $output5 .= "</tr>";
     }
     }
-    echo "</table><br><br>";
+    $output5 .= "</table><br><br>";
+    echo $output5;
+    echo '<br><table class="data-table">';
+    echo '<form id="search-form" method="post">';
+    echo '<td><center>
+        <input type="submit" name="submit_print3" value="Print" /></center></td>		
+        </form></tr></table>';
+    if($_POST["submit_print3"])
+    {
+        $_SESSION['printOut'] = $output5;
+        echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+    }
     mysqli_close($connection);
     }
 ?>
