@@ -1,17 +1,19 @@
-<!--This PHP code is for the billing tab on the main page, it includes the HTML and CSS-->
-
+<!--
+    Purpose: This PHP page is for the billing information tab that shows on the main page
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
 <?php
 session_start();
-if(($_SESSION["usertype"] != 'Volunteer'))
+if(($_SESSION["usertype"] != 'Volunteer')) //hidden for volunteer
 {
-if ($_SESSION['p_id'] == null)
+if ($_SESSION['p_id'] == null) //if patient not been selected
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
-    else 
+    else //patient is selected
     {
         require("db_connect.php");
-        //Payment submit
+        //Table for payment submit
         echo '
         <br>
         <center>
@@ -38,7 +40,7 @@ if ($_SESSION['p_id'] == null)
                    </table>
             </form>
         </center><br>';
-
+        //table for adding items to the bill based on the admission #
         echo '
             <center><br>
             <form id="search-form" method="post">
@@ -57,7 +59,7 @@ if ($_SESSION['p_id'] == null)
                     </tr>
                     </table>
             </center><br>';
-            if($_POST['submit_25'])
+            if($_POST['submit_25'])//when submit_25 button is click, it will add information to the database
             {
                         $input = $_SESSION['p_id'];
                         $logid = $_POST['anum'];
@@ -81,7 +83,7 @@ if ($_SESSION['p_id'] == null)
                             echo "<meta http-equiv='refresh' content='0'>"; 
                         }
             }
-        if($_POST['submit_1'])
+        if($_POST['submit_1']) //when submit_1 button is click, it will add information to the database
         {
             $amtpaid = $_POST['payment'];
             $vid = $_POST['vnum'];
@@ -207,7 +209,7 @@ if ($_SESSION['p_id'] == null)
 
         }
 
-
+        //getting log_id from the database
         $input = $_SESSION['p_id'];
         $mysql = "Select `log_id` From `MedicalInfo` Where `PatientID` = '$input' ORDER BY `log_id` DESC";
         $results = mysqli_query($connection, $mysql) or die(mysqli_error($connection));
@@ -219,7 +221,7 @@ if ($_SESSION['p_id'] == null)
             $no = $thisrow['log_id'];
             echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$thisrow['log_id'].'</button></center>
                   <div id="demo'.$no.'" class="collapse">
-                  <br>';
+                  <br>'; //this will output collapse tab to output table of billing information
             $output3[$index] .='<table class="data-table">
                     <thead>
                     <tr>
@@ -232,7 +234,7 @@ if ($_SESSION['p_id'] == null)
             $sqli = "Select * From `ItemizedList` Where `PatientID` = '$_SESSION[p_id]' and `log_id` = '$no'";
             $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
             $output3[$index] .='<tbody>';
-            while ($newrow = mysqli_fetch_array($res))
+            while ($newrow = mysqli_fetch_array($res)) //query for database, and fetch data into array
             {
                 $output3[$index] .= "<tr><td><center>".$newrow['Item']."</center></td>";
                 $output3[$index] .= "<td><center>" . number_format($newrow['Cost'],2) . "</center></td>";

@@ -28,7 +28,7 @@
     echo'<a href="logout.php" class="sslogout btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"> Logout</span>  
         </a>';
 } else {
-    header("Refresh: 0; url=index.html");
+    header("Refresh: 0; url=ipcheck.php");
     echo '<script type="text/javascript">alert("Error 440.\\nPlease log in and try again!")</script>';
 }
 ?> 
