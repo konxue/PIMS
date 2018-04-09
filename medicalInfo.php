@@ -170,19 +170,129 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 
 
 <div id="Procedures" class="tabcontent">
-     <?php
+<?php
     session_start();
     if($_SESSION['p_logid'] == null)
     {
         echo "<strong><center>Please select a visit id from the admission record!</center></strong>";
     }
-    else
-    {
-        
-    }   
-    ?>
-</div>
+ else {//when logid has passed from pervious page
+    require("db_connect.php");
+    
+    echo '
+        <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#adproc">Add Procedure</button></center>
+        <div id="adproc" class="collapse">
+        <br>
+        <form id="form" method="post">
+          <table border="0.5" class="data-table" width="800" height="200">
+            <tr>
+                <td><strong><label for="text"><center>Procedure:</label></strong></td>
+                <td><center><textarea name="proctext" id="proctext" rows="8" cols="30"></textarea></center></td>
 
+                <td><strong><label for="text"><center>Date(YYYY-DD-MM):</label></strong></td>
+                <td><textarea name="dateD" id="dateD" rows="1" cols="20"></textarea></center></td>
+                <td><strong><label for="text"><center>Time(hr:min):</label></strong></td>
+                <td><textarea name="timeT" id="timeT" rows="1" cols="10"></textarea></center></td>
+                <td><select name="am/pm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                <td><input type="submit" name="submit_9" value="Add" />
+            </tr>
+           </table>
+        </form>
+        </div>
+        <br>';
+    
+    $input = $_SESSION['p_id'];
+    $logid = $_SESSION['p_logid'];
+    if ($_POST["submit_9"])
+    {
+        date_default_timezone_set("America/Chicago");//time zone
+        $newdate = (string) addslashes($_POST['dateD']);
+        $newtime = (string) addslashes($_POST['timeT']);
+        $AMPM = (string) addslashes($_POST['am/pm']);
+        $proc = (string) addslashes($_POST['proctext']);
+        $input = $_SESSION['p_id'];
+        $logid = $_SESSION['p_logid'];
+        $sql = "Select `proc_id` From `Procedures` ORDER BY `proc_id` DESC"; //primary key
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        $procid = $row[0] + 1; //new primary key for procedure id
+        $drid = $_SESSION['username'];
+        $sql = "INSERT INTO `onlinepims`.`Procedures` (`PatientID`, `log_id`, `proc_id`, `Date`, `Time`, `Proc`, `UserID`) VALUES ('$input', '$logid', '$procid', '$newdate', '$newtime', '$proc','$drid')";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        pAlert("New procedure has been added into the system!");
+    }
+    $sql = "Select * FROM `Procedures` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `proc_id` DESC";
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    $count = mysqli_num_rows($result);
+            echo '<br><table class="data-table">
+                 <caption class="title"><center>Procedure Displayer</center></caption>
+        <thead>
+                <tr>
+                <th><center>Procedure #</center></th>
+                <th><center>Visit #</center></th>
+                <th><center>Doctor/Nurse Name</center></th>
+                <th><center>Description</center></th>
+                <th><center>Procedure Date</center></th>
+                <th><center>Procedure Time</center></th>
+                <th><center>Delete</center></th>
+                </tr>
+        </thead>';
+            if ($count == 0) // when empty record in the database
+            {
+                  echo "<tr>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td>No procedures exist!</td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "<td></td>";
+        echo "</tr>";
+            }
+ else {
+     while($row = mysqli_fetch_array($result))
+    {
+        echo "<tr>";
+        echo "<td><center>" . $row['proc_id'] . "</center></td>";
+        echo "<td><center>" . $row['log_id'] . "</center></td>";
+        $n1 = $row['UserID'];
+        $query = "SELECT `LastName`,`FirstName`,`UserType` FROM `Users` WHERE UserID='$n1'";
+        $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+        $newrow=mysqli_fetch_array($result1);
+        $doctorLN = $newrow[0];
+        $doctorFN = $newrow[1];
+        $uType = $newrow[2];
+        if ($uType == "Doctor")
+        {
+        echo "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        }
+        else
+        {
+        echo "<td><center>Nurse ".$doctorFN." " .$doctorLN."</center></td>";    
+        }
+        echo "<td><center>" . $row['Proc'] . "</center></td>";
+        echo "<td><center>" . $row['Date'] . "</center></td>";
+        echo "<td><center>" . $row['Time'] . "</center></td>";
+        if ($_SESSION['usertype'] == $uType || $_SESSION['usertype'] == 'Doctor')
+        {
+        echo '<td><center><button id='.$row['proc_id'].' onClick=callFunction5(this.id) name=grr>Delete</button></center></td>';
+        }
+        else
+        {
+            echo "<td><center></center></td>";
+        }
+        echo "</tr>";
+    }
+    }
+    echo "</table><br><br><br>";
+    mysqli_close($connection);
+ }
+         function pAlert2($msg) {
+         echo '<script type="text/javascript">alert("' . $msg . '")</script>';}
+?>
+</div>
 
 <div id="Prescriptions" class="tabcontent">
  <?php
@@ -379,6 +489,9 @@ function openItem(evt, item) {
 
 function callFunction4(clicked_id){
   window.location.href = "serverScript5.php?noteid="+clicked_id;
+}
+function callFunction5(clicked_id){
+  window.location.href = "serverScript8.php?procid="+clicked_id;
 }
 </script>
 <br><br><br><br><br>
