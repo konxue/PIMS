@@ -95,8 +95,8 @@
 			background-color: #f4fbff;
 		}
 		.data-table tbody tr:hover td {
-			background-color: #fffef9;
-			border-color: #01000f;
+			background-color: #efedd2;
+			border-color: #aacee9;
 		}
 
 		/* Table Footer */

@@ -19,7 +19,7 @@ $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $query = "DELETE FROM `onlinepims`.`DoctorsNote` WHERE `DoctorsNote`.`log_id` = '$input' AND `DoctorsNote`.`PatientID` = '$me'";
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 //delete prescription for the visit id
-$query = "DELETE FROM `onlinepims`.`Prescription` WHERE `Prescription`.`log_id` = '$input' AND `DoctorsNote`.`PatientID` = '$me'";
+$query = "DELETE FROM `onlinepims`.`Prescription` WHERE `Prescription`.`log_id` = '$input' AND `Prescription`.`PatientID` = '$me'";
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 //delete procedures for the visit id
 $query = "DELETE FROM `onlinepims`.`Procedures` WHERE `Procedures`.`log_id` = '$input' AND `Procedures`.`PatientID` = '$me'";
