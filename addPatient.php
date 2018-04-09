@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-<title>Add New Patient - Patient Information Management System</title>
 <?php
 $errors = array();
 $errors[0] = 0;
@@ -77,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         }
     }
     if(empty($_POST["p_dName"])){
-        $lNameError = 'Please enter a name.';
+        $doctorError = 'Please enter a name.';
         $errors[0] = 1;
     }
     else {
@@ -424,15 +423,30 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
 ?>
 <html>
     <head>
-        <title>Add New Patient</title>
+        <title>Add New Patient - Patient Information Management System</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
         <link rel="stylesheet" href="css/addPatient.css">
         <style type ="text/css">
             .error{color:red;}
             .success{color:green;}
         </style>
+        <?php
+            include 'checkStatus.php';
+    if($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
+    {
+    header("Refresh: 0; url=medicalInfo.php");
+    }
+        ?>
     </head>
+    <footer>
+    <div class="footer"><center>Patient Information Management System V 1.0  © All rights reserved 2018</center></div>
+    </footer>
     <body>
-        <h1 class="pageTitle">Add Patient Form</h1>
+        <br>
+        <center><h1 class="pageTitle">Add Patient Form</h1></center>
+        <a href="mainpage.php" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
+        </a>
         <h3 class="sectionDesc">Please enter all available information.</h3>
         <form name ="AddPatientForm" method="POST" action="addPatient.php" class="addPatientText">
             <div class="inlineinput">
@@ -445,26 +459,26 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <label for ="p_LastName" class="fieldName">Last Name:</label>
                 <input type="text" name ="p_LastName" class="inputField" size="20" value="<?php echo $p_LastName; ?>">
                 <span class="error"><?php echo $lNameError; ?></span>
-                <br><br>
+                <br>
                 <label for ="p_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $homePhone1; ?>">) -
+                (<input type="text" name ="homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $homePhone1; ?>">  ) -
                 <input type="text" name ="homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $homePhone2; ?>"> -
                 <input type="text" name ="homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $homePhone3; ?>">
                 <span class="error"><?php echo $homeNumError; ?></span>
                 <label for ="p_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $cellPhone1; ?>">) -
+                (<input type="text" name ="cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $cellPhone1; ?>">  ) -
                 <input type="text" name ="cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $cellPhone2; ?>"> -
                 <input type="text" name ="cellPhone3" class="inputField" size="4" maxlength="4" value="<?php echo $cellPhone3; ?>">
                 <span class="error"><?php echo $cellNumError; ?></span>
                 <label for ="p_workPhone" class="fieldName">Work Phone Number:</label>
-                (<input type="text" name ="workPhone1" class="inputField" size="3" maxlength="3" value="<?php echo $workPhone1; ?>">) -
+                (<input type="text" name ="workPhone1" class="inputField" size="3" maxlength="3" value="<?php echo $workPhone1; ?>">  ) -
                 <input type="text" name ="workPhone2" class="inputField" size="3" maxlength="3" value="<?php echo $workPhone2; ?>"> -
                 <input type="text" name ="workPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $workPhone3; ?>">
                 <span class="error"><?php echo $workNumError; ?></span>
-                <br><br>
+                <br>
                 <label for ="p_DOB" class="fieldName">Date of Birth(MM/DD/YYYY)</label>
                 <input type="text" name ="p_DOB" class="inputField" size="12" maxlength="10" value="<?php echo $p_DOB; ?>">
-                <span class="error"><?php echo $dobError; ?></span>
+                <span class="error"><?php echo $dobError; ?></span><br>
                 <label for ="p_Sex" class="fieldName">Gender:</label>
                 <label for="p_Sex" class="radioType"> Male:
                 <input type="radio" name ="p_Sex" <?php if (isset($p_Sex) && $p_Sex=="M") echo "checked";?>
@@ -477,6 +491,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="RadioBtn"></span>
                 </label>
                 <span class="error"><?php echo $sexError; ?></span>
+                
                 <label for ="p_VisitorType" class="fieldName">Visitor Status:</label>
                 <label for="p_VisitorType" class="radioType"> Restricted
                 <input type="radio" name ="p_VisitorType" checked="checked" <?php if (isset($p_VisitorType) && $p_VisitorType=="Y") echo "checked";?>
@@ -489,16 +504,14 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="RadioBtn"></span>
                 </label>
                 <span class="error"><?php echo $visitorError; ?></span>
-                <br><br>
                 <label for="p_FirstName" class="fieldName">Family Doctor: (username):</label>
                 <input type="text" name ="p_dName" class="inputField" size="10" value="<?php echo $p_doctorName; ?>">
                 <span class="error"><?php echo $doctorError; ?></span>
-                
                 <h3 class="sectionDesc">Address Information.</h3>
                 <label for="p_Street" class="fieldName">Street:</label>
                 <input type="text" name ="p_Street" class="inputField" size="113" value="<?php echo $p_Street; ?>">
                 <span class="error"><?php echo $streetError; ?></span>
-                <br><br>
+                <br>
                 <label for="p_City" class="fieldName">City:</label >
                 <input type="text" name ="p_City" class="inputField" size="30" value="<?php echo $p_City; ?>">
                 <span class="error"><?php echo $cityError; ?></span>
@@ -521,14 +534,14 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <label for="EC_LastName" class="fieldName">Last Name:</label>
                 <input type="text" name ="EC1_LastName" class="inputField" size="20" value="<?php echo $EC1_LastName; ?>">
                 <span class="error"><?php echo $EC1LastError; ?></span>
-                <br><br>
+                <br>
                 <label for ="EC1_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="EC1_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_homePhone1; ?>">) -
+                (<input type="text" name ="EC1_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_homePhone1; ?>">  ) -
                 <input type="text" name ="EC1_homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_homePhone2; ?>"> -
                 <input type="text" name ="EC1_homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC1_homePhone3; ?>">
                 <span class="error"><?php echo $EC1HomeError; ?></span>
                 <label for ="EC1_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="EC1_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_cellPhone1; ?>">) -
+                (<input type="text" name ="EC1_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_cellPhone1; ?>">  ) -
                 <input type="text" name ="EC1_cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_cellPhone2; ?>"> -
                 <input type="text" name ="EC1_cellPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC1_cellPhone3; ?>">
                 <span class="error"><?php echo $EC1CellError; ?></span>
@@ -542,24 +555,24 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <label for="EC2_LastName" class="fieldName">Last Name:</label>
                 <input type="text" name ="EC2_LastName" class="inputField" size="20" value="<?php echo $EC2_LastName; ?>">
                 <span class="error"><?php echo $EC2LastError; ?></span>
-                <br><br>
+                <br>
                 <label for ="EC2_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="EC2_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_homePhone1; ?>">) -
+                (<input type="text" name ="EC2_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_homePhone1; ?>">  ) -
                 <input type="text" name ="EC2_homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_homePhone2; ?>"> -
                 <input type="text" name ="EC2_homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC2_homePhone3; ?>">
                 <span class="error"><?php echo $EC2HomeError; ?></span>
                 <label for ="EC_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="EC2_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_cellPhone1; ?>">) -
+                (<input type="text" name ="EC2_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_cellPhone1; ?>">  ) -
                 <input type="text" name ="EC2_cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_cellPhone2; ?>"> -
                 <input type="text" name ="EC2_cellPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC2_cellPhone3; ?>">
                 <span class="error"><?php echo $EC2CellError; ?></span>
             </div>
             <br>
-            <input type ="submit" class="submitbutton" vale="Send">
+            <center><input type ="submit" class="submitbutton" vale="Send"></center>
         </form>
     </body>
 </html>
-
+<br><br>
 <?php
 // This php file will adding the patient information to the database based on ther user input
     // Create connection

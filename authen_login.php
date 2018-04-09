@@ -21,10 +21,42 @@ session_start();
 $_SESSION['username'] = $username;
 $query = "SELECT `Usertype`,`FirstName`,`LastName`  FROM `Users` WHERE UserID='$username'";
 $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
-$row=mysqli_fetch_array($result1);
+$row=mysqli_fetch_array($result1); //pass database value to variables
 $_SESSION['usertype'] = $row[0];
 $_SESSION['firstname'] = $row[1];
 $_SESSION['lastname'] = $row[2];
+
+ //clean up for database for more than 5 years
+        $query = "SELECT * FROM `MedicalInfo` WHERE AdmissionDate < DATE_SUB(CURDATE(), INTERVAL 5 YEAR)";
+        $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+        $count = mysqli_num_rows($result);
+        if ($count>0)
+        {
+            while($row = mysqli_fetch_array($result))
+            {
+                $input = $row['log_id'];
+                $me = $row['PatientID'];
+                //delete admission info for the visit id
+                $query = "DELETE FROM `onlinepims`.`MedicalInfo` WHERE `MedicalInfo`.`log_id` = '$input' AND `MedicalInfo`.`PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                //delete bill info for the visit id
+                $query = "DELETE FROM `onlinepims`.`Payment` WHERE `Payment`.`log_id` = '$input' AND `Payment`.`PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                //delete doctor note for the visit id
+                $query = "DELETE FROM `DoctorsNote` WHERE `log_id` = '$input' AND `PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                //delete prescription for the visit id
+                $query = "DELETE FROM `onlinepims`.`Prescription` WHERE `Prescription`.`log_id` = '$input' AND `Prescription`.`PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                //delete procedures for the visit id
+                $query = "DELETE FROM `onlinepims`.`Procedures` WHERE `Procedures`.`log_id` = '$input' AND `Procedures`.`PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                //delete billing items for the visit id
+                $query = "DELETE FROM `onlinepims`.`ItemizedList` WHERE `ItemizedList`.`log_id` = '$input' AND `ItemizedList`.`PatientID` = '$me'";
+                $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
+            }
+        }
+        
 if($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
 {
 header("Refresh: 1; url=medicalInfo.php");

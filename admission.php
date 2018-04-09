@@ -82,8 +82,8 @@
         $sql = "Select `log_id` From `MedicalInfo` where `PatientID` = '$input' ORDER BY `log_id` DESC";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         $row = mysqli_fetch_array($result);
-        $logid = $row[0] + 1;
-        
+        $logid = $row[0] + 1;//generates the newest logid
+        $input = $_SESSION['p_id'];
         //getting the primary key for the table.. duplicate error on nonunique pk
         $sql = "Select `pk` From `MedicalInfo` ORDER BY `pk` DESC";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));

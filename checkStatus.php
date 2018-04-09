@@ -25,7 +25,7 @@
     if (isset($_SESSION['username'])) {
     $_SESSION['p_selected']= null;
     echo "<div class='heading'><strong><center>".$_SESSION['usertype'].": ".$_SESSION['lastname'].", ".$_SESSION['firstname']." Welcome to Patient Information Management System!</center></strong></div>";
-    echo'<a href="logout.php" class="sslogout btn btn-info btn-small"> <span class="glyphicon glyphicon-log-out"> Logout</span>  
+    echo'<a href="logout.php" class="sslogout btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"> Logout</span>  
         </a>';
 } else {
     header("Refresh: 0; url=index.html");

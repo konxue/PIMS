@@ -18,9 +18,6 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
 }
 ?>
 <br><br>
-<a href="mainpage.php" class="btn btn-info btn-small">
-          <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
-        </a>
 <center><img src="images/doctor.png" height="200" width="200"/></center>
 </head>
 <footer>
