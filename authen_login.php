@@ -25,8 +25,16 @@ $row=mysqli_fetch_array($result1);
 $_SESSION['usertype'] = $row[0];
 $_SESSION['firstname'] = $row[1];
 $_SESSION['lastname'] = $row[2];
-header("Refresh: 1; url=mainpage.php");
+if($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
+{
+header("Refresh: 1; url=medicalInfo.php");
 echo 'Logged in successfully.<br/><br/>Redirecting in 1 seconds...';
+}
+elseif ($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer')
+{
+header("Refresh: 1; url=mainpage.php");
+echo 'Logged in successfully.<br/><br/>Redirecting in 1 seconds...';   
+}
 }
 elseif ($count == 0){
 header("Refresh: 2; url=index.html");

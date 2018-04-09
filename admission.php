@@ -151,7 +151,7 @@
         $output5 .= "<tr>";
         $output5 .= "<td><center>" . $row['log_id'] . "</center></td>";
         $output5 .= "<td><center>" . $row['AdmissionDate'] . "</center></td>";
-        $output5 .= "<td><center>" . $row['AdmissionTime'] . "</center></td>";
+        $output5 .= "<td WIDTH=400><center>" . $row['AdmissionTime'] . "</center></td>";
         $output5 .= "<td><center>" . $row['ReasonForAdmission'] . "</center></td>";
         $output5 .= "<td><center>" . $row['DischargeDate'] . "</center></td>";
         $output5 .= "<td><center>" . $row['DischargeTime'] . "</center></td>";

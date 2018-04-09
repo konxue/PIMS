@@ -11,7 +11,11 @@
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <title>Main Page - Patient Information Management System</title>
 <?php 
-include 'checkStatus.php'
+include 'checkStatus.php';
+if($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
+{
+header("Refresh: 0; url=medicalInfo.php");
+}
 ?>
 <center><br><br><img src="images/hospital.png" height="200" width="200"/></center>
 </head>

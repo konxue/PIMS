@@ -21,7 +21,7 @@ session_start();
     $iphigh = ip2long('146.229.255.255');
     //$ip1 = ip2long('146.229.0.0'); to add more exception...
     $inrange = 0;
-    if (($ip < $iphigh && $ip > $iplow) || true ) // add || $ip == $ip1 for exception
+    if (($ip < $iphigh && $ip > $iplow)) // add || $ip == $ip1 for exception
     {
         $inrange=1;
         if(!isset($_SESSION['username']))

@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<title>Add New Patient - Patient Information Management System</title>
 <?php
 $errors = array();
 $errors[0] = 0;

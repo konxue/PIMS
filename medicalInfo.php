@@ -201,33 +201,38 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         <div id="adproc" class="collapse">
         <br>
         <form id="form" method="post">
-          <table border="0.5" class="data-table" width="800" height="200">
+          <table border="0.5" class="data-table">
             <tr>
                 <td><strong><label for="text"><center>Procedure:</label></strong></td>
-                <td><center><textarea name="proctext" id="proctext" rows="8" cols="30"></textarea></center></td>
-
-                <td><strong><label for="text"><center>Date(YYYY-DD-MM):</label></strong></td>
-                <td><textarea name="dateD" id="dateD" rows="1" cols="20"></textarea></center></td>
-                <td><strong><label for="text"><center>Time(hr:min):</label></strong></td>
-                <td><textarea name="timeT" id="timeT" rows="1" cols="10"></textarea></center></td>
-                <td><select name="am/pm">
+                <td><center><textarea name="proctext" id="proctext" rows="4" cols="40"></textarea></center></td>
+                <td><strong><label for="text"><center>Date (YYYY-DD-MM):</label></strong></td>
+                <td><textarea name="d_text" id="d_text" rows="1" cols="10"></textarea></td>
+                <td><strong><label for="text"><center>Time (HH:MM)</label></strong></td>
+                <td><textarea name="t_text" id="t_text" rows="1" cols="5"></textarea></td>
+                <td><select name="AMPM">
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
+                    </select></td>
                 <td><input type="submit" name="submit_9" value="Add" />
             </tr>
            </table>
         </form>
         </div>
         <br>';
-    
-    $input = $_SESSION['p_id'];
-    $logid = $_SESSION['p_logid'];
+
     if ($_POST["submit_9"])
     {
         date_default_timezone_set("America/Chicago");//time zone
-        $newdate = (string) addslashes($_POST['dateD']);
-        $newtime = (string) addslashes($_POST['timeT']);
-        $AMPM = (string) addslashes($_POST['am/pm']);
+        $newdate = (string) addslashes($_POST['d_text']);
+        $newtime = (string) addslashes($_POST['t_text']);
+        if($_POST['AMPM'] == 'AM')
+        {
+            $newtime.=":00 AM";
+        }
+        else
+        {
+            $newtime.=":00 PM";
+        }
         $proc = (string) addslashes($_POST['proctext']);
         $input = $_SESSION['p_id'];
         $logid = $_SESSION['p_logid'];
@@ -243,6 +248,17 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     $sql = "Select * FROM `Procedures` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `proc_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
+    if($count ==0)//when empty record in the database
+    {
+        echo '<br><table class="data-table">
+                 <caption class="title"><center>Procedure Displayer</center></caption>
+        <thead>
+                <tr>
+                <th><center>No any procedures scheduled at the time </center></th>
+                </tr>
+        </thead></table>';
+    }
+    else{
             echo '<br><table class="data-table">
                  <caption class="title"><center>Procedure Displayer</center></caption>
         <thead>
@@ -256,19 +272,6 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                 <th><center>Delete</center></th>
                 </tr>
         </thead>';
-            if ($count == 0) // when empty record in the database
-            {
-                  echo "<tr>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td>No procedures exist!</td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "<td></td>";
-        echo "</tr>";
-            }
- else {
      while($row = mysqli_fetch_array($result))
     {
         echo "<tr>";
@@ -303,8 +306,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         echo "</tr>";
     }
     }
-    echo "</table><br><br><br>";
-    mysqli_close($connection);
+    echo "</table><br><br>";
  }
          function pAlert2($msg) {
          echo '<script type="text/javascript">alert("' . $msg . '")</script>';}
@@ -505,7 +507,7 @@ function openItem(evt, item) {
 }
 
 function callFunction4(clicked_id){
-  window.location.href = "serverScript5.php?noteid="+clicked_id;
+  window.location.href = "serverScript5.php?noteid="+clicked_id;//where it deletes the doctor note by id
 }
 function callFunction5(clicked_id){
   window.location.href = "serverScript8.php?procid="+clicked_id;

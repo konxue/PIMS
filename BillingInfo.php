@@ -190,9 +190,10 @@ if ($_SESSION['p_id'] == null)
                 elseif ($selection == 'ICHECK') // When insurance company mailed a check, we use this option to pay patient account
                 {
                     $amtpaid = $_POST['payment'];
+                    $input = $_SESSION['p_id'];
                     $vid = $_POST['vnum'];
                     //getting current amount on the database
-                    $sql = "SELECT * FROM `Payment` WHERE `log_id` = '$vid'";
+                    $sql = "SELECT * FROM `Payment` WHERE `log_id` = '$vid' AND `PatientID` = '$input'";
                     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
                     $rowforInsurance = mysqli_fetch_array($result);
                     $current= $rowforInsurance['AmtPaidByInsurance'];
