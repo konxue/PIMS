@@ -45,6 +45,6 @@ if(isset($_SESSION["printOut"]))
 }
 else
 {
-    echo "1";
+    echo "Print Error";
 }
 ?>
