@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the logout button
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <title>Logging out... - Patient Information Management System</title>
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <?php

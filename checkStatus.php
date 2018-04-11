@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page checks the IP status and who is logged into the system
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <style>
 .heading{
 		background: skyblue;

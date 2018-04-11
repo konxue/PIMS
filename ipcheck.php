@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the IP blockist to only allow certain IP's access to application
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
 session_start();
 //following code perform as blocking the unauthorized user to login out side of network

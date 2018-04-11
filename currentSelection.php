@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page prints out the current patient selected
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
 // It output current selection of patient, and inpatient record
 if( ($_SESSION["p_id"]) != null)

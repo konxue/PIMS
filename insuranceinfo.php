@@ -1,3 +1,9 @@
+<!--
+    Purpose: This PHP page handle the insurance information tab
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
+
 <?php
     function pAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';

@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the patient information tab
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
     session_start();
     if ($_SESSION['p_id'] == null && ($_SESSION["usertype"] != 'Volunteer'))
