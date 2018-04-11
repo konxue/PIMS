@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page takes care of the admission table and updates admission table
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
     function php1Alert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';

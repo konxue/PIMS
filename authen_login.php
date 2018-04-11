@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page takes care of clearing patient records that are older than 5 years 
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <title>Logging... - Patient Information Management System</title>
 <?php  

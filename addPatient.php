@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page will add a Patient to the PatientInfo table
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <!DOCTYPE HTML>
 <?php
 $errors = array();

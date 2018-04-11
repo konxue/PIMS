@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the medical record table for a patient
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
     function php1Alert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';

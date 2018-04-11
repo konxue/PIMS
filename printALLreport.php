@@ -1,3 +1,4 @@
+
 <?php
 /* 
     Purpose: print patient summary report for printAllPatients.php under the medicalInfo page

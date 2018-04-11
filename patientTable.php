@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the patient table thats gets displayed
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
     require("db_connect.php");
     session_start();

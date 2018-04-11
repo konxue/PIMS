@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the medical information tab and accessible to doctors and nurses
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>

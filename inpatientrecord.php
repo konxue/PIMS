@@ -1,3 +1,8 @@
+<!--
+    Purpose: This PHP page handles the inpatient record 
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
+
 <?php
     session_start();
     require("db_connect.php");
