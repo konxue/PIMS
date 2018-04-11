@@ -194,7 +194,8 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     }
  else {//when logid has passed from pervious page
     require("db_connect.php");
-    
+     if($_SESSION['usertype'] == 'Doctor') //only doctor allows to schedule procedure
+    {
     echo '
         <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#adproc">Add Procedure</button></center>
         <div id="adproc" class="collapse">
@@ -218,7 +219,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         </form>
         </div>
         <br>';
-
+    }
     if ($_POST["submit_9"])
     {
         date_default_timezone_set("America/Chicago");//time zone
@@ -322,6 +323,8 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     else
     {
         require("db_connect.php");
+         if($_SESSION['usertype'] == 'Doctor') //only doctor can add prescription
+    {
          echo '
         <center><br>
         <form id="search-form" method="post">
@@ -342,6 +345,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                 </thead>
                 </table>
         </center>';
+    }
         if ($_POST['submit_23'])
         {
             $input = $_SESSION['p_id'];
