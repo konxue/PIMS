@@ -268,9 +268,13 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                 <th><center>Doctor/Nurse Name</center></th>
                 <th><center>Description</center></th>
                 <th><center>Procedure Date</center></th>
-                <th><center>Procedure Time</center></th>
-                <th><center>Delete</center></th>
-                </tr>
+                <th><center>Procedure Time</center></th>';
+                if ($_SESSION['usertype'] == 'Doctor')
+        {
+                    echo '<th><center>Delete</center></th>';
+        }
+        echo
+                '</tr>
         </thead>';
      while($row = mysqli_fetch_array($result))
     {
@@ -295,7 +299,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         echo "<td><center>" . $row['Proc'] . "</center></td>";
         echo "<td><center>" . $row['Date'] . "</center></td>";
         echo "<td><center>" . $row['Time'] . "</center></td>";
-        if ($_SESSION['usertype'] == $uType || $_SESSION['usertype'] == 'Doctor')
+        if ($_SESSION['usertype'] == 'Doctor')
         {
         echo '<td><center><button id='.$row['proc_id'].' onClick=callFunction5(this.id) name=grr>Delete</button></center></td>';
         }
@@ -397,7 +401,10 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         $output33 .=  "<th><center>Dosage</center></th>";
         $output33 .=  "<th><center>Quantity</center></th>";
         $output33 .=  "<th><center>Direction</center></th>";
+        if($_SESSION['usertype'] == 'Doctor') //only doctor can add prescription
+    {
         $output33 .=  "<th><center>Delete</center></th>";
+    }
         $output33 .=  "</tr></thead><tbody>";
         while($row=mysqli_fetch_array($result))
         {
@@ -414,10 +421,13 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             $output33 .= "<td><center>".$row['Dosage']."</center></td>";
             $output33 .= "<td><center>".$row['Quantity']."</center></td>";
             $output33 .= "<td><center>".$row['Directions']."</center></td>";
+            if($_SESSION['usertype'] == 'Doctor') //only doctor can delete prescription
+    {
             $output33 .=  '<form id="search-form" method="post">';
             $output33 .=  '<td><center><input type="hidden" name="pk_id" value="'.$row['pk'].'"/>
                 <input type="submit" name="submit_delete" value="Delete" /></center></td>		
                 </form></tr>';
+    }
         }
         $output33 .=  "</tbody></table><br><br>";
         echo $output33;

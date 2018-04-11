@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/tablestyle.css">
 <?php
 /* 
     Purpose: print report based on the output value of $_SESSION["printOut"]
@@ -21,7 +22,7 @@ if(isset($_SESSION["printOut"]))
                 <th>Printed by</th><td></td>
                 <th>Doctor Name</th><td></td>
                 <th>Patient Last Name</th><td></td>
-                <th>Patient First Name</th>
+                <th>Patient First Name<td></td></th>
             </tr>';
         $row=mysqli_fetch_array($result1);
         $newrow=mysqli_fetch_array($result2);
