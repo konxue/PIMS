@@ -1,3 +1,7 @@
+<!--
+    Purpose: This PHP page is for the finding the patient that shows on the medicalinfo page
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
 <?php
 session_start();
 echo '

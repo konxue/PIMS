@@ -379,6 +379,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         if($count == 0)
         {
             echo '<br><table class="data-table">
+                 <caption class="title"><center>Prescription Displayer</center></caption>
             <thead>';
         echo "<tr>";
         echo "<th><center>No prescription is found!</center></td>";

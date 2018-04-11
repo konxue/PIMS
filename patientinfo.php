@@ -29,6 +29,7 @@
                 <th><center>Middle Name</center></th>
                 <th><center>First Name</center></th>
                 <th><center>Date of Birth</center></th>
+                <th><center>Assigned Doctor</center></th>
                 <th><center>Family Doctor</center></th>
                 </tr>
         </thead>
@@ -51,6 +52,7 @@
        $doctorLN = $newrow[0];
        $doctorFN = $newrow[1];
         $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        $output .= "<td><center>" . $row['FamilyDoctor'] . "</center></td>";
         $output .= "</tr>";
     }
    $output .= '
@@ -61,6 +63,7 @@
                 <th><center>City</center></th>
                 <th><center>State</center></th>
                 <th><center>Zip</center></th>
+                <th><center>Country</center></th>
                 <th><center>Home Phone</center></th>
                 <th><center>Mobile Phone</center></th>
                 <th><center>Work Phone</center></th>
@@ -74,6 +77,7 @@
         $output .= "<td><center>" . $row1['City'] . "</center></td>";
         $output .= "<td><center>" . $row1['State'] . "</center></td>";
         $output .= "<td><center>" . $row1['Zip'] . "</center></td>";
+        $output .= "<td><center>" . $row1['Country'] . "</center></td>";
         $output .= "<td><center>" . $row1['HomePhone'] . "</center></td>";
         $output .= "<td><center>" . $row1['MobilePhone'] . "</center></td>";
         $output .= "<td><center>" . $row1['WorkPhone'] . "</center></td>";

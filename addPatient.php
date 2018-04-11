@@ -7,7 +7,7 @@ $isProcessed = 0;
 session_start();
 $fNameError = $mNameError = $lNameError = $homeNumError = $cellNumError = $workNumError = "";
 
-$$doctorError = "";
+$doctorError = $fdError = "";
 
 $dobError = $sexError = $visitorError = $streetError = $EC2PhoneError = $EC2HomeError = "";
 
@@ -87,6 +87,20 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
             $errors[0] = 1;
         }
     } 
+    
+    if(empty($_POST["p_familydName"])){
+        $fdError = 'Please enter a name.';
+        $errors[0] = 1;
+    }
+    else {
+        $p_fdName = testInput($_POST["p_familydName"]);
+    // check if name only contains letters and whitespace
+        if (!preg_match("/^[0-9a-zA-Z\- ]*$/",$p_fdName)) {
+            $doctorError = "Unrecognized Characters";
+            $errors[0] = 1;
+        }
+    } 
+    
     
     
     if(empty($_POST["homePhone1"]) || empty($_POST["homePhone2"]) || empty($_POST["homePhone3"])){
@@ -504,7 +518,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="RadioBtn"></span>
                 </label>
                 <span class="error"><?php echo $visitorError; ?></span>
-                <label for="p_FirstName" class="fieldName">Family Doctor: (username):</label>
+                <label for="p_FirstName" class="fieldName">Family Doctor (Full name): </label>
+                <input type="text" name ="p_familydName" class="inputField" size="20" value="<?php echo $p_fdName; ?>">
+                <span class="error"><?php echo $fdError; ?></span>
+                <label for="p_FirstName" class="fieldName">Assign Doctor (username):</label>
                 <input type="text" name ="p_dName" class="inputField" size="10" value="<?php echo $p_doctorName; ?>">
                 <span class="error"><?php echo $doctorError; ?></span>
                 <h3 class="sectionDesc">Address Information.</h3>
@@ -595,12 +612,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         $EC1CellPhone = "(" . $EC1_cellPhone1 . ") " . $EC1_cellPhone2 . "-" . $EC1_cellPhone3;
         $EC2CellPhone = "(" . $EC2_cellPhone1 . ") " . $EC2_cellPhone2 . "-" . $EC2_cellPhone3;
         
-        $sqlQuery = "INSERT INTO PatientInfo (UserID, City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip)
-                    VALUES ('$p_doctorName','$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip')";
-        
-        
-        
-        
+        $sqlQuery = "INSERT INTO PatientInfo (UserID, City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip, Country, FamilyDoctor)
+                    VALUES ('$p_doctorName','$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip', '$p_Country', '$p_fdName')";
+            
+     //add patient query   
         if( mysqli_query($addConn, $sqlQuery)){
             echo "Information added successfully, page closing in 2 seconds";
             echo '<script> window.setTimeout("window.close()",2000);</script>';

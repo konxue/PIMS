@@ -46,11 +46,11 @@
     $iplow = ip2long('146.229.0.0');
     $iphigh = ip2long('146.229.255.255');
     //$ip1 = ip2long('146.229.0.0'); to add more exception...
-    if (!($ip < $iphigh && $ip > $iplow)) // add || $ip == $ip1 for exception
-    {
-        session_destroy();   // function that Destroys Session ;
-        header("Refresh: 0; url=401.html");
-    }
+    //if (!($ip < $iphigh && $ip > $iplow) || true == true) // add || $ip == $ip1 for exception
+    //{
+     //   session_destroy();   // function that Destroys Session ;
+     //   header("Refresh: 0; url=401.html");
+    //}
 } else {
     header("Refresh: 0; url=ipcheck.php");
     echo '<script type="text/javascript">alert("Error 440.\\nPlease log in and try again!")</script>';

@@ -64,7 +64,7 @@
                 }
             $output .= '</tr></table>';
             $_SESSION['printOut'] = $output;
-            echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+            echo '<meta http-equiv="refresh" content="0; url=printALLreport.php" />'; 
         }
     }
     
