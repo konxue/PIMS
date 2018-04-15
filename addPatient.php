@@ -4,12 +4,16 @@
 -->
 
 <!DOCTYPE HTML>
-<?php
-$errors = array();
-$errors[0] = 0;
-$isProcessed = 0;
+<?php //Initializing variables
+$errors = array(); //Creating array, if error[0] = 1 then errors where present in the form
+$errors[0] = 0; //Initializing errors[0] = 0, representing no errors are present
+$isProcessed = 0; //This variable used to flag whether or not information has been entered into
+//the html form for add patient. Fixes the issue of submitting blank information into database
+//when the page is loaded
 
 session_start();
+//initializing error messages and php variables that will later hold values
+//to be added to the database
 $fNameError = $mNameError = $lNameError = $homeNumError = $cellNumError = $workNumError = "";
 
 $doctorError = $fdError = "";
@@ -35,33 +39,39 @@ $EC2_FirstName = $EC2_MiddleName = $EC2_LastName = $EC2_homePhone1 = $EC2_homePh
 
 $EC2_homePhone3 = $EC2_cellPhone1 = $EC2_cellPhone2 = $EC2_cellPhone3 = "";
 
+//all values read in from the forms are passed into this function
 function testInput($field) {
-    $field = trim($field);
-    $field = stripslashes($field);
-    $field = htmlspecialchars($field);
-    return $field;
+    $field = trim($field); // removes whitespace from string
+    $field = stripslashes($field); //unquotes a quoted string
+    $field = htmlspecialchars($field);//converts any special characters to HTML characters
+    return $field; //return the variable after it has been altered by the above functions
 }
+//If the form is of the type "POST", then read in the values submitted into the form
+//and error check them
 if($_SERVER["REQUEST_METHOD"]== "POST"){
-    if(empty($_POST["p_FirstName"])){
-        $fNameError = 'Please enter a name.';
-        $errors[0] = 1;
+    //All values read in from the form are evaluated in this manner
+    //First check to see if the value is empty, meaning the user did not input
+    //a value into the form
+    if(empty($_POST["p_FirstName"])){ //POST retrieves information from an HTML field, with the string passed in to the POST function being the name of the field
+        $fNameError = 'Please enter a name.'; //If empty, then save an error msg
+        $errors[0] = 1; //Flag that an error is present
     }
     else {
-        $p_FirstName = testInput($_POST["p_FirstName"]);
-    // check if name only contains letters and whitespace
+        $p_FirstName = testInput($_POST["p_FirstName"]); //Else send the value to testInput function
+    // Using regex to check only for allowed characters (only letters in this case)
         if (!preg_match("/^[a-zA-Z ]*$/",$p_FirstName)) {
             $fNameError = "Only letters allowed"; 
-            $errors[0] = 1;
+            $errors[0] = 1; //Flag that an error is present
         }
     }
-    
+    //All of the following checks function similarly to the first
     if(empty($_POST["p_MiddleName"])){
         $mNameError = 'Please enter a name.';
         $errors[0] = 1;
     }
     else {
         $p_MiddleName = testInput($_POST["p_MiddleName"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (only letters in this case)
         if (!preg_match("/^[a-zA-Z ]*$/",$p_MiddleName)) {
             $mNameError = "Only letters allowed"; 
             $errors[0] = 1;
@@ -74,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_LastName = testInput($_POST["p_LastName"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (only letters and dashes in this case)
         if (!preg_match("/^[a-zA-Z\- ]*$/",$p_LastName)) {
             $lNameError = "Unrecognized Characters";
             $errors[0] = 1;
@@ -86,7 +96,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_doctorName = testInput($_POST["p_dName"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (letters,numbers, and dash)
         if (!preg_match("/^[0-9a-zA-Z\- ]*$/",$p_doctorName)) {
             $doctorError = "Unrecognized Characters";
             $errors[0] = 1;
@@ -99,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_fdName = testInput($_POST["p_familydName"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (letters, numbers, and dashes)
         if (!preg_match("/^[0-9a-zA-Z\- ]*$/",$p_fdName)) {
             $doctorError = "Unrecognized Characters";
             $errors[0] = 1;
@@ -116,7 +126,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         $homePhone1 = testInput($_POST["homePhone1"]);
         $homePhone2 = testInput($_POST["homePhone2"]);
         $homePhone3 = testInput($_POST["homePhone3"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (only numbers in this case)
+    //Checking inputs for all the input fields related to the homephone number
         if (!preg_match("/^[0-9]*$/",$homePhone1)) {
             $cellNumError = "Only numbers allowed"; 
             $errors[0] = 1;
@@ -138,7 +149,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         $cellPhone1 = testInput($_POST["cellPhone1"]);
         $cellPhone2 = testInput($_POST["cellPhone2"]);
         $cellPhone3 = testInput($_POST["cellPhone3"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (only numbers in this case)
+    //Checking inputs for all the input fields related to the cellphone number
         if (!preg_match("/^[0-9]*$/",$cellPhone1)) {
             $homeNumError = "Only numbers allowed";
             $errors[0] = 1;
@@ -160,7 +172,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         $workPhone1 = testInput($_POST["workPhone1"]);
         $workPhone2 = testInput($_POST["workPhone2"]);
         $workPhone3 = testInput($_POST["workPhone3"]);
-    // check if name only contains letters and whitespace
+    // Using regex to check only for allowed characters (only numbers in this case)
+    //Checking inputs for all the input fields related to the workphone number
         if (!preg_match("/^[0-9]*$/",$workPhone1)) {
             $workNumError = "Only numbers allowed"; 
             $errors[0] = 1;
@@ -181,7 +194,6 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_DOB = testInput($_POST["p_DOB"]);
-    // check if name only contains letters and whitespace
     }
     
     if (empty($_POST["p_Sex"])) {
@@ -207,7 +219,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_Street = testInput($_POST["p_Street"]);
-    // check if name only contains letters and whitespace
+    // Using regex to make sure all characters are numbers, letters, ', or -
         if (!preg_match("/^[a-zA-Z0-9'\- ]*$/",$p_Street)) {
             $streetError = "Unrecognized characters";
             $errors[0] = 1;
@@ -220,7 +232,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_City = testInput($_POST["p_City"]);
-    // check if name only contains letters and whitespace
+    // check if name only contains letters and '
         if (!preg_match("/^[a-zA-Z' ]*$/",$p_City)) {
             $cityError = "Unrecognized characters";
             $errors[0] = 1;;
@@ -233,7 +245,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_State = testInput($_POST["p_State"]);
-    // check if name only contains letters and whitespace
+    // check if name only contains letters 
         if (!preg_match("/^[a-zA-Z ]*$/",$p_State)) {
             $stateError = "Only letters allowed"; 
             $errors[0] = 1;
@@ -246,7 +258,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_Zip = testInput($_POST["p_Zip"]);
-    // check if name only contains letters and whitespace
+    // check if name only contains numbers and dash
         if (!preg_match("/^[0-9\-]*$/",$p_Zip)) {
             $zipError = "Unrecognized characters";
             $errors[0] = 1;
@@ -259,7 +271,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $p_Country = testInput($_POST["p_Country"]);
-    // check if name only contains letters and whitespace
+    // check if name only contains letters and '
         if (!preg_match("/^[a-zA-Z' ]*$/",$p_City)) {
             $countryError = "Unrecognized characters";
             $errors[0] = 1;
@@ -298,7 +310,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }
     else {
         $EC1_LastName = testInput($_POST["EC1_LastName"]);
-    // check if name only contains letters and whitespace
+    // check if name only contains letters and dashes
         if (!preg_match("/^[a-zA-Z\- ]*$/",$EC1_LastName)) {
             $EC1LastError = "Unrecognized Characters";
             $errors[0] = 1;
@@ -440,13 +452,14 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     }    
 }
 ?>
+<!---HTML for the add new patient form -->
 <html>
     <head>
         <title>Add New Patient - Patient Information Management System</title>
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
         <link rel="stylesheet" href="css/addPatient.css">
         <style type ="text/css">
-            .error{color:red;}
+            .error{color:red;} 
             .success{color:green;}
         </style>
         <?php
@@ -467,11 +480,13 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
           <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
         </a>
         <h3 class="sectionDesc">Please enter all available information.</h3>
+        <!---Beginning the form for adding a patient -->
+        <!---Information from the form is submitted back to this page -->
         <form name ="AddPatientForm" method="POST" action="addPatient.php" class="addPatientText">
             <div class="inlineinput">
                 <label for="p_FirstName" class="fieldName">First Name:</label>
                 <input type="text" name ="p_FirstName" class="inputField" size="20" value="<?php echo $p_FirstName; ?>">
-                <span class="error"><?php echo $fNameError; ?></span>
+                <span class="error"><?php echo $fNameError; ?></span><!---Output error msg corresponding the field (error msg is blank if no error present) -->
                 <label for ="p_MiddleName" class="fieldName">Middle Name:</label>
                 <input type="text" name ="p_MiddleName" class="inputField" size="20" value="<?php echo $p_MiddleName; ?>">
                 <span class="error"><?php echo $mNameError; ?></span>
@@ -596,7 +611,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
 </html>
 <br><br>
 <?php
-// This php file will adding the patient information to the database based on ther user input
+// This php file will add the patient information to the database based on the user input
     // Create connection
     $addConn = mysqli_connect("localhost", "pimsonline","Rootroot123!");
     if (!$addConn){
@@ -607,8 +622,11 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         die("Database Selection Failed" . mysqli_error($addConn));
     }
 
-    
+    //First make sure there are no errors and that information has actually been provided
+    //This prevents erroneous and blank informtion being added to the database
     if (($errors[0] == 0) && ($isProcessed ==1)) {
+        //Concatenate all of the number fields into their respective variable to be added to the database
+        //result of concatenation is (XXX)XXX-XXXX, where X = integer values
         $HomePhoneNumber = "(" . $homePhone1 . ") " . $homePhone2 .  "-" . $homePhone3;
         $CellPhoneNumber = "(" . $cellPhone1 . ") " . $cellPhone2 .  "-" . $cellPhone3;
         $WorkPhoneNumber = "(" . $workPhone1 . ") " . $workPhone2 .  "-" . $workPhone3;
@@ -616,7 +634,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         $EC2HomePhone = "(" . $EC2_homePhone1 . ") " . $EC2_homePhone2 . "-" . $EC2_homePhone3;
         $EC1CellPhone = "(" . $EC1_cellPhone1 . ") " . $EC1_cellPhone2 . "-" . $EC1_cellPhone3;
         $EC2CellPhone = "(" . $EC2_cellPhone1 . ") " . $EC2_cellPhone2 . "-" . $EC2_cellPhone3;
-        
+        //Add the information from the form to the database
         $sqlQuery = "INSERT INTO PatientInfo (UserID, City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip, Country, FamilyDoctor)
                     VALUES ('$p_doctorName','$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip', '$p_Country', '$p_fdName')";
             
