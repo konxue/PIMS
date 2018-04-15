@@ -222,7 +222,7 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
             echo '<center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo'.$no.'">Visit #'.$thisrow['log_id'].'</button></center>
                   <div id="demo'.$no.'" class="collapse">
                   <br>'; //this will output collapse tab to output table of billing information
-            $output3[$index] .='<table class="data-table">
+            $output3[$index] .='<table class="data-table" height="500" width="800">
                     <thead>
                     <tr>
                     <th><center>Item</center></th>
@@ -250,16 +250,16 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
            $row1=mysqli_fetch_array($result1);
            $output3[$index] .= '</tbody><tfoot>
                   <tr>
-                  <th colspan="3"><left>Total amount due:</left></th> 
-                  <th><left>$'.number_format($total,2).'</left></th>
+                  <th colspan="2"><left>Total amount due:</left></th> 
+                  <th colspan="2"><left>$'.number_format($total,2).'</left></th>
                   </tr>
-                  <tr><th colspan="3"><left>Insurance Paid:</left></th>
-                  <th><left>$'.number_format($row1[0],2).'</left></th></tr>
-                  <tr><th colspan="3"><left>Copay:</left></th>
-                  <th><left>$'.number_format($row1[1],2).'</left></th></tr>
-                  <tr><th colspan="3"><left>Amount Paid:</left></th>
-                  <th><left>$'.number_format($row1[2],2).'</left></th></tr>
-                  <tr><th colspan="3"><left>Balance Due:</left></th>';
+                  <tr><th colspan="2"><left>Insurance Paid:</left></th>
+                  <th colspan="2"><left>$'.number_format($row1[0],2).'</left></th></tr>
+                  <tr><th colspan="2"><left>Copay:</left></th>
+                  <th colspan="2"><left>$'.number_format($row1[1],2).'</left></th></tr>
+                  <tr><th colspan="2"><left>Amount Paid:</left></th>
+                  <th colspan="2"><left>$'.number_format($row1[2],2).'</left></th></tr>
+                  <tr><th colspan="2"><left>Balance Due:</left></th>';
             $newbalance = $total-$row1[0]-$row1[1]-$row1[2];
             $newbalance = round($newbalance, 2);
             if($newbalance == '-0')
@@ -267,7 +267,7 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                 $newbalance = 0;
             }
            $output3[$index] .= '
-                  <th><left>$'.number_format($newbalance,2).'</left></th>    ';
+                  <th colspan="2"><left>$'.number_format($newbalance,2).'</left></th>    ';
                    if($newbalance < 0) // display refund button
             {
                 $output3[$index] .= '<form id="search-form" method="post">';
@@ -351,18 +351,35 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                     }
                     else //no where to refund, then refund check to insurance company
                     {
-                        $copay = 0;
-                        $refundbalance -= $copay;
+                        $refundbalance -= $cop;
+                        $cop = 0;
                         $inpay -= $refundbalance;
                         $diff -=$ppay;
                         pAlert("Refund patient paid! Amount: $ ".$ppay."\\nRefund payment to insurance company! Amount: $".$diff);
                     }
                 }
-                //update database
+            }
+            else //case to refund copay
+            {
+                if($cop - $refundbalance >= 0) //refund copay
+                {
+                     $cop -= $refundbalance;
+                     $refundbalance = 0;
+                     pAlert("Refund patient paid from insurance copay!\\nAmount: $ ".$diff);
+                }
+                else //case to refund all copay, and refund money to insurance company
+                {
+                        $refundbalance -= $cop;
+                        $ppay = $cop;
+                        $cop = 0;
+                        $inpay -= $refundbalance;
+                        pAlert("Refund patient paid from insurance copay!\\nAmount: $ ".$ppay."\\nRefund insurance check back to insurance company:\\nAmount: $".$refundbalance);
+                    }
+            }
+            //update database
                 $sql = "UPDATE `Payment` SET `AmtPaid` = '$amtpaid' , `AmtPaidByInsurance` = '$inpay', `CoPay` = '$cop' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$log_id'"; 
                 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
                 echo "<meta http-equiv='refresh' content='0'>"; 
-            }
         }        
         mysqli_close($connection); 
     }

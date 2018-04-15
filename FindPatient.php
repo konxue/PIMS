@@ -82,7 +82,7 @@ elseif ($count>0)
         <th>#</th>
         <th>Patient ID</th>
         <th>Last Name</th>
-        <th>Middle Initial</th>
+        <th>Middle Name</th>
         <th>First Name</th>';
        if ($_SESSION["usertype"] != 'Volunteer')
        {
