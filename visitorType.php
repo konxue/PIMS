@@ -4,8 +4,7 @@
 -->
 <?php
     session_start();
-    if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
-    {
+    
     if ($_SESSION['p_id'] == null)
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
@@ -31,8 +30,12 @@
         {
             echo'<tr><td><center>Restricted, only approved visitors.</center></td>';
         }
-        echo"<th><input type='submit' name='submit_99' value='Update' />
-        </th></tr></table></form></center>";
+        if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
+        {
+        echo"<th><input type='submit' name='submit_99' value='Update' /></th>";
+        }
+        echo "</tr></table></form></center>";
+        
         
     if ($_POST['submit_99'])
     {
@@ -55,6 +58,8 @@
     if ($setting == 'N') //when restricting visitors happen
     {
         //allow user to add visitor
+        if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
+        {
         echo '
         <center>
         <form id="search-form" method="post">
@@ -66,11 +71,11 @@
                 <td><input type="p_text" name="ftext" id="ftext"></center></td>
                 <td><strong><label for="text"><center>Last Name</label></strong></td>
                 <td><input type="p_text" name="ltext" id="ltext"></center></td>
-                <td><input type="submit" name="submit_77" value="Add" /></td>
-                </tr>
+                <td><input type="submit" name="submit_77" value="Add" /></td></tr>
                 </thead>
                 </table>
         </center>';
+        }
          if ($_POST['submit_77'])//when button was clicked for add visitor to the list to the database
         {
         $sqli = "Select `num` From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num` DESC";
@@ -99,28 +104,35 @@
                 <thead><tr>
                 <th><center>#</center></th>
                 <th><center>FIRST NAME</center></th>
-                <th><center>LAST NAME</center></th>
-                <th><center>Delete</center></th>
-                </tr>
+                <th><center>LAST NAME</center></th>';
+                if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
+                {
+                    echo'<th><center>Delete</center></th>';
+                }
+                echo '</tr>
                 </thead><tbody>';
         while ($newrow = mysqli_fetch_array($res))
         {
             echo '<td><center>'.$newrow[3].'</center></td>';
-            echo '<td><center>'.$newrow[1].'</center></td>';
+            echo '<td><center>'.$newrow[1].'</center></td>';           
             echo '<td><center>'.$newrow[2].'</center></td>';
+            if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
+            {
             echo '<form id="search-form" method="post">';
             echo '<td><center><input type="hidden" name="ap_id" value="'.$newrow[3].'"/>
                 <input type="submit" name="submit_d" value="Delete" /></center></td>		
                 </form>';
+            }
             echo '</tr>';
         }
         }
         echo '</tbody></table>';
         
+    
     }
      echo "<br><br>";
     }
-    }
+    
     function phpAlert25($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 } //php print function

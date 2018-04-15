@@ -20,7 +20,7 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                 <form id="search-form" method="post">
                   <table border="0.5" class="data-table">
                         <strong><center><label for="paycenter">Patient Payment Center</label></center></strong></td>
-                        <tr><td><strong><label for="vname"><center>Admission #</label></strong></td>
+                        <tr><td><strong><label for="vname"><center>Visit #</label></strong></td>
                         <td><input type="p_text" name="vnum" id="vnum"></td>
                         <td><strong><label for="pchoice"><center>Pay Type</label></strong></td>
                         <td><select name="paytype">
@@ -47,7 +47,7 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
             <table border="0.5" class="data-table">
             <strong><center><label for="Billcenter">Add item to bill</label></center></strong></td>
                     <tr>
-                    <td><strong><label for="text"><center>Admission #</label></strong></td>
+                    <td><strong><label for="text"><center>Visit #</label></strong></td>
                     <td><input type="p_text" name="anum" id="anum"></center></td>
                     <td><strong><label for="text"><center>Item/Charge Name</label></strong></td>
                     <td><input type="p_text" name="itext" id="itext"></center></td>
