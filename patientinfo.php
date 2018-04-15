@@ -123,6 +123,17 @@
  }
  $output .= "</table>";
 echo $output; //output table
+ echo '<br><table class="data-table">'; //print button to edit information
+            echo '<form id="search-form" method="post">';
+            echo '<td><center>
+                <input type="submit" name="submit_edit" value="Edit" /></center></td>		
+                </form></tr></table>';
+
+        if($_POST["submit_edit"])
+        {
+            echo '<meta http-equiv="refresh" content="0; url=updatePatient.php" />'; 
+        }
+        
          echo '<br><table class="data-table">'; //print button to print information
             echo '<form id="search-form" method="post">';
             echo '<td><center>

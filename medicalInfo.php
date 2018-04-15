@@ -253,9 +253,10 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     $sql = "Select * FROM `Procedures` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `proc_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
+    $output10 = '';
     if($count ==0)//when empty record in the database
-    {
-        echo '<br><table class="data-table">
+    {        
+        $output10.= '<br><table class="data-table">
                  <caption class="title"><center>Procedure Displayer</center></caption>
         <thead>
                 <tr>
@@ -264,7 +265,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         </thead></table>';
     }
     else{
-            echo '<br><table class="data-table">
+            $output10.= '<br><table class="data-table">
                  <caption class="title"><center>Procedure Displayer</center></caption>
         <thead>
                 <tr>
@@ -276,16 +277,16 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                 <th><center>Procedure Time</center></th>';
                 if ($_SESSION['usertype'] == 'Doctor')
         {
-                    echo '<th><center>Delete</center></th>';
+                    $output10.= '<th><center>Delete</center></th>';
         }
-        echo
+        $output10.=
                 '</tr>
         </thead>';
      while($row = mysqli_fetch_array($result))
     {
-        echo "<tr>";
-        echo "<td><center>" . $row['proc_id'] . "</center></td>";
-        echo "<td><center>" . $row['log_id'] . "</center></td>";
+        $output10.= "<tr>";
+        $output10.= "<td><center>" . $row['proc_id'] . "</center></td>";
+        $output10.= "<td><center>" . $row['log_id'] . "</center></td>";
         $n1 = $row['UserID'];
         $query = "SELECT `LastName`,`FirstName`,`UserType` FROM `Users` WHERE UserID='$n1'";
         $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
@@ -295,27 +296,37 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         $uType = $newrow[2];
         if ($uType == "Doctor")
         {
-        echo "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        $output10.= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
         }
         else
         {
-        echo "<td><center>Nurse ".$doctorFN." " .$doctorLN."</center></td>";    
+        $output10.= "<td><center>Nurse ".$doctorFN." " .$doctorLN."</center></td>";    
         }
-        echo "<td><center>" . $row['Proc'] . "</center></td>";
-        echo "<td><center>" . $row['Date'] . "</center></td>";
-        echo "<td><center>" . $row['Time'] . "</center></td>";
+        $output10.= "<td><center>" . $row['Proc'] . "</center></td>";
+        $output10.= "<td><center>" . $row['Date'] . "</center></td>";
+        $output10.= "<td><center>" . $row['Time'] . "</center></td>";
         if ($_SESSION['usertype'] == 'Doctor')
         {
-        echo '<td><center><button id='.$row['proc_id'].' onClick=callFunction5(this.id) name=grr>Delete</button></center></td>';
+        $output10.= '<td><center><button id='.$row['proc_id'].' onClick=callFunction5(this.id) name=grr>Delete</button></center></td>';
         }
         else
         {
-            echo "<td><center></center></td>";
+            $output10.= "<td><center></center></td>";
         }
-        echo "</tr>";
+        $output10.= "</tr>";
     }
     }
-    echo "</table><br><br>";
+    $output10.=  "</table><br><br>";
+    echo $output10;
+     echo '<br><table class="data-table">';
+        echo '<form id="search-form" method="post">';
+        echo '<td><center><input type="submit" name="submit_print26" value="Print" /></center></td>		
+            </form></tr></table>';
+     if($_POST["submit_print26"])
+     {
+         $_SESSION['printOut'] = $output33;
+         echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+     }
  }
          function pAlert2($msg) {
          echo '<script type="text/javascript">alert("' . $msg . '")</script>';}

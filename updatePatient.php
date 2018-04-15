@@ -1,5 +1,5 @@
 <!--
-    Purpose: This PHP page will add a Patient to the PatientInfo table
+    Purpose: This PHP page will update a Patient to the PatientInfo table
     Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
 -->
 
@@ -10,8 +10,10 @@ $errors[0] = 0; //Initializing errors[0] = 0, representing no errors are present
 $isProcessed = 0; //This variable used to flag whether or not information has been entered into
 //the html form for add patient. Fixes the issue of submitting blank information into database
 //when the page is loaded
-
+require("db_connect.php"); //database connector
 session_start();
+
+
 //initializing error messages and php variables that will later hold values
 //to be added to the database
 $fNameError = $mNameError = $lNameError = $homeNumError = $cellNumError = $workNumError = "";
@@ -20,24 +22,41 @@ $doctorError = $fdError = "";
 
 $dobError = $sexError = $visitorError = $streetError = $EC2PhoneError = $EC2HomeError = "";
 
-$EC2LastError = $EC2MiddleError = $EC2FirstError = $EC1CellError = $EC1HomeError = "";
+$EC2LastError = $EC2FirstError = $EC1CellError = $EC1HomeError = "";
 
-$EC1LastError = $EC1MiddleError = $EC1FirstError = $countryError = $zipError = $stateError = "";
+$EC1LastError = $EC1FirstError = $countryError = $zipError = $stateError = "";
 
 $cityError ="";
+//passing database value to the input field
+$input = $_SESSION['p_id'];
+$sql = "Select * from `PatientInfo` where `PatientID` = '$input'";
+$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+$row = mysqli_fetch_array($result);
+$p_FirstName = $row['FirstName'];
+$p_MiddleName = $row['MiddleName'];
+$p_LastName = $row['LastName'];
+$homePhone = $row ['HomePhone'];
+$cellPhone = $row ['MobilePhone'];
+$workPhone = $row ['WorkPhone'];
+$p_DOB = $row['DOB'];
+$p_Sex = $row['SEX'];
+$p_VisitorType = $row['VisitorType'];
+$p_Street = $row['Street'];
+$p_City = $row['City'];
+$p_State = $row['State'];
+$p_Country = $row['Country'];
+$p_Zip = $row['Zip'];
+$p_fdName = $row['FamilyDoctor'];
+$p_doctorName = $row['UserID'];
+$EC1_FirstName = $row['E1_FirstName'];
+$EC1_LastName = $row['E1_LastName'];
+$EC1_homePhone = $row['E1_HomeNum'];
+$EC1_cellPhone = $row['E1_MobileNum'];
+$EC2_FirstName = $row['E2_FirstName'];
+$EC2_LastName = $row['E2_LastName'];
+$EC2_homePhone = $row['E2_HomeNum'];
+$EC2_cellPhone = $row['E2_MobileNum'];
 
-$p_FirstName = $p_MiddleName = $p_LastName = $homePhone1 = $homePhone2 = $homePhone3 ="";
-
-$cellPhone1 = $cellPhone2 = $cellPhone3 = $workPhone1 = $workPhone2 = $workPhone3 = "";
-$p_DOB = $p_Sex = $p_VisitorType = $p_Street = $p_City = $p_State = $p_Country = $p_Zip = "";
-
-$p_Country = $EC1_FirstName = $EC1_MiddleName = $EC1_LastName = $EC1_homePhone1 = "";
-
-$EC1_homePhone2 = $EC1_homePhone3 = $EC1_cellPhone1 = $EC1_cellPhone2 = $EC1_cellPhone3 = "";
-
-$EC2_FirstName = $EC2_MiddleName = $EC2_LastName = $EC2_homePhone1 = $EC2_homePhone2 = "";
-
-$EC2_homePhone3 = $EC2_cellPhone1 = $EC2_cellPhone2 = $EC2_cellPhone3 = "";
 
 //all values read in from the forms are passed into this function
 function testInput($field) {
@@ -118,72 +137,42 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     
     
     
-    if(empty($_POST["homePhone1"]) || empty($_POST["homePhone2"]) || empty($_POST["homePhone3"])){
+    if(empty($_POST["homePhone"])){
         $homeNumError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $homePhone1 = testInput($_POST["homePhone1"]);
-        $homePhone2 = testInput($_POST["homePhone2"]);
-        $homePhone3 = testInput($_POST["homePhone3"]);
+        $homePhone = testInput($_POST["homePhone"]);
     // Using regex to check only for allowed characters (only numbers in this case)
     //Checking inputs for all the input fields related to the homephone number
-        if (!preg_match("/^[0-9]*$/",$homePhone1)) {
-            $homeNumError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$homePhone2)) {
-            $homeNumError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$homePhone3)) {
-            $homeNumError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$homePhone)) {
+            $homeNumError = "Invalid input"; 
             $errors[0] = 1;
         }
     }
-    if(empty($_POST["cellPhone1"]) || empty($_POST["cellPhone2"]) || empty($_POST["cellPhone3"])){
+    if(empty($_POST["cellPhone"])){
         $cellNumError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $cellPhone1 = testInput($_POST["cellPhone1"]);
-        $cellPhone2 = testInput($_POST["cellPhone2"]);
-        $cellPhone3 = testInput($_POST["cellPhone3"]);
+        $cellPhone = testInput($_POST["cellPhone"]);
     // Using regex to check only for allowed characters (only numbers in this case)
     //Checking inputs for all the input fields related to the cellphone number
-        if (!preg_match("/^[0-9]*$/",$cellPhone1)) {
-            $cellNumError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$cellPhone2)) {
-            $cellNumError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$cellPhone3)) {
-            $cellNumError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$cellPhone)) {
+            $cellNumError = "Invalid input";
             $errors[0] = 1;
         }
     }
-    if(empty($_POST["workPhone1"]) || empty($_POST["workPhone2"]) || empty($_POST["workPhone3"])){
+    if(empty($_POST["workPhone"])){
         $workNumError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $workPhone1 = testInput($_POST["workPhone1"]);
-        $workPhone2 = testInput($_POST["workPhone2"]);
-        $workPhone3 = testInput($_POST["workPhone3"]);
+        $workPhone = testInput($_POST["workPhone"]);
     // Using regex to check only for allowed characters (only numbers in this case)
     //Checking inputs for all the input fields related to the workphone number
-        if (!preg_match("/^[0-9]*$/",$workPhone1)) {
-            $workNumError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$workPhone2)) {
-            $workNumError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$workPhone3)) {
-            $workNumError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$workPhone)) {
+            $workNumError = "Invalid input"; 
             $errors[0] = 1;
         }
     }
@@ -280,7 +269,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
             $errors[0] = 1;
         }
     }
-
+    
     
     if(empty($_POST["EC1_LastName"])){
         $EC1LastError = 'Please enter a name.';
@@ -295,49 +284,29 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         }
     }
     
-    if(empty($_POST["EC1_homePhone1"]) || empty($_POST["EC1_homePhone2"]) || empty($_POST["EC1_homePhone3"])){
+    if(empty($_POST["EC1_homePhone"])){
         $EC1HomeError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $EC1_homePhone1 = testInput($_POST["EC1_homePhone1"]);
-        $EC1_homePhone2 = testInput($_POST["EC1_homePhone2"]);
-        $EC1_homePhone3 = testInput($_POST["EC1_homePhone3"]);
+        $EC1_homePhone = testInput($_POST["EC1_homePhone"]);
     // check if name only contains letters and whitespace
-        if (!preg_match("/^[0-9]*$/",$EC1_homePhone1)) {
-            $EC1HomeError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC1_homePhone2)) {
-            $EC1HomeError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC1_homePhone3)) {
-            $EC1HomeError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$EC1_homePhone)) {
+            $EC1HomeError = "Invalid input"; 
             $errors[0] = 1;
         }
     }
     
-    if(empty($_POST["EC1_cellPhone1"]) || empty($_POST["EC1_cellPhone2"]) || empty($_POST["EC1_cellPhone3"])){
+    if(empty($_POST["EC1_cellPhone"])){
         $EC1CellError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $EC1_cellPhone1 = testInput($_POST["EC1_cellPhone1"]);
-        $EC1_cellPhone2 = testInput($_POST["EC1_cellPhone2"]);
-        $EC1_cellPhone3 = testInput($_POST["EC1_cellPhone3"]);
+        $EC1_cellPhone = testInput($_POST["EC1_cellPhone"]);
     // check if name only contains letters and whitespace
         $isProcessed = 1;
-        if (!preg_match("/^[0-9]*$/",$EC1_cellPhone1)) {
-            $EC1CellError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC1_cellPhone2)) {
-            $EC1CellError = "Only numbers allowed"; 
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC1_cellPhone3)) {
-            $EC1CellError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$EC1_cellPhone)) {
+            $EC1CellError = "Invalid input";
             $errors[0] = 1;
         }
     }
@@ -355,7 +324,6 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
             $errors[0] = 1;
         }
     }
-
     
     if(empty($_POST["EC2_LastName"])){
         $EC2LastError = 'Please enter a name.';
@@ -370,50 +338,30 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         }
     }
 
-    if(empty($_POST["EC2_homePhone1"]) || empty($_POST["EC2_homePhone2"]) || empty($_POST["EC2_homePhone3"])){
+    if(empty($_POST["EC2_homePhone"])){
         $EC2HomeError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $EC2_homePhone1 = testInput($_POST["EC2_homePhone1"]);
-        $EC2_homePhone2 = testInput($_POST["EC2_homePhone2"]);
-        $EC2_homePhone3 = testInput($_POST["EC2_homePhone3"]);
+        $EC2_homePhone = testInput($_POST["EC2_homePhone"]);
     // check if name only contains letters and whitespace
-        if (!preg_match("/^[0-9]*$/",$EC2_homePhone1)) {
-            $EC2HomeError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC2_homePhone2)) {
-            $EC2HomeError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC2_homePhone3)) {
-            $EC2HomeError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$EC2_homePhone)) {
+            $EC2HomeError = "Invalid input";
             $errors[0] = 1;
         }
     }
 
-    if(empty($_POST["EC2_cellPhone1"]) || empty($_POST["EC2_cellPhone2"]) || empty($_POST["EC2_cellPhone3"])){
+    if(empty($_POST["EC2_cellPhone"])){
         $EC2CellError = 'Please enter a number.';
         $errors[0] = 1;
     }
     else {
-        $EC2_cellPhone1 = testInput($_POST["EC2_cellPhone1"]);
-        $EC2_cellPhone2 = testInput($_POST["EC2_cellPhone2"]);
-        $EC2_cellPhone3 = testInput($_POST["EC2_cellPhone3"]);
+        $EC2_cellPhone = testInput($_POST["EC2_cellPhone"]);
     // check if name only contains letters and whitespace
         
-        if (!preg_match("/^[0-9]*$/",$EC2_cellPhone1)) {
-            $EC2CellError = "Only numbers allowed";
+        if (!preg_match("/^[0-9\-\(\) ]*$/",$EC2_cellPhone)) {
+            $EC2CellError = "Invalid input";
             $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC2_cellPhone2)) {
-            $EC2CellError = "Only numbers allowed";
-            $errors[0] = 1;
-        }
-        if (!preg_match("/^[0-9]*$/",$EC2_cellPhone3)) {
-            $EC2CellError = "Only numbers allowed";
-            $errors[0] = 1;;
         }
     }    
 }
@@ -421,7 +369,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
 <!---HTML for the add new patient form -->
 <html>
     <head>
-        <title>Add New Patient - Patient Information Management System</title>
+        <title>Edit Patient Information - Patient Information Management System</title>
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
         <link rel="stylesheet" href="css/addPatient.css">
         <style type ="text/css">
@@ -441,14 +389,14 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     </footer>
     <body>
         <br>
-        <center><h1 class="pageTitle">Add Patient Form</h1></center>
+        <center><h1 class="pageTitle">Edit Patient Form</h1></center>
         <a href="mainpage.php" class="btn btn-info btn-sm">
           <span class="glyphicon glyphicon glyphicon-arrow-left"></span> Main Page
         </a>
         <h3 class="sectionDesc">Please enter all available information.</h3>
         <!---Beginning the form for adding a patient -->
         <!---Information from the form is submitted back to this page -->
-        <form name ="AddPatientForm" method="POST" action="addPatient.php" class="addPatientText">
+        <form name ="AddPatientForm" method="POST" action="updatePatient.php" class="addPatientText">
             <div class="inlineinput">
                 <label for="p_FirstName" class="fieldName">First Name:</label>
                 <input type="text" name ="p_FirstName" class="inputField" size="20" value="<?php echo $p_FirstName; ?>">
@@ -461,20 +409,17 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="error"><?php echo $lNameError; ?></span>
                 <br>
                 <label for ="p_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $homePhone1; ?>">  ) -
-                <input type="text" name ="homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $homePhone2; ?>"> -
-                <input type="text" name ="homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $homePhone3; ?>">
+                <input type="text" name ="homePhone" class="phoneField" size="14" maxlength="14" value="<?php echo $homePhone; ?>">
                 <span class="error"><?php echo $homeNumError; ?></span>
+      
                 <label for ="p_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $cellPhone1; ?>">  ) -
-                <input type="text" name ="cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $cellPhone2; ?>"> -
-                <input type="text" name ="cellPhone3" class="inputField" size="4" maxlength="4" value="<?php echo $cellPhone3; ?>">
+                <input type="text" name ="cellPhone" class="phoneField" size="14" maxlength="14" value="<?php echo $cellPhone; ?>"> 
                 <span class="error"><?php echo $cellNumError; ?></span>
+                
                 <label for ="p_workPhone" class="fieldName">Work Phone Number:</label>
-                (<input type="text" name ="workPhone1" class="inputField" size="3" maxlength="3" value="<?php echo $workPhone1; ?>">  ) -
-                <input type="text" name ="workPhone2" class="inputField" size="3" maxlength="3" value="<?php echo $workPhone2; ?>"> -
-                <input type="text" name ="workPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $workPhone3; ?>">
+                <input type="text" name ="workPhone" class="inputField" size="14" maxlength="14" value="<?php echo $workPhone; ?>">
                 <span class="error"><?php echo $workNumError; ?></span>
+                
                 <br>
                 <label for ="p_DOB" class="fieldName">Date of Birth(MM/DD/YYYY)</label>
                 <input type="text" name ="p_DOB" class="inputField" size="12" maxlength="10" value="<?php echo $p_DOB; ?>">
@@ -536,14 +481,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="error"><?php echo $EC1LastError; ?></span>
                 <br>
                 <label for ="EC1_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="EC1_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_homePhone1; ?>">  ) -
-                <input type="text" name ="EC1_homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_homePhone2; ?>"> -
-                <input type="text" name ="EC1_homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC1_homePhone3; ?>">
+                <input type="text" name ="EC1_homePhone" class="phoneField" size="14" maxlength="14" value="<?php echo $EC1_homePhone; ?>">
                 <span class="error"><?php echo $EC1HomeError; ?></span>
                 <label for ="EC1_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="EC1_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_cellPhone1; ?>">  ) -
-                <input type="text" name ="EC1_cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC1_cellPhone2; ?>"> -
-                <input type="text" name ="EC1_cellPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC1_cellPhone3; ?>">
+                <input type="text" name ="EC1_cellPhone" class="phoneField" size="14" maxlength="14" value="<?php echo $EC1_cellPhone; ?>">
                 <span class="error"><?php echo $EC1CellError; ?></span>
                  <h3 class="sectionDesc">Emergency Contact 2</h3>
                 <label for="EC2_FirstName" class="fieldName">First Name:</label>
@@ -554,14 +495,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                 <span class="error"><?php echo $EC2LastError; ?></span>
                 <br>
                 <label for ="EC2_homePhone" class="fieldName">Home Phone Number:</label>
-                (<input type="text" name ="EC2_homePhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_homePhone1; ?>">  ) -
-                <input type="text" name ="EC2_homePhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_homePhone2; ?>"> -
-                <input type="text" name ="EC2_homePhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC2_homePhone3; ?>">
+                <input type="text" name ="EC2_homePhone" class="phoneField" size="14" maxlength="14" value="<?php echo $EC2_homePhone; ?>">
                 <span class="error"><?php echo $EC2HomeError; ?></span>
                 <label for ="EC_cellPhone" class="fieldName">Cell Phone Number:</label>
-                (<input type="text" name ="EC2_cellPhone1" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_cellPhone1; ?>">  ) -
-                <input type="text" name ="EC2_cellPhone2" class="phoneField" size="3" maxlength="3" value="<?php echo $EC2_cellPhone2; ?>"> -
-                <input type="text" name ="EC2_cellPhone3" class="lastPhoneField" size="4" maxlength="4" value="<?php echo $EC2_cellPhone3; ?>">
+                <input type="text" name ="EC2_cellPhone" class="phoneField" size="14" maxlength="14" value="<?php echo $EC2_cellPhone; ?>">
                 <span class="error"><?php echo $EC2CellError; ?></span>
             </div>
             <br>
@@ -586,22 +523,13 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     //This prevents erroneous and blank informtion being added to the database
     if (($errors[0] == 0) && ($isProcessed ==1)) {
         //Concatenate all of the number fields into their respective variable to be added to the database
-        //result of concatenation is (XXX)XXX-XXXX, where X = integer values
-        $HomePhoneNumber = "(" . $homePhone1 . ") " . $homePhone2 .  "-" . $homePhone3;
-        $CellPhoneNumber = "(" . $cellPhone1 . ") " . $cellPhone2 .  "-" . $cellPhone3;
-        $WorkPhoneNumber = "(" . $workPhone1 . ") " . $workPhone2 .  "-" . $workPhone3;
-        $EC1HomePhone = "(" . $EC1_homePhone1 . ") " . $EC1_homePhone2 . "-" . $EC1_homePhone3;
-        $EC2HomePhone = "(" . $EC2_homePhone1 . ") " . $EC2_homePhone2 . "-" . $EC2_homePhone3;
-        $EC1CellPhone = "(" . $EC1_cellPhone1 . ") " . $EC1_cellPhone2 . "-" . $EC1_cellPhone3;
-        $EC2CellPhone = "(" . $EC2_cellPhone1 . ") " . $EC2_cellPhone2 . "-" . $EC2_cellPhone3;
-        //Add the information from the form to the database
-        $sqlQuery = "INSERT INTO PatientInfo (UserID, City, DOB, E1_FirstName, E1_HomeNum, E1_LastName, E1_MobileNum, E2_FirstName, E2_HomeNum, E2_LastName, E2_MobileNum, FirstName, HomePhone, LastName, MiddleName, MobilePhone, SEX, State, Street, VisitorType, WorkPhone, Zip, Country, FamilyDoctor)
-                    VALUES ('$p_doctorName','$p_City', '$p_DOB', '$EC1_FirstName', '$EC1HomePhone', '$EC1_LastName', '$EC1CellPhone', '$EC2_FirstName', '$EC2HomePhone', '$EC2_LastName', '$EC2CellPhone', '$p_FirstName', '$HomePhoneNumber', '$p_LastName', '$p_MiddleName', '$CellPhoneNumber', '$p_Sex', '$p_State', '$p_Street', '$p_VisitorType', '$WorkPhoneNumber', '$p_Zip', '$p_Country', '$p_fdName')";
-            
+        //Update the information from the form to the database
+        $sqlQuery = "UPDATE `PatientInfo` SET `FirstName` = '$p_FirstName', `MiddleName` = '$p_MiddleName', `LastName` = '$p_LastName', `HomePhone` = '$homePhone', `MobilePhone` = '$cellPhone', `WorkPhone` = '$workPhone', `DOB` = '$p_DOB', `SEX` = '$p_Sex', `VisitorType` = '$p_VisitorType', `Street` = '$p_Street', `City` = '$p_City', `State` = '$p_State', `Country` = '$p_Country', `Zip` = '$p_Zip', `Familydoctor` = '$p_fdName', `UserID` = '$p_doctorName', `E1_FirstName` = '$EC1_FirstName', `E1_MobileNum` = '$EC1_MiddleName', `E1_LastName` = '$EC1_LastName',`E1_HomeNum` = '$EC1_homePhone',`E1_MobileNum` = '$EC1_cellPhone',`E2_FirstName` = '$EC2_FirstName',`E2_MobileNum` = '$EC2_MiddleName',`E2_LastName` = '$EC2_LastName',`E2_HomeNum` = '$EC2_homePhone',`E2_MobileNum` = '$EC2_cellPhone' where `PatientID` = '$input'";
+
      //add patient query   
         if( mysqli_query($addConn, $sqlQuery)){
-            echo "Information added successfully, page closing in 2 seconds";
-            echo '<script> window.setTimeout("window.close()",2000);</script>';
+            echo '<script type="text/javascript">alert("Information updated successfully!")</script>';
+            echo '<script> window.setTimeout("window.close()",1000);</script>';
         } 
         else{
             echo "ERROR: Could not execute $sqlQuery. " . mysqli_error($addConn);
