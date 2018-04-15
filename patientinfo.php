@@ -10,19 +10,10 @@
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
     else {
-    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
-    if (!$connection){
-        die("Database Connection Failed" . mysqli_error($connection));
-    }
-    $select_db = mysqli_select_db($connection, 'onlinepims');
-    if (!$select_db){
-        die("Database Selection Failed" . mysqli_error($connection));
-    }
-    
-    
+    require("db_connect.php"); //database connector 
     $input = $_SESSION['p_id'];
-    $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
-    $output = '';
+    $res = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'"); //database query for all patient information
+    $output = ''; //$output is the print variable for print button
     $output .= '
         <table class="data-table">
         <caption class="title"><center>Patient Report</center></caption>
@@ -39,9 +30,8 @@
                 </tr>
         </thead>
         ';
-    
-    while($row = mysqli_fetch_array($res))
-    {
+    //output databse information
+    $row = mysqli_fetch_array($res);
         $output .= "<tr>";
         $output .= "<td><center>" . $row['PatientID'] . "</center></td>";
         $output .= "<td><center>" . $row['SEX'] . "</center></td>";
@@ -56,11 +46,11 @@
        $newrow=mysqli_fetch_array($result1);
        $doctorLN = $newrow[0];
        $doctorFN = $newrow[1];
-        $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>";
+        $output .= "<td><center>Dr. ".$doctorFN." " .$doctorLN."</center></td>"; //end for doctor name
         $output .= "<td><center>" . $row['FamilyDoctor'] . "</center></td>";
         $output .= "</tr>";
-    }
-   $output .= '
+        //output header for next line
+        $output .= '
         <thead>
                 <tr>
                 
@@ -74,9 +64,8 @@
                 <th><center>Work Phone</center></th>
                 </tr>
         </thead>';
- $result = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
-   while($row1 = mysqli_fetch_array($result))
-    {
+        $result = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$input'");
+        $row1 = mysqli_fetch_array($result);
         $output .= "<tr>";
         $output .= "<td><center>" . $row1['Street'] . "</center></td>";
         $output .= "<td><center>" . $row1['City'] . "</center></td>";
@@ -87,12 +76,11 @@
         $output .= "<td><center>" . $row1['MobilePhone'] . "</center></td>";
         $output .= "<td><center>" . $row1['WorkPhone'] . "</center></td>";
         $output .= "</tr>";
-    }
     $output .= "</table>";
  $patientID = $_SESSION['p_id'];   
- $ecRes = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$patientID'");
- $count = mysqli_num_rows($ecRes);
-  if($count>0)
+ $ecRes = mysqli_query($connection, "Select * FROM PatientInfo WHERE PatientID = '$patientID'"); //emergency contact information query
+ $count = mysqli_num_rows($ecRes); 
+  if($count>0) //emergency contact information output when there is record
  {
  $output .= '
         <table class="data-table">
@@ -123,7 +111,7 @@
         $output .= "</tr></tbody>";
 
  }
- else
+ else //emergency contact information output when no record
  {
      $output .= '<table class="data-table">
         <caption class="title"><center>Emergency Contacts</center></caption>
@@ -134,8 +122,8 @@
         </thead>';
  }
  $output .= "</table>";
-echo $output;
-         echo '<br><table class="data-table">';
+echo $output; //output table
+         echo '<br><table class="data-table">'; //print button to print information
             echo '<form id="search-form" method="post">';
             echo '<td><center>
                 <input type="submit" name="submit_print" value="Print" /></center></td>		

@@ -1,24 +1,28 @@
+<!--
+    Purpose: This PHP page handles the visitor setting in the main page
+    Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
+-->
 <?php
     session_start();
-    if($_SESSION["usertype"] != 'Volunteer')
+    if($_SESSION["usertype"] != 'Volunteer') //hidden for volunteer
     {
     if ($_SESSION['p_id'] == null)
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
     else{
-    require("db_connect.php");
+    require("db_connect.php"); //database connector
     $input = $_SESSION['p_id'];
     $query = "Select `VisitorType` FROM `PatientInfo` WHERE `PatientID` = '$input'";
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_array($result); //database query on visitor type setting
     $setting = $row[0];
         echo '
             <center>
         <form id="search-form" method="post">';
         echo "
         <table border='0.5' class='data-table'>
-        <caption class='title'><center>Visitors Setting</center></caption>";
+        <caption class='title'><center>Visitors Setting</center></caption>"; //output button to turn on/off visitor setting
         if($setting == 'Y')
         {
             echo'<tr><td><center>Allow all visitors</center></td>';
@@ -48,8 +52,9 @@
         phpAlert25("Updated patient visitor type setting!");
         echo "<meta http-equiv='refresh' content='0'>";  
     }
-    if ($setting == 'N')
+    if ($setting == 'N') //when restricting visitors happen
     {
+        //allow user to add visitor
         echo '
         <center>
         <form id="search-form" method="post">
@@ -83,12 +88,12 @@
         $sqli = "Select * From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num`";
         $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
         $count = mysqli_num_rows($res);;
-        if($count == 0)
+        if($count == 0) //no records
         {
             echo '<table border="0.5" class="data-table">';
             echo '<thead><th><center>No approved visitor in the list!</center></th></thead></table>';
         }
-        else{
+        else{ //put all approved visitor
             echo'<table border="0.5" class="data-table">
                 <caption class="title"><center>Approved Visitors List</center></caption>
                 <thead><tr>
@@ -118,11 +123,9 @@
     }
     function phpAlert25($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-}
+} //php print function
 if(isset($_POST["submit_d"]))
 {
-    require("db_connect.php");
-    session_start();
     $input = $_SESSION["p_id"];
     $ap_num = $_POST["ap_id"];
     $query = "DELETE FROM `ApprovedVisitor` WHERE `PatientID` = '$input' AND `num` = '$ap_num'";
