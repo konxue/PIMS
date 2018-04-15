@@ -28,7 +28,7 @@
       echo '
         <form id="form" method="post">
           <table border="0.5" class="data-table">
-          <caption class="title"><center>Hospitalization Setting</center></caption>
+          <caption class="title"><center>Patient Location</center></caption>
             <tr>
                 <td><strong><label for="vType"><center>Facility (Floor #)</label></strong></td>
                 <td><select name="faci">
