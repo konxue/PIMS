@@ -253,9 +253,9 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     $sql = "Select * FROM `Procedures` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `proc_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
+    $output10 = '';
     if($count ==0)//when empty record in the database
-    {
-        $output10 = '';
+    {        
         $output10.= '<br><table class="data-table">
                  <caption class="title"><center>Procedure Displayer</center></caption>
         <thead>
@@ -324,7 +324,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             </form></tr></table>';
      if($_POST["submit_print26"])
      {
-         $_SESSION['printOut'] = $output33;
+         $_SESSION['printOut'] = $output10;
          echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
      }
  }

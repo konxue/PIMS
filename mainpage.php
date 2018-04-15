@@ -47,6 +47,14 @@ header("Refresh: 0; url=medicalInfo.php"); //direct doctor or nurse to medicalin
         </div>
            ";
        }
+  else
+  {
+      echo"
+          <div class='tab'>
+          <button class='tablinks' onclick='openCity(event, `Visitor`)'>Visitors Setting</button>
+          </div>
+           ";
+  }
 ?>
 
 <div id="Admission" class="tabcontent">
