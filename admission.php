@@ -6,14 +6,15 @@
 <?php
     function php1Alert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-}
-    session_start();
+} //php alert function
+    session_start(); //session start to use session variable
     if ($_SESSION['p_id'] == null && ($_SESSION["usertype"] != 'Volunteer'))
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
     else {
-    require("db_connect.php");
+    require("db_connect.php"); //database connector
+    //output form to check in patient
       echo '
         <form id="form" method="post">
           <table border="0.5" class="data-table">
@@ -25,6 +26,7 @@
             </tr>
            </table>
         </form>';
+      //output form to allocate patient to the room
       echo '
         <form id="form" method="post">
           <table border="0.5" class="data-table">
@@ -47,30 +49,30 @@
            </table>
         </form>
         <br>';
-       
+       //when button is clicked
    if($_POST["submit_22"])
    {
        $input = $_SESSION['p_id'];
-       $floornum = $_POST['faci'];
+       $floornum = $_POST['faci']; //selection of floor number
         
        $roomnum = $_POST['rtext'];
        $bednum = $_POST['btext'];
-       if (is_numeric($roomnum) && is_numeric($bednum))
+       if (is_numeric($roomnum) && is_numeric($bednum)) //make sure input is numeric value
        {
-     if ( $_SESSION['inPatient_status'] == 999)
-     {
-          $sql = "INSERT INTO `Inpatient` (`PatientID`, `FloorNum`, `RoomNum`, `BedNum`) VALUES ('$input', '$floornum', '$roomnum', '$bednum')";
-          $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-          php1Alert("Patient has been added to the selected room!");
-          echo("<meta http-equiv='refresh' content='0'>"); 
-     }
-       elseif ($_SESSION['inPatient_status'] == 888)
-      {
-           $query = "UPDATE `Inpatient` SET `RoomNum` = '$roomnum' , `FloorNum` = '$floornum', `BedNum` = '$bednum' Where `PatientID`='$input'";
-           $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-           php1Alert("Patient has been updated to the selected room!");
-           echo("<meta http-equiv='refresh' content='0'>"); 
-      }
+            if ( $_SESSION['inPatient_status'] == 999) //indicates that patient is not in the room, but add to the room. status of patient stored in the session variable, found in inpatientrecord.php
+            {
+                 $sql = "INSERT INTO `Inpatient` (`PatientID`, `FloorNum`, `RoomNum`, `BedNum`) VALUES ('$input', '$floornum', '$roomnum', '$bednum')";
+                 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+                 php1Alert("Patient has been added to the selected room!"); //alert message
+                 echo("<meta http-equiv='refresh' content='0'>"); //refersh page
+            }
+            elseif ($_SESSION['inPatient_status'] == 888) //indicates that patient is in the room, but update to different room. status of patient stored in the session variable, found in inpatientrecord.php
+            {
+                 $query = "UPDATE `Inpatient` SET `RoomNum` = '$roomnum' , `FloorNum` = '$floornum', `BedNum` = '$bednum' Where `PatientID`='$input'";
+                 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+                 php1Alert("Patient has been updated to the selected room!"); //alert message
+                 echo("<meta http-equiv='refresh' content='0'>");  //refersh page
+            }
        }
        else
        {
@@ -79,10 +81,10 @@
    }
    if($_POST["submit_3"]) //when button got clicked, patient check in 
     {
-        date_default_timezone_set("America/Chicago");
+        date_default_timezone_set("America/Chicago"); //timezone 
         $input = $_SESSION['p_id'];
         $newdate = date("Y/m/d");
-        $newtime = date("h:i:s A");
+        $newtime = date("h:i:s A"); //time format
         $text = $_POST['atext'];
         $sql = "Select `log_id` From `MedicalInfo` where `PatientID` = '$input' ORDER BY `log_id` DESC";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
@@ -115,7 +117,7 @@
     $sql = "Select * FROM MedicalInfo WHERE PatientID = '$input' ORDER BY `log_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
-    if ($count == 0)
+    if ($count == 0) //no record appears in the database
     {
          echo '
         <table class="data-table">
@@ -126,10 +128,10 @@
         echo "</tr></thead>";
     }
 
-    else
+    else // there is record in the database
     {
         //output table header
-    $output5 = '';
+    $output5 = ''; //this $output5 is a variable stores entire output as string, where it will be key variable for the printing feature
     $output5.= '
         <table class="data-table">
         <caption class="title"><center>Admission Report</center></caption>
@@ -141,11 +143,7 @@
                 <th><center>Admission Reason</center></th>
                 <th><center>Discharge Date</center></th>
                 <th><center>Discharge Time</center></th>';
-        if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
-        {
-            $output5 .= '<th><center>Selection</center></th>';
-        }
-        $output5 .= '
+    $output5 .= '
                 <th><center>Discharge</center></th>
                 <th><center>Delete</center></th>
                 </tr>
@@ -160,15 +158,11 @@
         $output5 .= "<td><center>" . $row['ReasonForAdmission'] . "</center></td>";
         $output5 .= "<td><center>" . $row['DischargeDate'] . "</center></td>";
         $output5 .= "<td><center>" . $row['DischargeTime'] . "</center></td>";
-        if ($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
-        {
-        $output5 .= '<td><center><button id='.$row['log_id'].' onClick=callFunction1(this.id) name=grr>Select</button></center></td>';
-        }
-        if ($row['DischargeDate'] !=null)
+        if ($row['DischargeDate'] !=null) // if this patient already discharged, no need output a button
         {
         $output5 .= '<td><center>-</center></td>';
         }
-        else
+        else //output a button
         {
         $output5 .= '<td><center><button id='.$row['log_id'].' onClick=callFunction2(this.id) name=grr>Discharge</button></center></td>';
         }
@@ -177,25 +171,22 @@
     }
     }
     $output5 .= "</table><br><br>";
-    echo $output5;
+    echo $output5;//output table
     echo '<br><table class="data-table">';
-    echo '<form id="search-form" method="post">';
+    echo '<form id="search-form" method="post">'; // output print button
     echo '<td><center>
         <input type="submit" name="submit_print3" value="Print" /></center></td>		
         </form></tr></table>';
     if($_POST["submit_print3"])
     {
         $_SESSION['printOut'] = $output5;
-        echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+        echo '<meta http-equiv="refresh" content="0; url=printreport.php" />';  //print report
     }
     mysqli_close($connection);
     }
 ?>
 
 <script type="text/javascript">
-function callFunction1(clicked_id){
-  window.location.href = "serverScript2.php?logid="+clicked_id;
-}
 function callFunction2(clicked_id){
   window.location.href = "serverScript3.php?logid="+clicked_id;
 }

@@ -38,7 +38,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         include 'patientTable.php';
     }
     ?>
-    <?php include 'FindPatient.php' ?>
+    <?php include 'searchPatient.php' ?>
     <?php include 'currentSelection.php'?>;
     <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ad1">Show Admission Record</button></center>
     <div id="ad1" class="collapse">

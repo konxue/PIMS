@@ -1,11 +1,10 @@
-
 <?php
 /* 
-    Purpose: print patient summary report for printAllPatients.php under the medicalInfo page
+    Purpose: print patient summary report for printAllreport.php under the medicalInfo page
     Author : UAH CS499 TEAM 12 (Leon Xue, Cristina Ramos, Nick Klauke, Michael Foust)
 */
 session_start();
-require('db_connect.php'); 
+require('db_connect.php'); //database connector
 if(isset($_SESSION["printOut"])) //when session printout has value
 {     
     $output6 =''; //output string

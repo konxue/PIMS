@@ -28,36 +28,37 @@
 <?php
     session_start();
     if (isset($_SESSION['username'])) {
+        //output header for the page
     echo "<div class='heading'><strong><center>Welcome to Patient Information Management System! ".$_SESSION['usertype'].": ".$_SESSION['lastname'].", ".$_SESSION['firstname']."</center></strong></div>";
-    echo'<a href="logout.php" class="sslogout btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"> Logout</span>  
-        </a>';
-    //IP Check
-    $ipaddress = '';
-    if (getenv('HTTP_CLIENT_IP'))
-        $ipaddress = getenv('HTTP_CLIENT_IP');
-    else if(getenv('HTTP_X_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-    else if(getenv('HTTP_X_FORWARDED'))
-        $ipaddress = getenv('HTTP_X_FORWARDED');
-    else if(getenv('HTTP_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_FORWARDED_FOR');
-    else if(getenv('HTTP_FORWARDED'))
-       $ipaddress = getenv('HTTP_FORWARDED');
-    else if(getenv('REMOTE_ADDR'))
-        $ipaddress = getenv('REMOTE_ADDR');
-    else
-        $ipaddress = 'UNKNOWN';
-    $ip = ip2long($ipaddress);
-    $iplow = ip2long('146.229.0.0');
-    $iphigh = ip2long('146.229.255.255');
-    //$ip1 = ip2long('146.229.0.0'); to add more exception...
-    if (!($ip < $iphigh && $ip > $iplow)) // add || $ip == $ip1 for exception
-    {
-        session_destroy();   // function that Destroys Session ;
-        header("Refresh: 0; url=401.html");
-    }
+    echo'<a href="logout.php" class="sslogout btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"> Logout</span></a>';// output button for logging out
+//    //IP Check
+//    $ipaddress = '';
+//    if (getenv('HTTP_CLIENT_IP'))
+//        $ipaddress = getenv('HTTP_CLIENT_IP');
+//    else if(getenv('HTTP_X_FORWARDED_FOR'))
+//        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+//    else if(getenv('HTTP_X_FORWARDED'))
+//        $ipaddress = getenv('HTTP_X_FORWARDED');
+//    else if(getenv('HTTP_FORWARDED_FOR'))
+//        $ipaddress = getenv('HTTP_FORWARDED_FOR');
+//    else if(getenv('HTTP_FORWARDED'))
+//       $ipaddress = getenv('HTTP_FORWARDED');
+//    else if(getenv('REMOTE_ADDR'))
+//        $ipaddress = getenv('REMOTE_ADDR');
+//    else
+//        $ipaddress = 'UNKNOWN';
+//    $ip = ip2long($ipaddress);
+//    $iplow = ip2long('146.229.0.0');
+//    $iphigh = ip2long('146.229.255.255');
+//    //$ip1 = ip2long('146.229.0.0'); to add more exception...
+//    if (!($ip < $iphigh && $ip > $iplow)) //when ip not the range
+//// add || $ip == $ip1 for exception
+//    {
+//        session_destroy();   // function that Destroys Session ;
+//        header("Refresh: 0; url=401.html"); //and direct into the 401 page
+//    }
 } else {
-    header("Refresh: 0; url=ipcheck.php");
+    header("Refresh: 0; url=index.html");
     echo '<script type="text/javascript">alert("Error 440.\\nPlease log in and try again!")</script>';
 }
 ?> 

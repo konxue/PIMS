@@ -7,25 +7,19 @@
 <?php
     function pAlert($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-    }
+    } //php alert function
    session_start();
-    if ($_SESSION['p_id'] == null && ($_SESSION["usertype"] != 'Volunteer'))
+   if(($_SESSION["usertype"] != 'Volunteer')) //hidden for volunteer
+{
+    if ($_SESSION['p_id'] == null) // when patient is not selected
     {
         echo "<br><br><center><strong>Please select a patient from the search result!</center></strong><br><br>";
     }
     else {
-    $connection = mysqli_connect("localhost", "pimsonline","Rootroot123!");
-    if (!$connection){
-        die("Database Connection Failed" . mysqli_error($connection));
-    }
-    $select_db = mysqli_select_db($connection, 'onlinepims');
-    if (!$select_db){
-        die("Database Selection Failed" . mysqli_error($connection));
-    }
+    require("db_connect.php"); //database connector
     $input = $_SESSION['p_id'];
-    $res = mysqli_query($connection, "Select * FROM InsuranceInfo WHERE PatientID = '$input'");
-    $count = mysqli_num_rows($res);
 
+   
     echo '
         <center><br>
         <form id="search-form" method="post">
@@ -49,34 +43,37 @@
         ';
     if($_POST['submit_5']) //get button click event
     {
-        $carrier = $_POST['Carrier']; // for all variable
-        $acctnum = $_POST['AcctNum'];
-        $grpnum = $_POST['GrpNum'];
-        if ($carrier == null || $acctnum == null || $grpnum == null)
+        $carrier = $_POST['Carrier']; // for carrier variable
+        $acctnum = $_POST['AcctNum']; // for account number variable
+        $grpnum = $_POST['GrpNum']; // for group number variable
+        if ($carrier == null || $acctnum == null || $grpnum == null) //handle empty input
         {
             pAlert("Please fill all boxes!");
        
-        }elseif(is_numeric ($grpnum) && is_numeric ($acctnum)) {
+        }elseif(is_numeric ($grpnum) && is_numeric ($acctnum)) { 
             $sql = "Select * From `InsuranceInfo` where `PatientId` = '$_SESSION[p_id]'";
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
             $c = mysqli_num_rows($result);
-            if($c>0)
+            if($c>0) //when record on the database with selected patient exist, update value
             {
             $sql = "UPDATE `InsuranceInfo` SET `Carrier` = '$carrier' , `AccntNum` = '$acctnum' , `GrpNum` = '$grpnum' WHERE `PatientId` = '$_SESSION[p_id]'"; 
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));  
             }
-            else
+            else //add new insurance information to the database
             {
             $sql = "INSERT INTO `InsuranceInfo` (`PatientID`,`Carrier`,`AccntNum`,`GrpNum`) VALUES ('$_SESSION[p_id]','$carrier','$acctnum','$grpnum')"; 
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));    
             }
             pAlert("Insurance has been updated!");
-            echo("<meta http-equiv='refresh' content='0'>"); 
+            echo("<meta http-equiv='refresh' content='0'>"); //refresh page
         }else{
-            pAlert("Invalid Group or Account Numbers!");
+            pAlert("Invalid Group or Account Numbers!"); //handle non numeric input
         }
 
     }
+    $res = mysqli_query($connection, "Select * FROM InsuranceInfo WHERE PatientID = '$input'"); //database query for insurance information
+    $count = mysqli_num_rows($res);    
+     //output table for insurance information
     if ($count==0)
 {
     echo '<table class="data-table">
@@ -85,7 +82,7 @@
             </tr></tbody></table>' ;
 }
 else{
-    $row = mysqli_fetch_array($res);
+    $row = mysqli_fetch_array($res); //output table
         echo'<table class="data-table">
         <thead>
                 <tr>
@@ -103,6 +100,7 @@ else{
     }
     echo '<br><br>';
     mysqli_close($connection);
+}
 }
     ?>
 

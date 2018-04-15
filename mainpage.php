@@ -15,10 +15,10 @@
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 <title>Main Page - Patient Information Management System</title>
 <?php 
-include 'checkStatus.php';
+include 'checkStatus.php'; //inseart heaedr
 if($_SESSION['usertype'] == 'Doctor' || $_SESSION['usertype'] == 'Nurse')
 {
-header("Refresh: 0; url=medicalInfo.php");
+header("Refresh: 0; url=medicalInfo.php"); //direct doctor or nurse to medicalinfo page
 }
 ?>
 <center><br><br><img src="images/hospital.png" height="200" width="200"/></center>
@@ -30,12 +30,12 @@ header("Refresh: 0; url=medicalInfo.php");
 <body>
 
 <?php
-    include 'searchPatient.php';
-    include 'currentSelection.php';
+    include 'searchPatient.php'; //search patient module
+    include 'currentSelection.php'; //list current selected patient
 ?>
 <br>
 <?php
- if ($_SESSION["usertype"] != 'Volunteer')
+ if ($_SESSION["usertype"] != 'Volunteer') //hidden all information to the volunteer
        {
        echo"
            <div class='tab'>
