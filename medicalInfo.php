@@ -37,6 +37,10 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     {
         include 'patientTable.php';
     }
+    else
+    {
+        include 'nursetable.php';
+    }
     ?>
     <?php include 'searchPatient.php' ?>
     <?php include 'currentSelection.php'?>;
