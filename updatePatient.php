@@ -382,6 +382,10 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     {
     header("Refresh: 0; url=medicalInfo.php");
     }
+    if($_SESSION['usertype'] == "Volunteer")
+    {
+    header("Refresh: 0; url=mainpage.php");   
+    }
         ?>
     </head>
     <footer>

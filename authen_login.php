@@ -32,7 +32,7 @@ $_SESSION['firstname'] = $row[1];
 $_SESSION['lastname'] = $row[2];
 
  //clean up for database for more than 5 years
-        $query = "SELECT * FROM `MedicalInfo` WHERE AdmissionDate < DATE_SUB(CURDATE(), INTERVAL 5 YEAR)";
+        $query = "SELECT * FROM `MedicalInfo` WHERE DischargeDate < DATE_SUB(CURDATE(), INTERVAL 5 YEAR)";
         $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
         $count = mysqli_num_rows($result);
         if ($count>0)

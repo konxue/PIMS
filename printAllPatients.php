@@ -5,6 +5,10 @@
 <?php
     require('db_connect.php'); 
     session_start(); 
+    if($_SESSION['usertype'] == "Volunteer")
+    {
+    header("Refresh: 0; url=mainpage.php");   
+    }
     //print buttons
     //print all patients assigned to User    
     echo '<form id="search-form" method="post">
