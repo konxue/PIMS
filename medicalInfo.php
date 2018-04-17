@@ -70,9 +70,15 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     else 
        {//when logid has passed from pervious page
            require("db_connect.php");
-
+           if($_SESSION['usertype'] == 'Doctor')
+           {
+            echo ' <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Add Doctor Notes</button></center>';
+           }
+           else
+           {
+            echo ' <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Add Nurse Notes</button></center>';
+           }
            echo '
-               <br><center><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tab">Add Notes</button></center>
                <div id="tab" class="collapse">
                <br>
                <form id="form" method="post">
@@ -127,13 +133,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                         if ($count == 0) // when empty record in the database
                         {
                             $output4 .= "<tr>";
-                            $output4 .= "<td></td>";
-                            $output4 .= "<td></td>";
-                            $output4 .= "<td></td>";
-                            $output4 .= "<td>Not notes exist!</td>";
-                            $output4 .= "<td></td>";
-                            $output4 .= "<td></td>";
-                            $output4 .= "<td></td>";
+                            $output4 .= "<td colspan='7'><center>NO RECORDS</center></td>";
                             $output4 .= "</tr>";
                         }
             else 
@@ -172,17 +172,20 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                         $output4 .= "</tr>";
                    }
                }
-            $output4 .= "</table><br><br><br>";
+            $output4 .= "</table><br>";
             echo $output4;
-            echo '<br><table class="data-table">';
-            echo '<form id="search-form" method="post">';
-            echo '<td><center>
-                <input type="submit" name="submit_print2" value="Print" /></center></td>		
-                </form></tr></table>';
-            if($_POST["submit_print2"])
+            if($count > 0)
             {
-                $_SESSION['printOut'] = $output4;
-                echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+                echo '<br><table class="data-table">';
+                echo '<form id="search-form" method="post">';
+                echo '<td><center>
+                    <input type="submit" name="submit_print2" value="Print" /></center></td>		
+                    </form></tr></table>';
+                if($_POST["submit_print2"])
+                {
+                    $_SESSION['printOut'] = $output4;
+                    echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
+                }
             }
     
        }
@@ -322,6 +325,8 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     }
     $output10.=  "</table><br><br>";
     echo $output10;
+    if($count > 0)
+    {
      echo '<br><table class="data-table">';
         echo '<form id="search-form" method="post">';
         echo '<td><center><input type="submit" name="submit_print26" value="Print" /></center></td>		
@@ -331,6 +336,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
          $_SESSION['printOut'] = $output33;
          echo '<meta http-equiv="refresh" content="0; url=printreport.php" />'; 
      }
+    }
  }
          function pAlert2($msg) {
          echo '<script type="text/javascript">alert("' . $msg . '")</script>';}
