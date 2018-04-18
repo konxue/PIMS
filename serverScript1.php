@@ -18,7 +18,7 @@ $_SESSION["p_pd"] = $newrow[4]; //getting family doctor for current patient
 $_SESSION["p_mn"]=$newrow[5];
 phpAlert("Selected:\\nID:".$_SESSION['p_id']."\\nName: ".$_SESSION["p_fn"]." ".$_SESSION["p_ln"]);
 header("Refresh: 0; url=medicalInfo.php");
- }
+}
  else
  {
      echo "404 Invalid request";

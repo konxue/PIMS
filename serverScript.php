@@ -17,7 +17,14 @@ $_SESSION["p_sex"] = $newrow[3];
 $_SESSION["p_pd"] = $newrow[4]; //getting family doctor for current patient
 $_SESSION["p_mn"]=$newrow[5];
 phpAlert("Selected:\\nID:".$_SESSION['p_id']."\\nName: ".$_SESSION["p_fn"]." ".$_SESSION["p_ln"]);
-header("Refresh: 0; url=medicalInfo.php");
+if ($_SESSION['usertype'] == 'Doctor' ||$_SESSION['usertype'] == 'Nurse' )
+{
+    header("Refresh: 0; url=medicalInfo.php");
+}
+elseif ($_SESSION['usertype'] == 'Volunteer' || $_SESSION['usertype'] == 'OfficeStaff')
+{
+    header("Refresh: 0; url=mainpage.php");
+}
  }
  else
  {
