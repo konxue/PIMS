@@ -12,8 +12,8 @@ echo '
           <table border="0.5" class="data-table">
            <center>  <caption class="title"><center>Patient Search</caption> </center>
             <tr>
-                <td><strong><label for="user_id"><center>Search by</label></strong></td>
-                <td><select name="searchType">
+                <td><strong><label for="user_id"><center>Search by</label>   </strong>
+                <select name="searchType">
                 <option value="LAST">Last Name</option>
                 <option value="FIRST">First Name</option>
                 <option value="ID">ID</option>
@@ -40,18 +40,21 @@ if($_POST['submit_0']) //when search button is click
 {
 require("db_connect.php");
 $selection = $_POST['searchType'];
+$count = -1;
 if ($selection == 'LAST') // search by last name
 {
-    if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null) //catch empty or space input
+    $plast = (string) addslashes($_POST['p_last']);
+    if(trim($plast) == null) //catch empty input
     {
-        $input = '';
         echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
     }
     else
     {
-    $input = "%".$_POST['p_last']."%"; //match missing characters for the name, help for bad spelling
+    $input = "%".$plast."%"; //match missing characters for the name, help for bad spelling
+    $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE LastName LIKE '$input'";
+    $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+    $count = mysqli_num_rows($result);
     }
-$query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE LastName LIKE '$input'";
 }
 elseif ($selection == 'ID') // search by ID
 {
@@ -63,23 +66,26 @@ elseif ($selection == 'ID') // search by ID
     else
     {
     $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE PatientID = '$input'";
+    $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+    $count = mysqli_num_rows($result);
     }
 }
 elseif ($selection == 'FIRST') // search by first name
 {
-        if(trim($_POST['p_last']) == '' or trim($_POST['p_last']) == null)
+    $plast = (string) addslashes($_POST['p_last']);
+        if(trim($plast) == null)
      {
-         $input = '';
          echo '<script type="text/javascript">alert("Please enter a valid name!")</script>';
      }
      else
      {
-     $input = "%".$_POST['p_last']."%"; //match missing characters for the name, help for bad spelling
+     $input = "%".$plast."%"; //match missing characters for the name, help for bad spelling
+     $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE FirstName LIKE '$input'";
+     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+     $count = mysqli_num_rows($result);
      }
-    $query = "SELECT `PatientID`,`FirstName`,`MiddleName`,`LastName`,`DOB` FROM `PatientInfo` WHERE FirstName LIKE '$input'";
-}
-$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-$count = mysqli_num_rows($result);      
+    
+}      
 if ($count==0) // no record
 {
     echo '<table class="data-table"><thead>

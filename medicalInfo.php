@@ -55,7 +55,7 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
   <button class="tablinks" id="Prescriptions1" onclick="openCity(event, 'Prescriptions')">Prescriptions</button>
   <button class="tablinks">|</button>
   <button class="tablinks" id="PatientInfo1" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
-  <button class="tablinks" id="InsuranceInfo" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
+  <button class="tablinks" id="InsuranceInfo1" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
   <button class="tablinks">|</button>
   <button class="tablinks" id="Print1" onclick="openCity(event, 'Print')">Print Report</button>
 </div>
