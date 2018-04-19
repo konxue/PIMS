@@ -11,8 +11,7 @@ $newtime = date("h:i:s A");
 $query = "UPDATE `MedicalInfo` SET `DischargeDate` = '$newdate' , `DischargeTime` = '$newtime' Where `log_id`='$input'"; //put discharge time to the database
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $query = "DELETE FROM `Inpatient` Where `PatientID` = '$p_id'"; //remove patient from the room
-$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-phpAlert("This patient has been discharged at ".$newdate." ".$newtime);    
+$result = mysqli_query($connection, $query) or die(mysqli_error($connection));  
 header("Refresh: 0; url=mainpage.php"); //go back to the page
  }
  else
@@ -20,7 +19,4 @@ header("Refresh: 0; url=mainpage.php"); //go back to the page
      echo "404 Invalid request";
      header("Refresh: 1; url=index.html");
  }
-  function phpAlert($msg) {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-}
 ?>

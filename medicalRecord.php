@@ -4,9 +4,6 @@
 -->
 
 <?php
-    function php1Alert($msg) {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-} //php alert function
     session_start();
     if ($_SESSION['p_id'] == null)
     {

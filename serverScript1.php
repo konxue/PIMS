@@ -16,7 +16,6 @@ $_SESSION["p_ln"] = $newrow[2];
 $_SESSION["p_sex"] = $newrow[3];
 $_SESSION["p_pd"] = $newrow[4]; //getting family doctor for current patient
 $_SESSION["p_mn"]=$newrow[5];
-phpAlert("Selected:\\nID:".$_SESSION['p_id']."\\nName: ".$_SESSION["p_fn"]." ".$_SESSION["p_ln"]);
 header("Refresh: 0; url=medicalInfo.php");
 }
  else
@@ -25,7 +24,4 @@ header("Refresh: 0; url=medicalInfo.php");
      header("Refresh: 1; url=index.html");
  }
  
- function phpAlert($msg) {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-}
 ?>

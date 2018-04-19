@@ -532,8 +532,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
 
      //add patient query   
         if( mysqli_query($addConn, $sqlQuery)){
-            echo '<script type="text/javascript">alert("Information updated successfully!")</script>';
-            echo '<script> window.setTimeout("window.close()",1000);</script>';
+            echo '<script type="text/javascript">alert("Patient information updated successfully!")</script>';
+            echo '<meta http-equiv="refresh" content="0; url=mainpage.php" />'; 
         } 
         else{
             echo "ERROR: Could not execute $sqlQuery. " . mysqli_error($addConn);
@@ -544,7 +544,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
         
     }
        
-?>        
+?>   
        
 
 

@@ -9,7 +9,7 @@ $input = $_GET["noteid"];
 $me = $_SESSION['p_id'];
 $query = "DELETE FROM `onlinepims`.`DoctorsNote` WHERE `DoctorsNote`.`note_id` = '$input'AND `DoctorsNote`.`PatientID` = '$me'";
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-php5Alert("You have deleted the medical note!\\nNote id: ".$input);
+php5Alert("You have deleted the note!\\nNote id: ".$input);
 header("Refresh: 0; url=medicalInfo.php");
  }
  else

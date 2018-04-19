@@ -63,15 +63,15 @@
             {
                  $sql = "INSERT INTO `Inpatient` (`PatientID`, `FloorNum`, `RoomNum`, `BedNum`) VALUES ('$input', '$floornum', '$roomnum', '$bednum')";
                  $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                 php1Alert("Patient has been added to the selected room!"); //alert message
-                 echo("<meta http-equiv='refresh' content='0'>"); //refersh page
+                 echo("<meta http-equiv='refresh' content='0'>;openCity(event, `Admission`)"); //refersh page
+            
             }
             elseif ($_SESSION['inPatient_status'] == 888) //indicates that patient is in the room, but update to different room. status of patient stored in the session variable, found in inpatientrecord.php
             {
                  $query = "UPDATE `Inpatient` SET `RoomNum` = '$roomnum' , `FloorNum` = '$floornum', `BedNum` = '$bednum' Where `PatientID`='$input'";
                  $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-                 php1Alert("Patient has been updated to the selected room!"); //alert message
-                 echo("<meta http-equiv='refresh' content='0'>");  //refersh page
+                 echo("<meta http-equiv='refresh' content='0'>;openCity(event, `Admission`)");  //refersh page;
+                 
             }
        }
        else
@@ -85,7 +85,7 @@
         $input = $_SESSION['p_id'];
         $newdate = date("Y/m/d");
         $newtime = date("h:i:s A"); //time format
-        $text = $_POST['atext'];
+        $text = (string) addslashes($_POST['atext']);
         $sql = "Select `log_id` From `MedicalInfo` where `PatientID` = '$input' ORDER BY `log_id` DESC";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
         $row = mysqli_fetch_array($result);
@@ -110,7 +110,6 @@
         //create bill info for new visit log_id
         $sql = "INSERT INTO `Payment` (`PatientID`, `log_id`, `AmtPaidByInsurance`, `CoPay`, `AmtPaid`, `Balance`, `pk`) VALUES ('$input','$logid','0','0','0','0','$pk')";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        php1Alert("Patient has checked in on ".$newdate." ".$newtime);
     }
     //Display visiting history
     $input = $_SESSION['p_id'];

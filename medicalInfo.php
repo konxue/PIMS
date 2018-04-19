@@ -19,7 +19,7 @@ include 'checkStatus.php';
 if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer' ||  $_SESSION['usertype'] == null)
 {
     pAlert("Unauthorized access! Return to mainpage!");
-    header("Refresh: 1; url=mainpage.php");
+    header("Refresh: 0; url=mainpage.php");
 }
 ?>
 <br><br>
@@ -50,14 +50,14 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     </div>
 <br>
 <div class="tab">
-  <button class="tablinks" onclick="openItem(event, 'DoctorNotes')">Treatment Notes</button>
-  <button class="tablinks" onclick="openItem(event, 'Procedures')">Procedures</button>
-  <button class="tablinks" onclick="openItem(event, 'Prescriptions')">Prescriptions</button>
+  <button class="tablinks" id="DoctorNotes1" onclick="openCity(event, 'DoctorNotes')">Treatment Notes</button>
+  <button class="tablinks" id="Procedures1" onclick="openCity(event, 'Procedures')">Procedures</button>
+  <button class="tablinks" id="Prescriptions1" onclick="openCity(event, 'Prescriptions')">Prescriptions</button>
   <button class="tablinks">|</button>
-  <button class="tablinks" onclick="openItem(event, 'PatientInfo')">Patient Information</button>
-  <button class="tablinks" onclick="openItem(event, 'InsuranceInfo')">Insurance Information</button>
+  <button class="tablinks" id="PatientInfo1" onclick="openCity(event, 'PatientInfo')">Patient Information</button>
+  <button class="tablinks" id="InsuranceInfo" onclick="openCity(event, 'InsuranceInfo')">Insurance Information</button>
   <button class="tablinks">|</button>
-  <button class="tablinks" onclick="openItem(event, 'Print')">Print Report</button>
+  <button class="tablinks" id="Print1" onclick="openCity(event, 'Print')">Print Report</button>
 </div>
 
 <div id="DoctorNotes" class="tabcontent">
@@ -110,7 +110,6 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
                 $drid = $_SESSION['username'];
                 $sql = "INSERT INTO `onlinepims`.`DoctorsNote` (`PatientID`, `log_id`, `note_id`, `Date`, `Time`, `Note`, `UserID`) VALUES ('$input', '$logid', '$noteid', '$newdate', '$newtime', '$note','$drid')";
                 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                pAlert("New note has been added into the system!");
             }
             $sql = "Select * FROM `DoctorsNote` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `note_id` DESC";
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
@@ -253,9 +252,14 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
         $row = mysqli_fetch_array($result);
         $procid = $row[0] + 1; //new primary key for procedure id
         $drid = $_SESSION['username'];
-        $sql = "INSERT INTO `onlinepims`.`Procedures` (`PatientID`, `log_id`, `proc_id`, `Date`, `Time`, `Proc`, `UserID`) VALUES ('$input', '$logid', '$procid', '$newdate', '$newtime', '$proc','$drid')";
-        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        pAlert("New procedure has been added into the system!");
+        if(trim($proc) == null || trim($newdate) == null || trim($newtime) == null)
+        {
+            pAlert('Please enter valid information!');
+        }
+        else {
+            $sql = "INSERT INTO `onlinepims`.`Procedures` (`PatientID`, `log_id`, `proc_id`, `Date`, `Time`, `Proc`, `UserID`) VALUES ('$input', '$logid', '$procid', '$newdate', '$newtime', '$proc','$drid')";
+            $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        }
     }
     $sql = "Select * FROM `Procedures` WHERE `PatientID` = '$input' AND `log_id` = '$logid' ORDER BY `proc_id` DESC";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
@@ -398,7 +402,6 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
             {
                 $sql = "INSERT INTO `onlinepims`.`Prescription` (`PatientID`, `UserID`, `log_id`, `pk`, `PrescripName`, `Dosage`, `Quantity`, `Directions`) VALUES ('$input', '$user','$logid', '$newpk', '$mname', '$dos', '$quantity','$direction')";
                 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                pAlert("New prescription has been added into the system!");
             }
         }
         $input = $_SESSION['p_id'];
@@ -473,7 +476,6 @@ if($_SESSION['usertype'] == 'OfficeStaff' || $_SESSION['usertype'] == 'Volunteer
     $pknum = $_POST["pk_id"];
     $query = "DELETE FROM `Prescription` WHERE `pk` = '$pknum'";
     $rest = mysqli_query($connection, $query) or die(mysqli_error($connection));
-    pAlert("Selected prescription has been removed!");
     echo "<meta http-equiv='refresh' content='0'>"; 
  }
     }   
@@ -531,7 +533,7 @@ else{
 <?php include'printAllPatients.php'?>
 </div>
 <script>
-function openItem(evt, item) {
+function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -541,8 +543,34 @@ function openItem(evt, item) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(item).style.display = "block";
+    document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
+    document.cookie = "cityName="+cityName+"1; expires=Thu, 18 Dec 2090 12:00:00 UTC; path=/";
+}
+
+
+document.addEventListener("DOMContentLoaded", function(){
+  // Handler when the DOM is fully loaded
+  var selectedCity = getCookie("cityName");
+  if (selectedCity != ""){
+    document.getElementById(selectedCity).click();
+  }
+});
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
 
 function callFunction4(clicked_id){

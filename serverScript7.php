@@ -8,8 +8,7 @@ date_default_timezone_set('America/Chicago');
 $newdate = date("Y/m/d");
 $newtime = date("h:i:s A");
 $query = "DELETE FROM `Inpatient` Where `PatientID` = '$input'";
-$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-phpAlert("This patient has been removed from the hospital room, at ".$newdate." ".$newtime);    
+$result = mysqli_query($connection, $query) or die(mysqli_error($connection));  
 header("Refresh: 0; url=mainpage.php");
  }
  else
@@ -17,7 +16,5 @@ header("Refresh: 0; url=mainpage.php");
      echo "404 Invalid request";
      header("Refresh: 1; url=index.html");
  }
-  function phpAlert($msg) {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-}
+
 ?>

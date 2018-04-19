@@ -26,8 +26,8 @@ $query = "DELETE FROM `onlinepims`.`Procedures` WHERE `Procedures`.`log_id` = '$
 $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 //delete billing items for the visit id
 $query = "DELETE FROM `onlinepims`.`ItemizedList` WHERE `ItemizedList`.`log_id` = '$input' AND `ItemizedList`.`PatientID` = '$me'";
-$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
-php3Alert("You have deleted the Admission ID: ".$input);
+$result = mysqli_query($connection, $query) or die(mysqli_error($connection)); 
+php3Alert("You have deleted the Admission #: ".$input);
 header("Refresh: 0; url=mainpage.php");
  }
  else

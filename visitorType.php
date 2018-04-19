@@ -44,15 +44,12 @@
         {
             $query = "Update `PatientInfo` SET `VisitorType` = 'Y' WHERE `PatientID` = '$input'";
             $result1 = mysqli_query($connection, $query) or die(mysqli_error($connection));
-            $setting = 'Y';
         }
         elseif ($setting == 'Y')
         {
             $query = "Update `PatientInfo` SET `VisitorType` = 'N' WHERE `PatientID` = '$input'";
             $result2 = mysqli_query($connection, $query) or die(mysqli_error($connection));
-            $setting = 'N';
         }
-        phpAlert25("Updated patient visitor type setting!");
         echo "<meta http-equiv='refresh' content='0'>";  
     }
     if ($setting == 'N') //when restricting visitors happen
@@ -82,17 +79,24 @@
         $resee = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
         $rowee = mysqli_fetch_array($resee);
         $newnum = $rowee[0] + 1;
-        $fn = $_POST['ftext'];
-        $ln = $_POST['ltext'];
-        $input = $_SESSION['p_id'];
-        $mysql = "Insert INTO `ApprovedVisitor` (`PatientID`,`num`,`FirstName`,`LastName`) VALUES ('$input', '$newnum','$fn','$ln')";
-        $result = mysqli_query($connection, $mysql) or die(mysqli_error($connection));   
-        phpAlert25("Approved visitor has been added to the list!");
-        echo "<meta http-equiv='refresh' content='0'>";  
+        $fn = (string) addslashes($_POST['ftext']);
+        $ln = (string) addslashes($_POST['ltext']);
+        if(trim($fn) == null || trim($ln) == null)
+        {
+            echo '<script>alert("Please enter a valid name!")</script>';
+        }
+        else
+        {
+            $input = $_SESSION['p_id'];
+            $mysql = "Insert INTO `ApprovedVisitor` (`PatientID`,`num`,`FirstName`,`LastName`) VALUES ('$input', '$newnum','$fn','$ln')";
+            $result = mysqli_query($connection, $mysql) or die(mysqli_error($connection));   
+            echo "<meta http-equiv='refresh' content='0'>";  
+        }
         }
         $sqli = "Select * From `ApprovedVisitor` Where `PatientID` = '$_SESSION[p_id]' ORDER BY `num`";
         $res = mysqli_query($connection, $sqli) or die(mysqli_error($connection));
         $count = mysqli_num_rows($res);;
+        
         if($count == 0) //no records
         {
             echo '<table border="0.5" class="data-table">';
@@ -132,17 +136,13 @@
     }
      echo "<br><br>";
     }
-    
-    function phpAlert25($msg) {
-    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-} //php print function
+//delete button
 if(isset($_POST["submit_d"]))
 {
     $input = $_SESSION["p_id"];
     $ap_num = $_POST["ap_id"];
     $query = "DELETE FROM `ApprovedVisitor` WHERE `PatientID` = '$input' AND `num` = '$ap_num'";
     $rest = mysqli_query($connection, $query) or die(mysqli_error($connection));
-    phpAlert25("Approved visitor has been removed from the list!");
     echo "<meta http-equiv='refresh' content='0'>"; 
  }
 ?>

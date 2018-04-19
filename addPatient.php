@@ -604,8 +604,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
             
      //add patient query   
         if( mysqli_query($addConn, $sqlQuery)){
-            echo "Information added successfully, page closing in 2 seconds";
-            echo '<script> window.setTimeout("window.close()",2000);</script>';
+            echo "Information added successfully, page closing in 1 seconds";
+            echo '<script> window.setTimeout("window.close()",1000);</script>';
         } 
         else{
             echo "ERROR: Could not execute $sqlQuery. " . mysqli_error($addConn);

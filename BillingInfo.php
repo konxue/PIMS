@@ -79,7 +79,6 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                         {
                             $sql = "INSERT INTO `ItemizedList` (`PatientID`, `log_id`, `pk`, `Item`, `Cost`, `DateofService`) VALUES ('$input', '$logid', '$newpk', '$item', '$cost', '$newdate')";
                             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                            pAlert("New item and charge has been added into the admission #!".$logid);
                             echo "<meta http-equiv='refresh' content='0'>"; 
                         }
             }
@@ -128,13 +127,12 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                                $balance = 0;
                                $sql = "UPDATE `Payment` SET `CoPay` = '$amtpaid' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
                                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                               pAlert("Balance has been paid off! Change: $".$change);
+                               pAlert("Paid off! Change: $".$change);
                            }
                            else
                            {
                                 $sql = "UPDATE `Payment` SET `CoPay` = '$amtpaid' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
                                 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                                pAlert("Copay is accepted!");
                            }
                        }
                     // CASE 2: COPAY ALREADY EXIST, copay amount becomes amt pay
@@ -149,13 +147,12 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                                $money = $money - $change;
                                $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
                                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                               pAlert("Copay exsited!\\nPayment will deposit to the patient account!\\nBalance has been paid off!\\nChange: $".$change);
+                               pAlert("Paid off!\\nChange: $".$change);
                            }
                            else
                            {
                                $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
                                $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                               pAlert("Copay exsited!\\nPayment will deposit to the patient account!");
                            }
                        }
                     }
@@ -165,7 +162,7 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                      // CASE 0: NO Balance
                     if($row[2] == 0)
                     {
-                       pAlert("This patient has no balance on this visit! \\nFull refund!");
+                       pAlert("No balance on this visit!");
                     }
                     else
                     {
@@ -179,13 +176,12 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                             $money = $money - $change;
                             $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$vid'"; 
                             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                            pAlert("Payment accepted!\\nBalance has been paid in full!\\nChange: $".$change);
+                            pAlert("Paid in full!\\nChange: $".$change);
                         }
                         else
                         {
                             $sql = "UPDATE `Payment` SET `AmtPaid` = '$money' , `Balance` = '$balance' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id`='$vid'"; 
                             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                            pAlert("Payment accepted!");
                         }
                     }
                 }
@@ -202,7 +198,6 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
                     $current += $amtpaid;
                     $sql = "Update `Payment` SET `AmtPaidByInsurance` = '$current' WHERE `PatientId` = '$_SESSION[p_id]' and `log_id` = '$vid'";
                     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-                    pAlert("Insurance check accepted!");
                     echo "<meta http-equiv='refresh' content='0'>"; 
                 }
             }
@@ -314,7 +309,6 @@ if ($_SESSION['p_id'] == null) //if patient not been selected
             $pknum = $_POST["pk_id"];
             $query = "DELETE FROM `ItemizedList` WHERE `pk` = '$pknum'";
             $rest = mysqli_query($connection, $query) or die(mysqli_error($connection));
-            echo '<script type="text/javascript">alert("Selected item and charge has been removed!")</script>';
             echo "<meta http-equiv='refresh' content='0'>"; 
         }
         if($_POST['submit_refund'])

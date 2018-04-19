@@ -39,11 +39,11 @@ header("Refresh: 0; url=medicalInfo.php"); //direct doctor or nurse to medicalin
        {
        echo"
            <div class='tab'>
-          <button class='tablinks' onclick='openCity(event, `Admission`)'>Admission</button>
-          <button class='tablinks' onclick='openCity(event, `PatientInfo`)'>Patient Information</button>
-          <button class='tablinks' onclick='openCity(event, `Visitor`)'>Visitors Setting</button>
-          <button class='tablinks' onclick='openCity(event, `InsuranceInfo`)'>Insurance Information</button>
-          <button class='tablinks' onclick='openCity(event, `BillingInfo`)'>Billing Information</button>
+          <button class='tablinks' id='Admission1' onclick='openCity(event, `Admission`)'>Admission</button>
+          <button class='tablinks' id='PatientInfo1' onclick='openCity(event, `PatientInfo`)'>Patient Information</button>
+          <button class='tablinks' id='Visitor1' onclick='openCity(event, `Visitor`)'>Visitors Setting</button>
+          <button class='tablinks' id='InsuranceInfo1' onclick='openCity(event, `InsuranceInfo`)'>Insurance Information</button>
+          <button class='tablinks' id='BillingInfo1'onclick='openCity(event, `BillingInfo`)'>Billing Information</button>
         </div>
            ";
        }
@@ -77,11 +77,7 @@ header("Refresh: 0; url=medicalInfo.php"); //direct doctor or nurse to medicalin
 <div id="BillingInfo" class="tabcontent">
 <?php include 'BillingInfo.php'?>  
 </div>
-<br><br><br><br><br>
-</body>
-
-</html> 
-
+<br><br><br><br>
 <script>
 function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
@@ -95,5 +91,34 @@ function openCity(evt, cityName) {
     }
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
+    document.cookie = "cityName="+cityName+"1; expires=Thu, 18 Dec 2090 12:00:00 UTC; path=/";
 }
+
+
+document.addEventListener("DOMContentLoaded", function(){
+  // Handler when the DOM is fully loaded
+  var selectedCity = getCookie("cityName");
+  if (selectedCity != ""){
+    document.getElementById(selectedCity).click();
+  }
+});
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 </script>
+</body>
+</html> 

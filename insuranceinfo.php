@@ -43,7 +43,7 @@
         ';
     if($_POST['submit_5']) //get button click event
     {
-        $carrier = $_POST['Carrier']; // for carrier variable
+        $carrier = (string) addslashes($_POST['Carrier']); // for carrier variable
         $acctnum = $_POST['AcctNum']; // for account number variable
         $grpnum = $_POST['GrpNum']; // for group number variable
         if ($carrier == null || $acctnum == null || $grpnum == null) //handle empty input
@@ -64,7 +64,6 @@
             $sql = "INSERT INTO `InsuranceInfo` (`PatientID`,`Carrier`,`AccntNum`,`GrpNum`) VALUES ('$_SESSION[p_id]','$carrier','$acctnum','$grpnum')"; 
             $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));    
             }
-            pAlert("Insurance has been updated!");
             echo("<meta http-equiv='refresh' content='0'>"); //refresh page
         }else{
             pAlert("Invalid Group or Account Numbers!"); //handle non numeric input
